@@ -7,7 +7,9 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <!--Fragment가 나타나는 부분 -->
     <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +17,7 @@
         >
     </FrameLayout>
 
-
+    <!-- bottom_bar_menu를 bottomnavigation_menu_bar에 바인딩 -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomnavigation_menu_bar"
             android:layout_width="match_parent"

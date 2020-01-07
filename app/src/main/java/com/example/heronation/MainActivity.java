@@ -2,13 +2,11 @@ package com.example.heronation;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
@@ -22,7 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  */
 public class MainActivity extends AppCompatActivity
         implements
-        ShopFragment.OnFragmentInteractionListener,
+        ShopParentFragment.OnFragmentInteractionListener,
         MypageFragment.OnFragmentInteractionListener,
         SearchFragment.OnFragmentInteractionListener,
         MeasurementFragment.OnFragmentInteractionListener,
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity
     * 각각의 Fragment를 선언하고, Fragment 객체 생성
     */
     private FragmentManager fragmentManager=getSupportFragmentManager(); //Fragment 가져오기
-    private ShopFragment shopFragment=new ShopFragment();
+    private ShopParentFragment shopParentFragment =new ShopParentFragment();
     private SearchFragment searchFragment=new SearchFragment();
     private MeasurementFragment measurementFragment=new MeasurementFragment();
     private WishlistFragment wishlistFragment=new WishlistFragment();
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity
        * acitivity_main.xml에 있는 framelayout인 fragment_container의 화면을 shopFragment로 변경해준 후,
        * commit 호출해주어야 Transaction 작업이 완료됨.
        */
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, shopFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, shopParentFragment).commit();
     }
 
     /*
@@ -75,7 +73,7 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
             switch(menuItem.getItemId()){
                 case R.id.menuitem_bottombar_shop:
-                    transaction.replace(R.id.fragment_container,shopFragment).commit();
+                    transaction.replace(R.id.fragment_container, shopParentFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_search:
                     transaction.replace(R.id.fragment_container,searchFragment).commit();

@@ -26,4 +26,6 @@
             app:itemBackground="@android:color/white"
             app:menu="@menu/bottom_bar_menu" />
 
+
+
 </RelativeLayout>

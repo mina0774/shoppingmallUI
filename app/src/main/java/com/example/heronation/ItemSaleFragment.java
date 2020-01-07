@@ -14,12 +14,12 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ShopHomeFragment.OnFragmentInteractionListener} interface
+ * {@link ItemSaleFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ShopHomeFragment#newInstance} factory method to
+ * Use the {@link ItemSaleFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShopHomeFragment extends Fragment {
+public class ItemSaleFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -31,7 +31,7 @@ public class ShopHomeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public ShopHomeFragment() {
+    public ItemSaleFragment() {
         // Required empty public constructor
     }
 
@@ -41,11 +41,11 @@ public class ShopHomeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ShopHomeFragment.
+     * @return A new instance of fragment ItemSaleFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ShopHomeFragment newInstance(String param1, String param2) {
-        ShopHomeFragment fragment = new ShopHomeFragment();
+    public static ItemSaleFragment newInstance(String param1, String param2) {
+        ItemSaleFragment fragment = new ItemSaleFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,7 +66,7 @@ public class ShopHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shop_home, container, false);
+        return inflater.inflate(R.layout.fragment_item_sale, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

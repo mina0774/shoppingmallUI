@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="40dp"
-    tools:context=".ShopBestFragment">
+    tools:context=".ItemBestFragment">
     <!--shop에 해당하는 카테고리들은 android:layout_marginTop="40dp"를 선언해주어야 함.
     왜냐하면 Main에서 상단바를 40dp 설정해주었기 때문에 이와 겹치지 않기 위함 -->
 

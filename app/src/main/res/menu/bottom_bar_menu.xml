@@ -4,16 +4,16 @@
     <!-- 메뉴의 컴포넌트들을 activity_main.xml에 있는 bottomnavigation_menu_bar에 바인딩하기 위하여  bottom_bar_menu.xml를 생성 -->
     <!-- enabled는 해당 component 자체를 사용 가능(인스턴스화)하게 할지 말지 결정 -->
     <item
+        android:id="@+id/menuitem_bottombar_item"
+        android:enabled="true"
+        android:icon="@drawable/item_svg"
+        android:title="아이템" />
+
+    <item
         android:id="@+id/menuitem_bottombar_shop"
         android:enabled="true"
         android:icon="@drawable/shop_svg"
         android:title="Shop" />
-
-    <item
-        android:id="@+id/menuitem_bottombar_search"
-        android:enabled="true"
-        android:icon="@drawable/search_svg"
-        android:title="검색" />
 
     <item
         android:id="@+id/menuitem_bottombar_measurement"

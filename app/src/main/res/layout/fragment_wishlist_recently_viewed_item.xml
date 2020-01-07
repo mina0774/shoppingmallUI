@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="40dp"
-    tools:context=".ShopNewFragment">
-    <!--shop에 해당하는 카테고리들은 android:layout_marginTop="40dp"를 선언해주어야 함.
+    tools:context=".WishlistRecentlyViewedItemFragment">
+    <!--wishlist에 해당하는 카테고리들은 android:layout_marginTop="40dp"를 선언해주어야 함.
     왜냐하면 Main에서 상단바를 40dp 설정해주었기 때문에 이와 겹치지 않기 위함 -->
 
+    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="40dp"
-        android:text="NEW" />
+        android:text="최근 본 상품" />
 
 </FrameLayout>

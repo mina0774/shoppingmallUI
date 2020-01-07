@@ -8,9 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 /*
  * implements~ 를 한 이유
@@ -20,21 +22,37 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
  */
 public class MainActivity extends AppCompatActivity
         implements
-        ShopParentFragment.OnFragmentInteractionListener,
         MypageFragment.OnFragmentInteractionListener,
         SearchFragment.OnFragmentInteractionListener,
         MeasurementFragment.OnFragmentInteractionListener,
-        WishlistFragment.OnFragmentInteractionListener {
+        WishlistFragment.OnFragmentInteractionListener,
+        ShopHomeFragment.OnFragmentInteractionListener,
+        ShopNewFragment.OnFragmentInteractionListener,
+        ShopBestFragment.OnFragmentInteractionListener,
+        ShopAiFragment.OnFragmentInteractionListener,
+        ShopSaleFragment.OnFragmentInteractionListener
+{
     /*
     * Fragment Manager 선언 -- Acitivity 내에서 Fragment를 관리해주기 위해서는 FragmentManager를 사용해야함
+    *
     * 각각의 Fragment를 선언하고, Fragment 객체 생성
     */
     private FragmentManager fragmentManager=getSupportFragmentManager(); //Fragment 가져오기
-    private ShopParentFragment shopParentFragment =new ShopParentFragment();
     private SearchFragment searchFragment=new SearchFragment();
     private MeasurementFragment measurementFragment=new MeasurementFragment();
     private WishlistFragment wishlistFragment=new WishlistFragment();
     private MypageFragment mypageFragment=new MypageFragment();
+
+    /*
+    * Tab Layout 선언
+    * 상단 탭 layout에 해당하는 Fragment를 선언하고 Fragment 객체 생성
+    * */
+    private TabLayout shop_tabLayout;
+    private ShopHomeFragment shopHomeFragment =new ShopHomeFragment();
+    private ShopNewFragment shopNewFragment=new ShopNewFragment();
+    private ShopBestFragment shopBestFragment=new ShopBestFragment();
+    private ShopAiFragment shopAiFragment=new ShopAiFragment();
+    private ShopSaleFragment shopSaleFragment=new ShopSaleFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +62,58 @@ public class MainActivity extends AppCompatActivity
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
+        /* Shop의 상단탭
+         하단탭에서 Shop의 상단탭을 선택했을 시에만 보여져야 함
+         */
+        shop_tabLayout=(TabLayout)findViewById(R.id.shop_parent_tab_layout);
+        // 상단탭이 선택되었을 때, 상단탭의 선택된 현재 위치를 얻어 Fragment를 이동시킨다.
+        shop_tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                FragmentTransaction transaction=fragmentManager.beginTransaction(); // FragmentTransaction 가져오기
+                int position=tab.getPosition(); // 상단탭의 선택된 현재 위치 받아오기
+                switch(position){
+                    case 0:
+                        transaction.replace(R.id.fragment_container, shopHomeFragment).commit();
+                        break;
+                    case 1:
+                        transaction.replace(R.id.fragment_container, shopNewFragment).commit();
+                        break;
+                    case 2:
+                        transaction.replace(R.id.fragment_container, shopBestFragment).commit();
+                        break;
+                    case 3:
+                        transaction.replace(R.id.fragment_container, shopAiFragment).commit();
+                        break;
+                    case 4:
+                        transaction.replace(R.id.fragment_container, shopSaleFragment).commit();
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         /* BottomNavigation view를 선언해주고, bottomNavigationView의 객체를 생성한 후,
          * bottomNavigationView에 activity_main.xml의 bottomnavigation_menu_bar를 할당해준 후,
          * bottomItemSelectedListener 클래스를, bottomNavigatioView 객체에 할당
          */
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomnavigation_menu_bar);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new ItemSelectedListener());
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomItemSelectedListener());
 
        /* 첫 화면이 ShopFragment이므로, Transaction을 getSupportFragmentManager().beginTransaction()을 통해 가져온 후,
        * acitivity_main.xml에 있는 framelayout인 fragment_container의 화면을 shopFragment로 변경해준 후,
        * commit 호출해주어야 Transaction 작업이 완료됨.
        */
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, shopParentFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, shopHomeFragment).commit();
     }
 
     /*
@@ -67,30 +125,36 @@ public class MainActivity extends AppCompatActivity
     * 찜 버튼을 눌렀을 때, Wishlist Fragment로 이동
     * 마이 페이지 버튼을 눌렀을 때, Mypage Fragment로 이동
     */
-    class ItemSelectedListener implements  BottomNavigationView.OnNavigationItemSelectedListener{
+    class BottomItemSelectedListener implements  BottomNavigationView.OnNavigationItemSelectedListener{
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
             FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
             switch(menuItem.getItemId()){
                 case R.id.menuitem_bottombar_shop:
-                    transaction.replace(R.id.fragment_container, shopParentFragment).commit();
+                    shop_tabLayout.setVisibility(View.VISIBLE);
+                    transaction.replace(R.id.fragment_container, shopHomeFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_search:
+                    shop_tabLayout.setVisibility(View.GONE); //Shop의 상단탭이 안보임
                     transaction.replace(R.id.fragment_container,searchFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_measurement:
+                    shop_tabLayout.setVisibility(View.GONE); //Shop의 상단탭이 안보임
                     transaction.replace(R.id.fragment_container,measurementFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_wishlist:
+                    shop_tabLayout.setVisibility(View.GONE); //Shop의 상단탭이 안보임
                     transaction.replace(R.id.fragment_container,wishlistFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_mypage:
+                    shop_tabLayout.setVisibility(View.GONE); //Shop의 상단탭이 안보임
                     transaction.replace(R.id.fragment_container,mypageFragment).commit();
                     return true;
             }
             return false;
         }
     }
+
 
     /*
      * onFragmenInteraciton~ 를 한 이유

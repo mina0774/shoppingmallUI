@@ -64,43 +64,10 @@ public class MainActivity extends AppCompatActivity
 
         /* Shop의 상단탭
          하단탭에서 Shop의 상단탭을 선택했을 시에만 보여져야 함
+         상단탭이 선택되었을 때, 상단탭의 선택된 현재 위치를 얻어 Fragment를 이동시킨다.
          */
         shop_tabLayout=(TabLayout)findViewById(R.id.shop_parent_tab_layout);
-        // 상단탭이 선택되었을 때, 상단탭의 선택된 현재 위치를 얻어 Fragment를 이동시킨다.
-        shop_tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                FragmentTransaction transaction=fragmentManager.beginTransaction(); // FragmentTransaction 가져오기
-                int position=tab.getPosition(); // 상단탭의 선택된 현재 위치 받아오기
-                switch(position){
-                    case 0:
-                        transaction.replace(R.id.fragment_container, shopHomeFragment).commit();
-                        break;
-                    case 1:
-                        transaction.replace(R.id.fragment_container, shopNewFragment).commit();
-                        break;
-                    case 2:
-                        transaction.replace(R.id.fragment_container, shopBestFragment).commit();
-                        break;
-                    case 3:
-                        transaction.replace(R.id.fragment_container, shopAiFragment).commit();
-                        break;
-                    case 4:
-                        transaction.replace(R.id.fragment_container, shopSaleFragment).commit();
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        shop_tabLayout.addOnTabSelectedListener(new TopItemSelectedListener());
 
         /* BottomNavigation view를 선언해주고, bottomNavigationView의 객체를 생성한 후,
          * bottomNavigationView에 activity_main.xml의 bottomnavigation_menu_bar를 할당해준 후,
@@ -155,6 +122,42 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    class TopItemSelectedListener implements TabLayout.OnTabSelectedListener{
+
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            FragmentTransaction transaction=fragmentManager.beginTransaction(); // FragmentTransaction 가져오기
+            int position=tab.getPosition(); // 상단탭의 선택된 현재 위치 받아오기
+            switch(position){
+                case 0:
+                    transaction.replace(R.id.fragment_container, shopHomeFragment).commit();
+                    break;
+                case 1:
+                    transaction.replace(R.id.fragment_container, shopNewFragment).commit();
+                    break;
+                case 2:
+                    transaction.replace(R.id.fragment_container, shopBestFragment).commit();
+                    break;
+                case 3:
+                    transaction.replace(R.id.fragment_container, shopAiFragment).commit();
+                    break;
+                case 4:
+                    transaction.replace(R.id.fragment_container, shopSaleFragment).commit();
+                    break;
+            }
+
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
+    }
 
     /*
      * onFragmenInteraciton~ 를 한 이유

@@ -2,14 +2,20 @@ package com.example.heronation;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -22,6 +28,9 @@ import com.google.android.material.tabs.TabLayout;
  */
 public class MainActivity extends AppCompatActivity
         implements
+        ShopFragment.OnFragmentInteractionListener,
+        WishlistFragment.OnFragmentInteractionListener,
+        ItemFragment.OnFragmentInteractionListener,
         MypageFragment.OnFragmentInteractionListener,
         ShopRankingFragment.OnFragmentInteractionListener,
         MeasurementFragment.OnFragmentInteractionListener,
@@ -43,12 +52,17 @@ public class MainActivity extends AppCompatActivity
     private FragmentManager fragmentManager=getSupportFragmentManager(); //Fragment 가져오기
     private MeasurementFragment measurementFragment=new MeasurementFragment();
     private MypageFragment mypageFragment=new MypageFragment();
+    private ItemFragment itemFragment=new ItemFragment();
+    private ShopFragment shopFragment=new ShopFragment();
+    private WishlistFragment wishlistFragment=new WishlistFragment();
 
     /*
     * 각각의 Tab Layout 선언
     * 상단 탭 layout에 해당하는 Fragment를 선언하고 Fragment 객체 생성
     * */
     private TabLayout item_tabLayout;
+
+
     private ItemHomeFragment itemHomeFragment =new ItemHomeFragment();
     private ItemNewFragment itemNewFragment =new ItemNewFragment();
     private ItemBestFragment itemBestFragment =new ItemBestFragment();
@@ -64,6 +78,11 @@ public class MainActivity extends AppCompatActivity
     private WishlistShopFragment wishlistShopFragment=new WishlistShopFragment();
     private WishlistRecentlyViewedItemFragment wishlistRecentlyViewedItemFragment=new WishlistRecentlyViewedItemFragment();
 
+    /* 상단 메뉴 버튼을 눌렀을 때 뜨는 레이아웃을 위한 변수들 */
+    private DrawerLayout drawerLayout;
+    private View drawerView;
+    /* 로그인 상태 boolean값 */
+    public boolean loginState = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,28 +91,28 @@ public class MainActivity extends AppCompatActivity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-
-        /* Item의 상단탭
+/*
+    Item의 상단탭
          하단탭에서 Item의 상단탭을 선택했을 시에만 보여져야 함
          상단탭이 선택되었을 때, 상단탭의 선택된 현재 위치를 얻어 Fragment를 이동시킨다.
-         */
+
         item_tabLayout=(TabLayout)findViewById(R.id.item_tab_layout);
         item_tabLayout.addOnTabSelectedListener(new ItemTopItemSelectedListener());
 
-        /* Shop의 상단탭
+        Shop의 상단탭
          하단탭에서 Shop의 상단탭을 선택했을 시에만 보여져야 함
          상단탭이 선택되었을 때, 상단탭의 선택된 현재 위치를 얻어 Fragment를 이동시킨다.
-         */
+
         shop_tabLayout=(TabLayout)findViewById(R.id.shop_tab_layout);
         shop_tabLayout.addOnTabSelectedListener(new ShopTopItemSelectedListener());
 
-        /* Wishlist의 상단탭
+        Wishlist의 상단탭
          하단탭에서 Wishlist의 상단탭을 선택했을 시에만 보여져야 함
          상단탭이 선택되었을 때, 상단탭의 선택된 현재 위치를 얻어 Fragment를 이동시킨다.
-         */
+
         wishlist_tabLayout=(TabLayout)findViewById(R.id.wishlist_tab_layout);
         wishlist_tabLayout.addOnTabSelectedListener(new WishlistTopItemSelectedListener());
-
+*/
         /* BottomNavigation view를 선언해주고, bottomNavigationView의 객체를 생성한 후,
          * bottomNavigationView에 activity_main.xml의 bottomnavigation_menu_bar를 할당해준 후,
          * bottomItemSelectedListener 클래스를, bottomNavigatioView 객체에 할당
@@ -105,10 +124,41 @@ public class MainActivity extends AppCompatActivity
        * acitivity_main.xml에 있는 framelayout인 fragment_container의 화면을 shopFragment로 변경해준 후,
        * commit 호출해주어야 Transaction 작업이 완료됨.
        */
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, itemHomeFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, itemFragment).commit();
 
-        shop_tabLayout.setVisibility(View.GONE);
-        wishlist_tabLayout.setVisibility(View.GONE);
+        /* 상단바 메뉴 드로워 */
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerView = (View) findViewById(R.id.drawer);
+        ImageButton btn_open = (ImageButton) findViewById(R.id.btn_open);   //openimage 정의
+        final TextView id_text = (TextView)findViewById(R.id.text_id);
+        btn_open.setOnClickListener(new View.OnClickListener() {
+            /* 클릭했을때 Drawer open, 로그인 상태에 따라 닉네임 or 로그인/회원가입 */
+            @Override   //클릭했을때 Drawer open
+            public void onClick(View v) {
+                if(loginState == true){
+                    id_text.setText("닉네임");
+                }
+                else{
+                    id_text.setText("로그인/회원가입");
+                }
+                drawerLayout.openDrawer(drawerView);
+            }
+        });
+        Button btn_close = (Button) findViewById(R.id.btn_close);
+        btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawerLayout.closeDrawers();
+            }
+        });
+        drawerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+        /* 상단바 메뉴 드로워 */
+
     }
 
     /*
@@ -126,33 +176,18 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
             switch(menuItem.getItemId()){
                 case R.id.menuitem_bottombar_item:
-                    item_tabLayout.setVisibility(View.VISIBLE); //item의 상단탭이 보임
-                    shop_tabLayout.setVisibility(View.GONE); //shop의 상단탭이 안보임
-                    wishlist_tabLayout.setVisibility(View.GONE); //wishlist의 상단탭이 안보임
-                    transaction.replace(R.id.fragment_container, itemHomeFragment).commit();
+                    transaction.replace(R.id.fragment_container, itemFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_shop:
-                    item_tabLayout.setVisibility(View.GONE); //item의 상단탭이 안보임
-                    shop_tabLayout.setVisibility(View.VISIBLE); //shop의 상단탭이 보임
-                    wishlist_tabLayout.setVisibility(View.GONE); //wishlist의 상단탭이 안보임
-                    transaction.replace(R.id.fragment_container, shopRankingFragment).commit();
+                    transaction.replace(R.id.fragment_container, shopFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_measurement:
-                    item_tabLayout.setVisibility(View.GONE); //item의 상단탭이 안보임
-                    shop_tabLayout.setVisibility(View.GONE); //shop의 상단탭이 안보임
-                    wishlist_tabLayout.setVisibility(View.GONE); //wishlist의 상단탭이 안보임
                     transaction.replace(R.id.fragment_container,measurementFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_wishlist:
-                    item_tabLayout.setVisibility(View.GONE); //item의 상단탭이 안보임
-                    shop_tabLayout.setVisibility(View.GONE); //shop의 상단탭이 안보임
-                    wishlist_tabLayout.setVisibility(View.VISIBLE); //wishlist의 상단탭이 보임
-                    transaction.replace(R.id.fragment_container, wishlistItemFragment).commit();
+                    transaction.replace(R.id.fragment_container, wishlistFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_mypage:
-                    item_tabLayout.setVisibility(View.GONE); //item의 상단탭이 안보임
-                    shop_tabLayout.setVisibility(View.GONE); //shop의 상단탭이 안보임
-                    wishlist_tabLayout.setVisibility(View.GONE); //wishlist의 상단탭이 안보임
                     transaction.replace(R.id.fragment_container,mypageFragment).commit();
                     return true;
             }
@@ -160,121 +195,26 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /*
-     * Item 상단 탭에 있는 특정 값을 선택하였을 때
-     * Switch문으로 경우를 나누어
-     * 홈 버튼을  눌렀을 때, ItemHomeFragment로 이동
-     * 신상 버튼을 눌렀을 때, ItemNewFragment로 이동
-     * 베스트 버튼을 눌렀을 때, ItemBestFragment로 이동
-     * AI 버튼을 눌렀을 때, ItemAiFragment로 이동
-     * 세일 버튼을 눌렀을 때, ItemSaleFragment로 이동
-     */
-    class ItemTopItemSelectedListener implements TabLayout.OnTabSelectedListener{
-        @Override
-        public void onTabSelected(TabLayout.Tab tab) {
-            FragmentTransaction transaction=fragmentManager.beginTransaction(); // FragmentTransaction 가져오기
-            int position=tab.getPosition(); // 상단탭의 선택된 현재 위치 받아오기
-            switch(position){
-                case 0:
-                    transaction.replace(R.id.fragment_container, itemHomeFragment).commit();
-                    break;
-                case 1:
-                    transaction.replace(R.id.fragment_container, itemNewFragment).commit();
-                    break;
-                case 2:
-                    transaction.replace(R.id.fragment_container, itemBestFragment).commit();
-                    break;
-                case 3:
-                    transaction.replace(R.id.fragment_container, itemAiFragment).commit();
-                    break;
-                case 4:
-                    transaction.replace(R.id.fragment_container, itemSaleFragment).commit();
-                    break;
-            }
 
+    ///그냥 나중에 필요할까봐 넣어 놓았습니다
+    DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
+        @Override//슬라이드했을때 호출
+        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
         }
 
-        @Override
-        public void onTabUnselected(TabLayout.Tab tab) {
-
+        @Override// 무언가가 오픈됐을때
+        public void onDrawerOpened(@NonNull View drawerView) {
         }
 
-        @Override
-        public void onTabReselected(TabLayout.Tab tab) {
-
-        }
-    }
-
-    /*
-     * Shop 상단 탭에 있는 특정 값을 선택하였을 때
-     * Switch문으로 경우를 나누어
-     * Shop Ranking 버튼을  눌렀을 때, ShopRankingFragment로 이동
-     * 즐겨찾기 버튼을 눌렀을 때, ShopFavoritesFragment로 이동
-     */
-    class ShopTopItemSelectedListener implements TabLayout.OnTabSelectedListener{
-        @Override
-        public void onTabSelected(TabLayout.Tab tab) {
-            FragmentTransaction transaction=fragmentManager.beginTransaction(); // FragmentTransaction 가져오기
-            int position=tab.getPosition(); // 상단탭의 선택된 현재 위치 받아오기
-            switch(position) {
-                case 0:
-                    transaction.replace(R.id.fragment_container, shopRankingFragment).commit();
-                    break;
-                case 1:
-                    transaction.replace(R.id.fragment_container, shopFavoritesFragment).commit();
-                    break;
-            }
-
+        @Override//닫혔을때
+        public void onDrawerClosed(@NonNull View drawerView) {
         }
 
-        @Override
-        public void onTabUnselected(TabLayout.Tab tab) {
-
+        @Override //바뀌었을때
+        public void onDrawerStateChanged(int newState) {
         }
+    };
 
-        @Override
-        public void onTabReselected(TabLayout.Tab tab) {
-
-        }
-    }
-
-    /*
-     * Wishlist 상단 탭에 있는 특정 값을 선택하였을 때
-     * Switch문으로 경우를 나누어
-     * 찜 버튼을  눌렀을 때, wishlistItemFragment로 이동
-     * 샵 버튼을 눌렀을 때, wishlistShopFragment로 이동
-     * 최근 본 상품 버튼을 눌렀을때, wishlistRecentlyViewedItemFragment로 이동
-     */
-    class WishlistTopItemSelectedListener implements TabLayout.OnTabSelectedListener{
-
-        @Override
-        public void onTabSelected(TabLayout.Tab tab) {
-            FragmentTransaction transaction=fragmentManager.beginTransaction(); // FragmentTransaction 가져오기
-            int position=tab.getPosition(); // 상단탭의 선택된 현재 위치 받아오기
-            switch(position) {
-                case 0:
-                    transaction.replace(R.id.fragment_container, wishlistItemFragment).commit();
-                    break;
-                case 1:
-                    transaction.replace(R.id.fragment_container, wishlistShopFragment).commit();
-                    break;
-                case 2:
-                    transaction.replace(R.id.fragment_container, wishlistRecentlyViewedItemFragment).commit();
-                    break;
-            }
-
-        }
-
-        @Override
-        public void onTabUnselected(TabLayout.Tab tab) {
-
-        }
-
-        @Override
-        public void onTabReselected(TabLayout.Tab tab) {
-
-        }
-    }
 
     /*
      * onFragmenInteraciton~ 를 한 이유

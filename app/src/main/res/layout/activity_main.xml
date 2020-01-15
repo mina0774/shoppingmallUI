@@ -1,102 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <!--상단 탭바 Item일때만 보여야함-->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/item_tab_layout"
+    <!--drawerlayout 안에 상단바랑 frameLayout이 있음-->
+    <androidx.drawerlayout.widget.DrawerLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="홈" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="신상" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="베스트" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="AI" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="세일" />
-    </com.google.android.material.tabs.TabLayout>
-
-    <!--상단 탭바 Shop일때만 보여야함-->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/shop_tab_layout"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shop Ranking" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="즐겨찾기" />
-
-    </com.google.android.material.tabs.TabLayout>
-
-    <!--상단 탭바 Wishlist일때만 보여야함-->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/wishlist_tab_layout"
+    <!--상단바-->
+    <RelativeLayout
+        android:id="@+id/drawer_area"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="40dp"
+        android:background="#A0A0A0">
+        <!--상단바 좌측에 있는 이미지 버튼-->
 
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="찜" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Shop" />
-
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="최근 본 상품" />
-    </com.google.android.material.tabs.TabLayout>
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/btn_open"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/appbar_icon"
+            android:layout_marginLeft="15dp" />
+    </RelativeLayout>
 
     <!--Fragment가 나타나는 부분 -->
     <FrameLayout
         android:id="@+id/fragment_container"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_below="@id/drawer_area"
         android:layout_above="@id/bottomnavigation_menu_bar"
-        >
-    </FrameLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-    <!-- bottom_bar_menu를 bottomnavigation_menu_bar에 바인딩 -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+
+        <!-- bottom_bar_menu를 bottomnavigation_menu_bar에 바인딩 -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomnavigation_menu_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:layout_alignParentBottom="true"
             app:itemBackground="@android:color/white"
             app:menu="@menu/bottom_bar_menu" />
+    </RelativeLayout>
+
+
+        <include layout="@layout/drawer" /> <!-- 액티비티 드로워 레이아웃을 메인과 연결시킨거-->
+    </androidx.drawerlayout.widget.DrawerLayout>
+    <!-- 여기까지 드로워 -->
 
 
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-public class MypageFragment extends Fragment {
+public class MypageLoginFragment extends Fragment {
     public static MypageFragment newInstance(){
         return new MypageFragment();
     }
@@ -23,15 +23,7 @@ public class MypageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_mypage,container,false);
-        /* 로그인/회원가입 버튼 클릭시 이동 */
-        Button btn1 = (Button)rootView.findViewById(R.id.mypage_signInUp_btn);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new MypageLoginFragment()).commit();
-            }
-        });
+        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_mypage_login,container,false);
         return rootView;
     }
 

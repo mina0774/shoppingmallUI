@@ -7,13 +7,13 @@
         android:id="@+id/menuitem_bottombar_item"
         android:enabled="true"
         android:icon="@drawable/item_svg"
-        android:title="아이템" />
+        android:title="홈" />
 
     <item
         android:id="@+id/menuitem_bottombar_shop"
         android:enabled="true"
         android:icon="@drawable/shop_svg"
-        android:title="Shop" />
+        android:title="마켓" />
 
     <item
         android:id="@+id/menuitem_bottombar_measurement"

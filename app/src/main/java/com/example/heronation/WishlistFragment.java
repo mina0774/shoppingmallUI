@@ -23,8 +23,6 @@ public class WishlistFragment extends Fragment {
     private WishlistViewPagerAdapter wishlistViewPagerAdapter;
 
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

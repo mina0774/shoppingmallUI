@@ -7,19 +7,30 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 
 public class WishlistRecentlyViewedItemHaveFragment extends Fragment {
     private ArrayList<ShopItem> shopItem1=new ArrayList<>();
+    private ItemHorizontalAdapter itemHorizontalAdapter;
+    private RecyclerView item_recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.make_item_list();
         // Inflate the layout for this fragment
-        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_wishlist_shop, container,false);
-
+        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_wishlist_recently_viewed_item_have, container,false);
+        /* 아이템 수직 리사이클러뷰 객체 생성 */
+        itemHorizontalAdapter=new ItemHorizontalAdapter(shopItem1,getActivity());
+        item_recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view_recently_viewed_item);
+        /* 레이아웃 매니저 수직으로 지정 */
+        item_recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2, GridLayoutManager.VERTICAL,false));
+        item_recyclerView.setAdapter(itemHorizontalAdapter);
 
         return rootView;
     }

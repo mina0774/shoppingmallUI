@@ -1,36 +1,32 @@
 package com.example.heronation;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import java.util.ArrayList;
+
 
 public class ItemNewFragment extends Fragment {
 
     private RecyclerView item_recyclerView1;
-    private RecyclerView item_recyclerView2;
     private RecyclerView item_recyclerView_grid;
 
     private ItemVerticalAdapter newAdapter1;
     private ArrayList<ShopItemPackage> item_list1=new ArrayList<>();
 
-    private ItemVerticalAdapter newAdapter2;
+    private ItemNewAdapter newAdapter2;
     private ArrayList<ShopItemPackage> item_list2=new ArrayList<>();
 
-    private ItemNewAdapter newAdapter3;
-    private ArrayList<ShopItemPackage> item_list3=new ArrayList<>();
 
     /* 배너 슬라이딩을 위한 변수 */
     private ImageAdapter imageAdapter;
@@ -43,38 +39,34 @@ public class ItemNewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        item_list1.clear();
-        item_list2.clear();
-        item_list3.clear();
+
         /* 아이템(상품) 추가 */
         this.make_item_list();
 
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_new,container,false);
 
+        /* 수직 리사이클러뷰의 하나의 아이템에 수평 리사이클러뷰의 아이템을 수평 방향으로 배치 설정, 어댑터 지정
+         * (ex)  수평 리사이클러뷰
+         *       수평 리사이클러뷰
+         *       수평 리사이클러뷰
+         * */
         /* 첫번째 리사이클러뷰*/
         item_recyclerView1=(RecyclerView)rootView.findViewById(R.id.item_new_recyclerView1);
         /* 아이템 수직 리사이클러뷰 객체 생성 */
         newAdapter1=new ItemVerticalAdapter(item_list1,getActivity()); //New Adapter 안에 horizontal adapter를 선언하여 이에 대한 레이아웃을 horizontal로 지정
         /* 레이아웃 매니저 수직으로 지정 */
-        item_recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        item_recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
         item_recyclerView1.setAdapter(newAdapter1);
 
-        /* 두번째 리사이클러뷰*/
-        item_recyclerView2=(RecyclerView)rootView.findViewById(R.id.item_new_recyclerView2);
-        /* 아이템 수직 리사이클러뷰 객체 생성 */
-        newAdapter2=new ItemVerticalAdapter(item_list2,getActivity());  //New Adapter 안에 horizontal adapter를 선언하여 이에 대한 레이아웃을 horizontal로 지정
-        /* 레이아웃 매니저 수직으로 지정 */
-        item_recyclerView2.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        item_recyclerView2.setAdapter(newAdapter2);
 
-        /* 세번째 리사이클러뷰*/
+        /* 두번째 리사이클러뷰*/
         item_recyclerView_grid=(RecyclerView)rootView.findViewById(R.id.item_new_recyclerView_grid);
         /* 아이템 수직 리사이클러뷰 객체 생성 */
-        newAdapter3=new ItemNewAdapter(item_list3,getActivity()); //New Adapter 안에 horizontal adapter를 선언하여 이에 대한 레이아웃을 Grid로 지정
+        newAdapter2=new ItemNewAdapter(item_list2,getActivity()); //New Adapter 안에 horizontal adapter를 선언하여 이에 대한 레이아웃을 Grid로 지정
         /* 레이아웃 매니저 수직으로 지정 */
-        item_recyclerView_grid.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        item_recyclerView_grid.setAdapter(newAdapter3);
+        item_recyclerView_grid.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
+        item_recyclerView_grid.setAdapter(newAdapter2);
 
         /*스피너 */
         spinner_category=(Spinner)rootView.findViewById(R.id.item_new_spinner1);
@@ -85,8 +77,8 @@ public class ItemNewFragment extends Fragment {
         String[] str_order=getResources().getStringArray(R.array.spinnerArray_order);
 
         //item_new_spinner_item과 str_category, str_order를 인자로 어댑터를 생성하고, 어댑터를 설정
-        ArrayAdapter<String> adapter_category=new ArrayAdapter<String>(getContext(),R.layout.item_new_spinner_item,str_category);
-        ArrayAdapter<String> adapter_order=new ArrayAdapter<String>(getContext(),R.layout.item_new_spinner_item,str_order);
+        ArrayAdapter<String> adapter_category=new ArrayAdapter<String>(getContext(), R.layout.item_new_spinner_item,str_category);
+        ArrayAdapter<String> adapter_order=new ArrayAdapter<String>(getContext(), R.layout.item_new_spinner_item,str_order);
         adapter_category.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         adapter_order.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner_category.setAdapter(adapter_category);
@@ -128,7 +120,7 @@ public class ItemNewFragment extends Fragment {
         shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
                 "앙고라머플러반코트", "고고싱", 53000, 50000));
         // 상품들 묶음 추가
-        item_list2.add(new ShopItemPackage("신상품 best",shopItem2));
+        item_list1.add(new ShopItemPackage("신상품 best",shopItem2));
 
         // 수정필요
         ArrayList<ShopItem> shopItem3=new ArrayList<>();
@@ -143,7 +135,7 @@ public class ItemNewFragment extends Fragment {
         shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
                 "앙고라머플러반코트", "고고싱", 53000, 50000));
         // 상품들 묶음 추가
-        item_list3.add(new ShopItemPackage("",shopItem3));
+        item_list2.add(new ShopItemPackage("",shopItem3));
     }
 
 

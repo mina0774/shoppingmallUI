@@ -51,6 +51,8 @@
             android:layout_height="56dp"
             android:layout_alignParentBottom="true"
             app:itemBackground="@android:color/white"
+            app:labelVisibilityMode="labeled"
+            style="@style/BottomNavigationView"
             app:menu="@menu/bottom_bar_menu" />
     </RelativeLayout>
 

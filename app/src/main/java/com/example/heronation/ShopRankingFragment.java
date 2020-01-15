@@ -81,31 +81,24 @@ public class ShopRankingFragment extends Fragment {
     public void make_shop_list(){
         /* Shop 목록을 생성함 */
 
-        shop_list.add(new Shop("1","크림치즈마켓","#20대 #심플베이직 #러블리",
-                "https://creamcheese.co.kr/web/product/extra/big/20200103/a6f044e55e57a52499d86d8d52fbbe97.jpg",
-                "https://creamcheese.co.kr/web/product/extra/big/201910/771a37dd6951ee991d401d58000999d6.jpeg",
-                "https://creamcheese.co.kr/web/product/extra/big/201908/4bb1ddaaaacbbc33aef005355888877a.jpeg"));
-
-
+        shop_list.add(new Shop("1", "크림치즈마켓", "#20대 #심플베이직 #러블리",
+                "https://image.brandi.me/cproduct/2019/10/12/11088968_1570884084_image1_M.jpg",
+                "https://image.brandi.me/cproduct/2020/01/10/13113748_1578653315_image1_M.jpg",
+                "https://image.brandi.me/cproduct/2019/12/11/12537914_1576060273_image1_M.jpg"));
         shop_list.add(new Shop("2","기프티박스","#10대 #20대 #심플베이직 #페미닌",
-                "https://shop-phinf.pstatic.net/20191125_109/1574647089099J0mEe_JPEG/12007827730061169_1986553615.jpg?type=f260",
-                "https://shop-phinf.pstatic.net/20191218_109/1576635660713BY1b0_JPEG/13997203139003091_948360031.jpg?type=f260",
-                "https://shop-phinf.pstatic.net/20191217_209/1576546329655vHwlr_JPEG/13907068283633976_1742837673.jpg?type=f260"));
+                "https://image.brandi.me/cproduct/2019/12/22/12767136_1577026535_image1_M.jpg",
+                "https://image.brandi.me/cproduct/2019/10/29/11520797_1572357010_image1_M.jpg",
+                "https://image.brandi.me/cproduct/2019/11/15/11911973_1573813700_image1_M.jpg"));
 
         shop_list.add(new Shop("3","슬로우베리","#20대 #페미닌 #러블리",
-                "https://dthumb-phinf.pstatic.net/?src=%22https%3A%2F%2Fscontent.cdninstagram.com%2Fv%2Ft51.2885-15%2Fsh0.08%2Fe35%2Fs640x640%2F79378202_260690368242068_8567282746947102671_n.jpg%3F_nc_ht%3Dscontent.cdninstagram.com%26_nc_ohc%3DZoVtD8ke2sAAX-FPnlo%26oh%3D42f1d4055d2b254a8b4943f424e032cd%26oe%3D5E947627%22&twidth=353&theight=353&opts=12",
-                "https://dthumb-phinf.pstatic.net/?src=%22https%3A%2F%2Fscontent.cdninstagram.com%2Fv%2Ft51.2885-15%2Fsh0.08%2Fe35%2Fs640x640%2F72231290_2685527241536547_5781413796061254177_n.jpg%3F_nc_ht%3Dscontent.cdninstagram.com%26_nc_ohc%3D-jjghygC95YAX8k-s4G%26oh%3Dd6d0641caa41c87017d3de6fffd8c0ff%26oe%3D5E8D703C%22&twidth=353&theight=353&opts=12",
-                "https://dthumb-phinf.pstatic.net/?src=%22https%3A%2F%2Fscontent.cdninstagram.com%2Fv%2Ft51.2885-15%2Fsh0.08%2Fe35%2Fs640x640%2F79981404_585579498666535_1326040980112499335_n.jpg%3F_nc_ht%3Dscontent.cdninstagram.com%26_nc_ohc%3DWeUgSvZAwrUAX-uhnLM%26oh%3D5f0e9cc45ae817f461b9ca1983d61ec8%26oe%3D5EAA85DD%22&twidth=353&theight=353&opts=12"));
-
+                "https://image.brandi.me/cproduct/2019/12/13/12568814_1576222909_image1_M.jpg",
+                "https://image.brandi.me/cproduct/2019/12/13/12541553_1576165240_image1_M.jpg",
+                "https://image.brandi.me/cproduct/2019/11/21/12087816_1574321010_image1_M.jpg"));
         shop_list.add(new Shop("4","코튼로그","#20대 #심플베이직 #러블리",
-                "https://shop-phinf.pstatic.net/20191125_109/1574647089099J0mEe_JPEG/12007827730061169_1986553615.jpg?type=f260",
-                "https://shop-phinf.pstatic.net/20191218_109/1576635660713BY1b0_JPEG/13997203139003091_948360031.jpg?type=f260",
-                "https://shop-phinf.pstatic.net/20191217_209/1576546329655vHwlr_JPEG/13907068283633976_1742837673.jpg?type=f260"));
+                "https://image.brandi.me/cproduct/2019/09/18/10623670_1568797090_image1_M.jpg",
+                "https://image.brandi.me/cproduct/2019/12/23/12782275_1577094166_image1_M.jpg",
+                "https://image.brandi.me/cproduct/2019/12/23/12775332_1577083651_image1_M.jpg"));
 
-        shop_list.add(new Shop("5","핫핑","#20대 #심플베이직 #러블리",
-                "https://creamcheese.co.kr/web/product/extra/big/20200103/a6f044e55e57a52499d86d8d52fbbe97.jpg",
-                "https://creamcheese.co.kr/web/product/extra/big/201910/771a37dd6951ee991d401d58000999d6.jpeg",
-                "https://creamcheese.co.kr/web/product/extra/big/201908/4bb1ddaaaacbbc33aef005355888877a.jpeg"));
 
 
     }

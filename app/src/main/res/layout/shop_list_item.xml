@@ -59,22 +59,22 @@
             >
 
             <ImageView
-                android:src="@drawable/shop_img1"
                 android:id="@+id/shop_ranking_shop_img1"
                 android:layout_width="100dp"
-                android:layout_height="100dp" />
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"/>
 
             <ImageView
                 android:id="@+id/shop_ranking_shop_img2"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/shop_img2" />
+                android:scaleType="centerCrop"/>
 
             <ImageView
-                android:src="@drawable/shop_img3"
                 android:id="@+id/shop_ranking_shop_img3"
                 android:layout_width="100dp"
-                android:layout_height="100dp" />
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"/>
         </LinearLayout>
 
 

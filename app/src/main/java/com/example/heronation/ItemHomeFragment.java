@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,6 +21,8 @@ public class ItemHomeFragment extends Fragment {
     private RecyclerView item_recyclerView;
     private ArrayList<ShopItemPackage> item_list=new ArrayList<>();
     private ItemVerticalAdapter verticalAdapter;
+
+    private ImageButton filter_button;
 
     /* 배너 슬라이딩을 위한 변수 */
     private ImageAdapter imageAdapter;
@@ -63,6 +66,17 @@ public class ItemHomeFragment extends Fragment {
         viewPager=(ViewPager)rootView.findViewById(R.id.image_view_home);
         imageAdapter=new ImageAdapter(getActivity());
         viewPager.setAdapter(imageAdapter);
+
+        /* 필터 버튼
+         *  필터 버튼을 눌렀을 때, 팝업창을 띄어줌
+         */
+        filter_button=(ImageButton)rootView.findViewById(R.id.item_home_filter);
+        filter_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)getActivity()).open_panel();
+            }
+        });
 
         return rootView;
     }

@@ -185,6 +185,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    void go_to_shop_fragment(){
+        FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
+        transaction.replace(R.id.fragment_container, shopFragment).commit();
+    }
+
 
     ///그냥 나중에 필요할까봐 넣어 놓았습니다
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {

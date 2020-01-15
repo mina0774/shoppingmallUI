@@ -1,96 +1,144 @@
 package com.example.heronation;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ItemBestFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ItemBestFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ItemBestFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView category_recyclerView;
+    private RecyclerView item_recyclerView;
+    private ItemBestCategoryAdapter itemBestCategoryAdapter;
+    private ItemVerticalAdapter verticalAdapter;
+    private ArrayList<ItemBestCategory> list=new ArrayList<>();
+    private ArrayList<ShopItemPackage> item_list=new ArrayList<>();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public ItemBestFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ItemBestFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ItemBestFragment newInstance(String param1, String param2) {
-        ItemBestFragment fragment = new ItemBestFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    /* 배너 슬라이딩을 위한 변수 */
+    private ImageAdapter imageAdapter;
+    private ViewPager viewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        item_list.clear();
+
+        /* 카테고리 리스트에 아이템 추가
+         *  여기서 카테고리 이름이나, 이미지 변경하면 됨*/
+        this.make_category();
+
+        /* 아이템(상품) 추가 */
+        this.make_item_list();
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_item_best, container, false);
+        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_best,container,false);
+        category_recyclerView=(RecyclerView)rootView.findViewById(R.id.item_best_item_category);
+
+        /* 리사이클러뷰 객체 생성 */
+        itemBestCategoryAdapter=new ItemBestCategoryAdapter(getActivity(),list);
+        /* 레이아웃 매니저 수평으로 지정 */
+        category_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
+        /* 리사이클러뷰에 어댑터 지정 */
+        category_recyclerView.setAdapter(itemBestCategoryAdapter);
+
+        /*
+         * (ex)  수평 리사이클러뷰
+         *       수평 리사이클러뷰
+         *       수평 리사이클러뷰
+         *  3개의 수평 리사이클러뷰가 보여서 수직 리사이클러뷰가 됨
+         * */
+        item_recyclerView=(RecyclerView)rootView.findViewById(R.id.item_best_items);
+
+        /* 아이템 수직 리사이클러뷰 객체 생성 */
+        verticalAdapter=new ItemVerticalAdapter(item_list,getActivity());
+        /* 레이아웃 매니저 수직으로 지정 */
+        item_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        item_recyclerView.setAdapter(verticalAdapter);
+
+        /* 이미지 슬라이딩을 위해 뷰페이저를 이용했고, 이를 설정해주는 이미지 어댑터를 설정하여 슬라이딩 구현 */
+        viewPager=(ViewPager)rootView.findViewById(R.id.image_view_best);
+        imageAdapter=new ImageAdapter(getActivity());
+        viewPager.setAdapter(imageAdapter);
+
+        return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    public void make_item_list(){
+        /* 아이템(상품) 추가 */
+        ArrayList<ShopItem> shopItem1=new ArrayList<>();
+        shopItem1.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191122/31de60c9a2096b6bf648d111684eacb7.gif",
+                "앙고라 머플러 반코트", "고고싱", 53000, 50000));
+        shopItem1.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191128/87b5a0ae6e03d0977e58b787bab5d1ac.gif",
+                "떡볶이 코트", "고고싱", 53000, 45000));
+        shopItem1.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
+                "핸드메이드 코트", "고고싱", 63000, 60000));
+        shopItem1.add(new ShopItem("https://www.ggsing.com/web/product/medium/201911/1d060a6ef06b95fcff02f2237d661f82.gif",
+                "앙고라 머플러 반코트", "고고싱", 53000, 50000));
+        shopItem1.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
+                "앙고라 머플러 반코트", "고고싱", 53000, 50000));
+        // 상품들 묶음 추가
+        item_list.add(new ShopItemPackage("All best",shopItem1));
+
+        ArrayList<ShopItem> shopItem2=new ArrayList<>();
+        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191122/31de60c9a2096b6bf648d111684eacb7.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191128/87b5a0ae6e03d0977e58b787bab5d1ac.gif",
+                "떡볶이코트", "고고싱", 53000, 50000));
+        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
+                "떡볶이코트", "고고싱", 53000, 50000));
+        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/201911/1d060a6ef06b95fcff02f2237d661f82.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        // 상품들 묶음 추가
+        item_list.add(new ShopItemPackage("상의 best",shopItem2));
+
+        ArrayList<ShopItem> shopItem3=new ArrayList<>();
+        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191122/31de60c9a2096b6bf648d111684eacb7.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191128/87b5a0ae6e03d0977e58b787bab5d1ac.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/201911/1d060a6ef06b95fcff02f2237d661f82.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        // 상품들 묶음 추가
+        item_list.add(new ShopItemPackage("하의 best",shopItem3));
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
+    public void make_category(){
+        /* 카테고리 리스트에 아이템 추가
+         *  여기서 카테고리 이름이나, 이미지 변경하면 됨
+         */
+        addItem(getResources().getDrawable(R.drawable.ic_item_all),"전체");
+        addItem(getResources().getDrawable(R.drawable.ic_all_tshirts),"상의");
+        addItem(getResources().getDrawable(R.drawable.ic_all_pants),"하의");
+        addItem(getResources().getDrawable(R.drawable.ic_all_outer),"아우터");
+        addItem(getResources().getDrawable(R.drawable.ic_all_onepiece),"원피스");
+        addItem(getResources().getDrawable(R.drawable.ic_all_skirt),"스커트");
+        addItem(getResources().getDrawable(R.drawable.ic_all_shoes),"슈즈");
+        addItem(getResources().getDrawable(R.drawable.ic_all_bag),"가방");
+        addItem(getResources().getDrawable(R.drawable.ic_all_acc),"액세서리");
+        addItem(getResources().getDrawable(R.drawable.ic_all_socks),"패션소품");
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void addItem(Drawable icon, String name){
+        ItemBestCategory item=new ItemBestCategory(icon,name);
+        list.add(item);
     }
 
     /**

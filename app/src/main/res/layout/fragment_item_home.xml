@@ -2,16 +2,98 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#f3f3f3"
     tools:context=".ItemHomeFragment">
-    <!--shop에 해당하는 카테고리들은 android:layout_marginTop="40dp"를 선언해주어야 함.
-    왜냐하면 Main에서 상단바를 40dp 설정해주었기 때문에 이와 겹치지 않기 위함 -->
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="40dp"
-        android:text="This is Home" />
+        android:layout_height="wrap_content">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <!--배너 사진 스케일 타입 변경하려면 image_slider.xml에서 변경해야함 -->  ​
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/image_view_home"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:scaleType="centerInside"
+                    android:layout_gravity="center_vertical"
+                    android:background="#f3f3f3"
+                    android:src="@drawable/item_home_filter_icon" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:padding="8dp"
+                    android:background="@drawable/round_rectangle"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/item_home_search_icon"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="#ffffff"
+                        android:src="@drawable/ic_search_black_24dp" />
+
+                    <EditText
+                        android:id="@+id/item_home_search_edittext"
+                        android:layout_width="0dp"
+                        android:layout_weight="10"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:padding="8dp"
+                        android:background="@null"
+                        android:hint="예쁜 옷을 검색해보세요."
+                        android:textSize="12sp" />
+
+                    <ImageButton
+                        android:id="@+id/item_home_search_mike"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="#ffffff"
+                        android:src="@drawable/ic_mic_black_24dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/item_home_recyclerViewVertical1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/item_home_recyclerViewVertical2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/item_home_recyclerViewVertical3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

@@ -28,8 +28,7 @@
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:text="Baekgu"
-            android:textSize="20dp"
-            android:onClick="Click_textId"/>  <!-- 닉네임-->
+            android:textSize="20dp" />  <!-- 닉네임-->
 
         <Button
             android:id="@+id/btn_close"

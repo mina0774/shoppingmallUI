@@ -5,93 +5,149 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
+import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ItemNewFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ItemNewFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ItemNewFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView item_recyclerView1;
+    private RecyclerView item_recyclerView2;
+    private RecyclerView item_recyclerView_grid;
 
-    private OnFragmentInteractionListener mListener;
+    private ItemVerticalAdapter newAdapter1;
+    private ArrayList<ShopItemPackage> item_list1=new ArrayList<>();
 
-    public ItemNewFragment() {
-        // Required empty public constructor
-    }
+    private ItemVerticalAdapter newAdapter2;
+    private ArrayList<ShopItemPackage> item_list2=new ArrayList<>();
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ItemNewFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ItemNewFragment newInstance(String param1, String param2) {
-        ItemNewFragment fragment = new ItemNewFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private ItemNewAdapter newAdapter3;
+    private ArrayList<ShopItemPackage> item_list3=new ArrayList<>();
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    /* 배너 슬라이딩을 위한 변수 */
+    private ImageAdapter imageAdapter;
+    private ViewPager viewPager;
+
+    /* 스피너 */
+    private Spinner spinner_category;
+    private Spinner spinner_order;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        item_list1.clear();
+        item_list2.clear();
+        item_list3.clear();
+        /* 아이템(상품) 추가 */
+        this.make_item_list();
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_item_new, container, false);
+        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_new,container,false);
+
+        /* 첫번째 리사이클러뷰*/
+        item_recyclerView1=(RecyclerView)rootView.findViewById(R.id.item_new_recyclerView1);
+        /* 아이템 수직 리사이클러뷰 객체 생성 */
+        newAdapter1=new ItemVerticalAdapter(item_list1,getActivity()); //New Adapter 안에 horizontal adapter를 선언하여 이에 대한 레이아웃을 horizontal로 지정
+        /* 레이아웃 매니저 수직으로 지정 */
+        item_recyclerView1.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        item_recyclerView1.setAdapter(newAdapter1);
+
+        /* 두번째 리사이클러뷰*/
+        item_recyclerView2=(RecyclerView)rootView.findViewById(R.id.item_new_recyclerView2);
+        /* 아이템 수직 리사이클러뷰 객체 생성 */
+        newAdapter2=new ItemVerticalAdapter(item_list2,getActivity());  //New Adapter 안에 horizontal adapter를 선언하여 이에 대한 레이아웃을 horizontal로 지정
+        /* 레이아웃 매니저 수직으로 지정 */
+        item_recyclerView2.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        item_recyclerView2.setAdapter(newAdapter2);
+
+        /* 세번째 리사이클러뷰*/
+        item_recyclerView_grid=(RecyclerView)rootView.findViewById(R.id.item_new_recyclerView_grid);
+        /* 아이템 수직 리사이클러뷰 객체 생성 */
+        newAdapter3=new ItemNewAdapter(item_list3,getActivity()); //New Adapter 안에 horizontal adapter를 선언하여 이에 대한 레이아웃을 Grid로 지정
+        /* 레이아웃 매니저 수직으로 지정 */
+        item_recyclerView_grid.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        item_recyclerView_grid.setAdapter(newAdapter3);
+
+        /*스피너 */
+        spinner_category=(Spinner)rootView.findViewById(R.id.item_new_spinner1);
+        spinner_order=(Spinner)rootView.findViewById(R.id.item_new_spinner2);
+
+        //spinnerArray.xml에서 생성한 item을 String 배열로 가져오기
+        String[] str_category=getResources().getStringArray(R.array.spinnerArray_category);
+        String[] str_order=getResources().getStringArray(R.array.spinnerArray_order);
+
+        //item_new_spinner_item과 str_category, str_order를 인자로 어댑터를 생성하고, 어댑터를 설정
+        ArrayAdapter<String> adapter_category=new ArrayAdapter<String>(getContext(),R.layout.item_new_spinner_item,str_category);
+        ArrayAdapter<String> adapter_order=new ArrayAdapter<String>(getContext(),R.layout.item_new_spinner_item,str_order);
+        adapter_category.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        adapter_order.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner_category.setAdapter(adapter_category);
+        spinner_order.setAdapter(adapter_order);
+
+        /* 이미지 슬라이딩을 위해 뷰페이저를 이용했고, 이를 설정해주는 이미지 어댑터를 설정하여 슬라이딩 구현 */
+        viewPager=(ViewPager)rootView.findViewById(R.id.image_view_new);
+        imageAdapter=new ImageAdapter(getActivity());
+        viewPager.setAdapter(imageAdapter);
+
+        return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    public void make_item_list(){
+        /* 아이템(상품) 추가 */
+        ArrayList<ShopItem> shopItem1=new ArrayList<>();
+        shopItem1.add(new ShopItem("https://slowand.com/web/product/medium/20191231/19123abae92c3f10204863e9d4bba5b9.webp",
+                "버터 케이블 가디건", "슬로우앤드", 30000, 25000));
+        shopItem1.add(new ShopItem("https://slowand.com/web/product/medium/20200106/d43bb6f547046b1924d113cd1eef352c.webp",
+                "마리 세미크롭 펀칭니트", "슬로우앤드", 53000, 45000));
+        shopItem1.add(new ShopItem("https://slowand.com/web/product/medium/201911/9f06ecd9233c6627262923c3e0d56c14.gif",
+                "핸드메이드 코트", "고고싱", 63000, 60000));
+        shopItem1.add(new ShopItem("https://slowand.com/web/product/medium/20191209/9b76134f5337b694553eb9fb190961b3.gif",
+                "빈티지 노르딕 가디건", "고고싱", 40000, 31000));
+        shopItem1.add(new ShopItem("https://slowand.com/web/product/medium/20191231/4ef6dd9fedd4a31ed7d56d427fc90b67.webp",
+                "오트밀 세인트 핸드메이드 코트", "고고싱", 53000, 50000));
+        // 상품들 묶음 추가
+        item_list1.add(new ShopItemPackage("급상승",shopItem1));
+
+        ArrayList<ShopItem> shopItem2=new ArrayList<>();
+        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191122/31de60c9a2096b6bf648d111684eacb7.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191128/87b5a0ae6e03d0977e58b787bab5d1ac.gif",
+                "떡볶이코트", "고고싱", 53000, 50000));
+        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
+                "떡볶이코트", "고고싱", 53000, 50000));
+        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/201911/1d060a6ef06b95fcff02f2237d661f82.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        // 상품들 묶음 추가
+        item_list2.add(new ShopItemPackage("신상품 best",shopItem2));
+
+        // 수정필요
+        ArrayList<ShopItem> shopItem3=new ArrayList<>();
+        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191122/31de60c9a2096b6bf648d111684eacb7.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191128/87b5a0ae6e03d0977e58b787bab5d1ac.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/201911/1d060a6ef06b95fcff02f2237d661f82.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
+                "앙고라머플러반코트", "고고싱", 53000, 50000));
+        // 상품들 묶음 추가
+        item_list3.add(new ShopItemPackage("",shopItem3));
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+
 
     /**
      * This interface must be implemented by activities that contain this

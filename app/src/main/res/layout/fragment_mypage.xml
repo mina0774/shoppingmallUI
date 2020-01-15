@@ -5,9 +5,70 @@
     android:layout_height="match_parent"
     tools:context=".MypageFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="mypage" />
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="56dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="center|center_horizontal"
+                android:background="@drawable/button_background"
+                android:gravity="center"
+                android:text="안녕하세요 \n xxxx님"
+                android:textSize="22sp" />
+
+            <Button
+                android:id="@+id/mypage_userModify_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_background"
+                android:text="회원정보 수정" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:gravity="bottom"
+                android:orientation="vertical">>
+
+                <Button
+                    android:id="@+id/mypage_userTermsOfUse_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/button_background"
+                    android:text="개인정보 수정 및 이용약관" />
+
+                <Button
+                    android:id="@+id/mypage_serviceTermsOfUse_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/button_background"
+                    android:text="서비스 이용약관" />
+
+                <Button
+                    android:id="@+id/mypage_inquiry_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/button_background"
+                    android:text="1:1 문의하기 -> 카톡" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

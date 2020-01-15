@@ -3,14 +3,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f3f3f3"
     tools:context=".ShopFavoritesFragment">
-    <!--shop에 해당하는 카테고리들은 android:layout_marginTop="40dp"를 선언해주어야 함.
-    왜냐하면 Main에서 상단바를 40dp 설정해주었기 때문에 이와 겹치지 않기 위함 -->
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_centerVertical="true"
+                android:text="즐겨찾기 2개"/>
+
+            <ImageButton
+                android:id="@+id/favorite_folder"
+                android:paddingRight="16dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:scaleType="centerInside"
+                android:background="#f3f3f3"
+                android:src="@drawable/ic_favorite_folder"
+                />
+
+            <!--
+            <ImageButton
+                android:id="@+id/favorite_trash"
+                android:layout_centerVertical="true"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:scaleType="centerInside"
+                android:layout_alignParentRight="true"
+                android:background="#f3f3f3"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="16dp"
+                android:src="@drawable/ic_favorite_trash"
+               />
+               즐겨찾기 버튼 눌러서 취소하면 되는데
+               없어도 되지 않을까요?
+               -->
+
+
+
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_shop_favorites"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="14" />
+    </LinearLayout>
+
 
 </FrameLayout>

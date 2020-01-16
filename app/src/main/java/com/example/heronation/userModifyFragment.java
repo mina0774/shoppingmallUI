@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 
 public class userModifyFragment extends Fragment {
@@ -19,6 +21,14 @@ public class userModifyFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_user_modify, container, false);
+        Button btn2 = (Button)rootView.findViewById(R.id.userModify_edit_btn);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new MypageConnectingFragment()).commit();
+                Toast.makeText(getContext(), "수정되었습니다.", Toast.LENGTH_LONG).show();
+            }
+        });
         return rootView;
     }
 /**

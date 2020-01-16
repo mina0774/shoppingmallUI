@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity
     private ShopFragment shopFragment=new ShopFragment();
     private WishlistFragment wishlistFragment=new WishlistFragment();
 
+    /* 하단바 */
+    private BottomNavigationView bottomNavigationView;
+
     /* 상단 메뉴 버튼을 눌렀을 때 뜨는 레이아웃을 위한 변수들 */
     private DrawerLayout drawerLayout;
     private View drawerView;
@@ -106,7 +109,7 @@ public class MainActivity extends AppCompatActivity
          * bottomNavigationView에 activity_main.xml의 bottomnavigation_menu_bar를 할당해준 후,
          * bottomItemSelectedListener 클래스를, bottomNavigatioView 객체에 할당
          */
-        BottomNavigationView bottomNavigationView=findViewById(R.id.bottomnavigation_menu_bar);
+        bottomNavigationView=findViewById(R.id.bottomnavigation_menu_bar);
         BottomNavigationHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomItemSelectedListener());
 
@@ -186,8 +189,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     void go_to_shop_fragment(){
+        bottomNavigationView.setSelectedItemId(R.id.menuitem_bottombar_shop);
         FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
         transaction.replace(R.id.fragment_container, shopFragment).commit();
+    }
+
+    void go_to_measurement(){
+        bottomNavigationView.setSelectedItemId(R.id.menuitem_bottombar_measurement);
+        FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
+        transaction.replace(R.id.fragment_container, measurementFragment).commit();
     }
 
 

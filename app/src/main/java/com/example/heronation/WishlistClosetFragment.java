@@ -1,97 +1,90 @@
 package com.example.heronation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link WishlistClosetFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link WishlistClosetFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class WishlistClosetFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    /* 리사이클러뷰*/
+    private RecyclerView closet_recyclerView;
+    private ArrayList<ClosetItem> item_list=new ArrayList<>();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    /* 스피너 */
+    private Spinner spinner_category;
 
-    private OnFragmentInteractionListener mListener;
+    /* 체형 수정 버튼 */
+    private Button edit_button;
 
-    public WishlistClosetFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment WishlistClosetFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static WishlistClosetFragment newInstance(String param1, String param2) {
-        WishlistClosetFragment fragment = new WishlistClosetFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        item_list.clear();
+        this.make_item_list();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wishlist_closet, container, false);
+        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_wishlist_closet, container,false);
+
+        closet_recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view_wishilist_closet);
+        /* 리사이클러뷰 객체 생성 */
+        WishlistClosetAdapter wishlistClosetAdapter=new WishlistClosetAdapter(getActivity(),item_list);
+        /* 레이아웃 매니저 수평으로 지정 */
+        closet_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
+        /* 리사이클러뷰에 어댑터 지정 */
+        closet_recyclerView.setAdapter(wishlistClosetAdapter);
+
+        /*스피너 */
+        spinner_category=(Spinner)rootView.findViewById(R.id.wishlist_closet_spinner_category);
+        //spinnerArray.xml에서 생성한 item을 String 배열로 가져오기
+        String[] str_category=getResources().getStringArray(R.array.spinnerArray_category);
+
+        //item_new_spinner_item과 str_category, str_order를 인자로 어댑터를 생성하고, 어댑터를 설정
+        ArrayAdapter<String> adapter_category=new ArrayAdapter<String>(getContext(), R.layout.item_new_spinner_item,str_category);
+        adapter_category.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner_category.setAdapter(adapter_category);
+
+        /* 체형 수정 버튼 */
+        edit_button=(Button)rootView.findViewById(R.id.wishlist_closet_edit_button);
+        edit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getContext(),WishlistClosetEditBodyActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+        return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    // 등록된 item 정보를 만드는 함수
+    public void make_item_list(){
+        item_list.add(new ClosetItem("티셔츠","니트","2019/10/20","육육걸즈","AR"));
+        item_list.add(new ClosetItem("하의","슬랙스","2019/10/21","고고싱","직접 입력"));
+        item_list.add(new ClosetItem("하의","청바지","2019/10/22","유니클로","신체 비교"));
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     /**
      * This interface must be implemented by activities that contain this

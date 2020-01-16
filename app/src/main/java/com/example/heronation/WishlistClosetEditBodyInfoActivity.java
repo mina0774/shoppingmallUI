@@ -6,12 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class WishlistClosetEditBodyActivity extends AppCompatActivity {
+public class WishlistClosetEditBodyInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wishlist_closet_edit_body);
+        setContentView(R.layout.activity_wishlist_closet_edit_body_info);
     }
 
     //back 버튼 눌렀을 때, 액티비티 종료
@@ -19,8 +19,4 @@ public class WishlistClosetEditBodyActivity extends AppCompatActivity {
         finish();
     }
 
-    public void click_edit_button(View view){
-        Intent intent=new Intent(this,WishlistClosetEditBodyInfoActivity.class);
-        startActivity(intent);
-    }
 }

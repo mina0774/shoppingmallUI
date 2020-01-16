@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity
     */
     private FragmentManager fragmentManager=getSupportFragmentManager(); //Fragment 가져오기
     private MeasurementFragment measurementFragment=new MeasurementFragment();
-    private MypageFragment mypageFragment=new MypageFragment();
+    private MypageConnectingFragment mypageFragment=new MypageConnectingFragment();
     private ItemFragment itemFragment=new ItemFragment();
     private ShopFragment shopFragment=new ShopFragment();
     private WishlistFragment wishlistFragment=new WishlistFragment();

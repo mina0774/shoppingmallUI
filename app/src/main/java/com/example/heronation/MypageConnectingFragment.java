@@ -1,7 +1,6 @@
 package com.example.heronation;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,22 +10,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
-
-public class MypageFragment extends Fragment {
-
+public class MypageConnectingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_mypage,container,false);
+        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_mypage_connecting,container,false);
         /* 로그인/회원가입 버튼 클릭시 이동 */
-        Button btn1 = (Button)rootView.findViewById(R.id.mypage_signInUp_btn);
+        ImageButton btn1 = (ImageButton)rootView.findViewById(R.id.mypage_userModify_btn);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new MypageLoginFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new userModifyFragment()).commit();
             }
         });
         return rootView;

@@ -170,25 +170,25 @@
                 android:id="@+id/userModify_ad_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
                 android:text="서비스 이용약관, 개인정보 취급 방침에 동의합니다." />
 
             <CheckBox
-                android:layout_marginLeft="20dp"
                 android:id="@+id/userModify_check1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:text="Push 알림 선택" />
 
             <Button
-                android:layout_gravity="right"
-                android:id="@+id/userModify_edit_btn"
+                android:id="@+id/register_next_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="30dp"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/btn_background"
                 android:text="다음" />
 

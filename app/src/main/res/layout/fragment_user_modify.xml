@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".userModifyFragment">
+
+    <!-- 차례대로
+                 1. 아이디 - Textview
+                 2. 현재비밀번호, 비밀번호 수정, 비밀번호 확인 - EditText
+                 3. 이메일, 이름 - TextView
+                 4. 성별 - 스위치버튼
+                 5. 광고수신 - 체크버튼
+                 6. 수정 - 버튼 -->
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/userModify_hi_nickname_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center|center_horizontal"
+                    android:background="@drawable/button_background"
+                    android:gravity="center"
+                    android:text="안녕하세요 \n 히어로네이션 님"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="아이디"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/userModify_id_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_background"
+                    android:gravity="start"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="heronation"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="현재 비밀번호"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/userModify_present_pw_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_background"
+                    android:gravity="start"
+                    android:hint="password"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="비밀번호 수정"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/userModify_edit_pw_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_background"
+                    android:gravity="start"
+                    android:hint="password"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="비밀번호 확인"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/userModify_check_pw_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_background"
+                    android:gravity="start"
+                    android:hint="password"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="이메일"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/userModify_email_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_background"
+                    android:gravity="start"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="heronation@gmail.com"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="이름"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/userModify_name_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_background"
+                    android:gravity="start"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="히어로네이션"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:text="생년월일"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="-10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_background"
+                    android:drawableRight="@drawable/ic_access_time_black_24dp"
+                    android:gravity="start"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="15dp"
+                    android:paddingBottom="5dp"
+                    android:text="1999/10/11"
+                    android:textSize="22sp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:text="Woman"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <Switch
+                        android:id="@+id/gender_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:switchMinWidth="50dp"
+                        android:textOff="OFF"
+                        android:textOn="ON"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="Man"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <CheckBox
+                    android:id="@+id/userModify_ad_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="광고 수신에 동의합니다" />
+
+                <Button
+                    android:id="@+id/userModify_edit_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/btn_background"
+                    android:text="수정" />
+
+            </LinearLayout>
+        </ScrollView>
+</FrameLayout>

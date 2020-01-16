@@ -1,7 +1,6 @@
 package com.example.heronation;
 
-import android.content.Context;
-import android.content.Intent;
+
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -10,20 +9,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 
 public class MypageLoginFragment extends Fragment {
-    public static MypageFragment newInstance(){
-        return new MypageFragment();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_mypage_login,container,false);
+        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_user_modify,container,false);
         return rootView;
     }
 

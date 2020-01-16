@@ -26,12 +26,15 @@ public class WishlistViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch(position){
             case 0:
+                WishlistClosetFragment wishlistClosetFragment=new WishlistClosetFragment();
+                return wishlistClosetFragment;
+            case 1:
                 WishlistItemFragment wishlistItemFragment=new WishlistItemFragment();
                 return wishlistItemFragment;
-            case 1:
+            case 2:
                 WishlistShopFragment wishlistShopFragment=new WishlistShopFragment();
                 return wishlistShopFragment;
-            case 2:
+            case 3:
                 WishlistRecentlyViewedItemFragment wishlistRecentlyViewedItemFragment=new WishlistRecentlyViewedItemFragment();
                 return wishlistRecentlyViewedItemFragment;
         }

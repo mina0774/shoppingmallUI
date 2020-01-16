@@ -30,8 +30,7 @@ public class WishlistShopFragment extends Fragment {
         wishlist_best_market.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             /*   Intent intent=new Intent(getContext(),ShopFragment.class);
-                startActivity(intent); */
+                ((MainActivity)getActivity()).go_to_shop_fragment(); // 하단바 버튼 표시 수정해야함
             }
         });
 

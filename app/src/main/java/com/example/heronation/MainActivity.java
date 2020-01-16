@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity
         ItemSaleFragment.OnFragmentInteractionListener,
         ShopFavoritesFragment.OnFragmentInteractionListener,
         WishlistShopFragment.OnFragmentInteractionListener,
-        WishlistRecentlyViewedItemFragment.OnFragmentInteractionListener
+        WishlistRecentlyViewedItemFragment.OnFragmentInteractionListener,
+        WishlistClosetFragment.OnFragmentInteractionListener
 {
     /*
     * Fragment Manager 선언 -- Acitivity 내에서 Fragment를 관리해주기 위해서는 FragmentManager를 사용해야함
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity
          * bottomItemSelectedListener 클래스를, bottomNavigatioView 객체에 할당
          */
         BottomNavigationView bottomNavigationView=findViewById(R.id.bottomnavigation_menu_bar);
+        BottomNavigationHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomItemSelectedListener());
 
        /* 첫 화면이 ItemFragment이므로, Transaction을 getSupportFragmentManager().beginTransaction()을 통해 가져온 후,
@@ -181,6 +183,11 @@ public class MainActivity extends AppCompatActivity
             }
             return false;
         }
+    }
+
+    void go_to_shop_fragment(){
+        FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
+        transaction.replace(R.id.fragment_container, shopFragment).commit();
     }
 
 

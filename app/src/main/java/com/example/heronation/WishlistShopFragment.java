@@ -26,11 +26,12 @@ public class WishlistShopFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_wishlist_shop, container,false);
 
+          /* 찜한 마켓이 없을 시에 ShopRankingFragment로 이동*/
         wishlist_best_market=(Button)rootView.findViewById(R.id.wishlist_shop_togo_shop_ranking);
         wishlist_best_market.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity)getActivity()).go_to_shop_fragment(); // 하단바 버튼 표시 수정해야함
+                ((MainActivity)getActivity()).go_to_shop_fragment();
             }
         });
 

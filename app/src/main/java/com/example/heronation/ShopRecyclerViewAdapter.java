@@ -40,16 +40,15 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
     /* position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시 */
     @Override
     public void onBindViewHolder(@NonNull final ShopRecyclerViewAdapter.Holder holder, int position) {
+        holder.shop_ranking.setText(shop_list.get(position).getShop_num());
+        holder.shop_name.setText(shop_list.get(position).getShop_name());
+        holder.shop_tag.setText(shop_list.get(position).getShop_tag());
 
         /* Glide를 통해 URL로 받아온 이미지를 로드해서 뷰홀더에 있는 이미지뷰에 뿌려줌 */
         int item_position=position;
         Glide.with(context).load(shop_list.get(item_position).getShop_image1()).error(R.drawable.shop_img1).crossFade().into(holder.shop_img1);
         Glide.with(context).load(shop_list.get(item_position).getShop_image2()).error(R.drawable.shop_img2).crossFade().into(holder.shop_img2);
         Glide.with(context).load(shop_list.get(item_position).getShop_image3()).error(R.drawable.shop_img3).crossFade().into(holder.shop_img3);
-
-        holder.shop_ranking.setText(shop_list.get(position).getShop_num());
-        holder.shop_name.setText(shop_list.get(position).getShop_name());
-        holder.shop_tag.setText(shop_list.get(position).getShop_tag());
 
         /* 즐겨찾기 버튼 별 모양을 클릭했을 때,
         선택될 시에 사진을 노란색 별모양으로 설정

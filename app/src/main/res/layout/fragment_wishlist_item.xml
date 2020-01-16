@@ -21,6 +21,7 @@
             android:src="@drawable/wishlist_item_recommend" />
 
         <Button
+            android:id="@+id/wishlist_item_togo_measurement"
             android:layout_below="@id/recommend_image"
             android:layout_width="240dp"
             android:layout_height="40dp"

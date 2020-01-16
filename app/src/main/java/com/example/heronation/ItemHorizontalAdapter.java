@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class ItemHorizontalAdapter extends RecyclerView.Adapter<ItemHorizontalAd
 
     /* position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시 */
     @Override
-    public void onBindViewHolder(@NonNull HorizontalViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final HorizontalViewHolder holder, int position) {
         int item_position=position;
         /* Glide를 통해 URL로 받아온 이미지를 로드해서 뷰홀더에 있는 이미지뷰에 뿌려줌 */
         Glide.with(context).load(itemList.get(item_position).getItemImage_URL()).error(R.drawable.shop_item_example_img_2).crossFade().into(holder.item_image);
@@ -48,6 +49,15 @@ public class ItemHorizontalAdapter extends RecyclerView.Adapter<ItemHorizontalAd
         holder.shop_name.setText(itemList.get(item_position).getShopName());
         holder.originalPrice.setText(itemList.get(item_position).getOriginalPrice().toString());
         holder.salePrice.setText(itemList.get(item_position).getSalePrice().toString());
+
+        holder.heart_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.heart_button.setAnimation(R.raw.like_button);
+                holder.heart_button.setRepeatCount(1);
+                holder.heart_button.playAnimation();
+            }
+        });
     }
 
     /* 전체 아이템 개수를 return */
@@ -63,6 +73,7 @@ public class ItemHorizontalAdapter extends RecyclerView.Adapter<ItemHorizontalAd
         private TextView shop_name;
         private TextView originalPrice;
         private TextView salePrice;
+        private LottieAnimationView heart_button;
 
         public HorizontalViewHolder(View view){
             super(view);
@@ -71,6 +82,7 @@ public class ItemHorizontalAdapter extends RecyclerView.Adapter<ItemHorizontalAd
             shop_name=view.findViewById(R.id.recycler_view_item_best_shop_name);
             originalPrice=view.findViewById(R.id.recycler_view_item_best_original_price);
             salePrice=view.findViewById(R.id.recycler_view_item_best_sale_price);
+            heart_button=view.findViewById(R.id.heart_button);
         }
 
     }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -30,6 +31,8 @@ public class WishlistClosetFragment extends Fragment {
 
     /* 체형 수정 버튼 */
     private Button edit_button;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +71,9 @@ public class WishlistClosetFragment extends Fragment {
             }
         });
 
+
+
+
         return rootView;
     }
 
@@ -77,6 +83,8 @@ public class WishlistClosetFragment extends Fragment {
         item_list.add(new ClosetItem("하의","슬랙스","2019/10/21","고고싱","직접 입력"));
         item_list.add(new ClosetItem("하의","청바지","2019/10/22","유니클로","신체 비교"));
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

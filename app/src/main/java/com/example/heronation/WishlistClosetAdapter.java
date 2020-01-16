@@ -1,9 +1,11 @@
 package com.example.heronation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ public class WishlistClosetAdapter extends RecyclerView.Adapter<WishlistClosetAd
 
     private Context context;
     private List<ClosetItem> item_list=new ArrayList<>();
+
 
     public WishlistClosetAdapter(Context context, List<ClosetItem> item_list) {
         this.context = context;
@@ -70,7 +73,7 @@ public class WishlistClosetAdapter extends RecyclerView.Adapter<WishlistClosetAd
     }
 
     /* 뷰홀더 데이터가 놓일 공간을 마련해준다. */
-    public class Holder extends RecyclerView.ViewHolder {
+    public class Holder extends RecyclerView.ViewHolder{
         public TextView category;
         public TextView item_name;
         public TextView date;
@@ -87,7 +90,26 @@ public class WishlistClosetAdapter extends RecyclerView.Adapter<WishlistClosetAd
             shop_name=(TextView)view.findViewById(R.id.wishlist_closet_item_shop_name);
             measurement_type=(TextView)view.findViewById(R.id.wishlist_closet_item_measurement_type);
             favorite_button=(ImageButton)view.findViewById(R.id.favorite_button);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION){
+                        Intent intent=new Intent(context,WishlistClosetItemEditActivity.class);
+                        intent.putExtra("category",item_list.get(position).getCategory());
+                        intent.putExtra("item_name",item_list.get(position).getItem_name());
+                        intent.putExtra("date",item_list.get(position).getDate());
+                        intent.putExtra("shop_name",item_list.get(position).getShop_name());
+                        intent.putExtra("measurement_type",item_list.get(position).getMeasurement_type());
+                        context.startActivity(intent);
+                    }
+                }
+            });
+
         }
 
     }
+
+
 }

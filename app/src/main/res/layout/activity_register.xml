@@ -182,7 +182,6 @@
                 android:text="Push 알림 선택" />
 
             <Button
-                android:onClick="register_next_btn"
                 android:id="@+id/register_next_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -191,6 +190,7 @@
                 android:layout_marginRight="15dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/btn_background"
+                android:onClick="register_next_btn"
                 android:text="다음" />
 
         </LinearLayout>

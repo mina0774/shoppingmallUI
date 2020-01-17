@@ -1,6 +1,7 @@
 package com.example.heronation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -23,7 +24,9 @@ public class MypageConnectingFragment extends Fragment {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new userModifyFragment()).commit();
+                Intent intent=new Intent(getActivity(), RegisterBodyActivity.class);
+                startActivity(intent);
+                //getFragmentManager().beginTransaction().replace(R.id.fragment_container, new userModifyFragment()).commit();
             }
         });
         return rootView;

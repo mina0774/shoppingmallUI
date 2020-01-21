@@ -117,7 +117,7 @@
 
         <ImageButton
             android:background="#f3f3f3"
-            android:id="@+id/closet_trash"
+            android:id="@+id/closet_delete"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
@@ -128,7 +128,6 @@
 
         android:id="@+id/wishlist_closet_spinner_category"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/closet_trash"
         android:layout_marginRight="16dp"
         android:gravity="center"
         android:layout_width="104dp"

@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".WishlistClosetDeleteActivity"></activity>
         <activity android:name=".IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,8 +25,7 @@
         <activity android:name=".ItemSearchActivity" />
         <activity android:name=".ShopRankingSearchActivity" />
         <activity android:name=".loginPageActivity" />
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

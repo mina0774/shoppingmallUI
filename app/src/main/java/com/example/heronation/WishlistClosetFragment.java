@@ -16,8 +16,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -32,7 +34,8 @@ public class WishlistClosetFragment extends Fragment {
     /* 체형 수정 버튼 */
     private Button edit_button;
 
-
+    /* 옷장 아이템 삭제 버튼 */
+    private ImageButton delete_button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,8 +74,16 @@ public class WishlistClosetFragment extends Fragment {
             }
         });
 
-
-
+        /* 옷장 아이템 삭제 버튼 */
+        delete_button=(ImageButton)rootView.findViewById(R.id.closet_delete);
+        delete_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getContext(),WishlistClosetDeleteActivity.class);
+                intent.putExtra("closet item",item_list);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }

@@ -1,5 +1,6 @@
 package com.example.heronation;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,12 +51,39 @@ public class ItemHorizontalAdapter extends RecyclerView.Adapter<ItemHorizontalAd
         holder.originalPrice.setText(itemList.get(item_position).getOriginalPrice().toString());
         holder.salePrice.setText(itemList.get(item_position).getSalePrice().toString());
 
+
         holder.heart_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.heart_button.setAnimation(R.raw.like_button);
-                holder.heart_button.setRepeatCount(1);
-                holder.heart_button.playAnimation();
+                if(!holder.isSongLikedClicked){
+                    // 애니메이션을 한번 실행시킨다.
+                    // Custom animation speed or duration.
+                    // ofFloat(시작 시간, 종료 시간).setDuration(지속시간)
+                    ValueAnimator animator = ValueAnimator.ofFloat(0f, 0.5f).setDuration(1000);
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            holder.heart_button.setProgress((Float) animation.getAnimatedValue());
+                        }
+                    });
+                    animator.start();
+                    holder.isSongLikedClicked = true;
+                }
+                else {
+                    // 애니메이션을 한번 실행시킨다.
+                    // Custom animation speed or duration.
+                    // ofFloat(시작 시간, 종료 시간).setDuration(지속시간)
+                    ValueAnimator animator = ValueAnimator.ofFloat(0.5f, 1f).setDuration(1000);
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animation) {
+                            holder.heart_button.setProgress((Float) animation.getAnimatedValue());
+                        }
+                    });
+                    animator.start();
+                    holder.isSongLikedClicked = false;
+                }
+
             }
         });
     }
@@ -74,6 +102,8 @@ public class ItemHorizontalAdapter extends RecyclerView.Adapter<ItemHorizontalAd
         private TextView originalPrice;
         private TextView salePrice;
         private LottieAnimationView heart_button;
+        // 좋아요 클릭 여부
+        private boolean isSongLikedClicked = false;
 
         public HorizontalViewHolder(View view){
             super(view);

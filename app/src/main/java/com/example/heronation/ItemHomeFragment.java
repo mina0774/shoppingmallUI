@@ -54,6 +54,13 @@ public class ItemHomeFragment extends Fragment {
 
         /*  검색창 클릭했을 때, 아이템 검색 액티비티로 이동 */
         search_item=(EditText)rootView.findViewById(R.id.item_home_search_edittext);
+        search_item.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                Intent intent=new Intent(getContext(), ItemSearchActivity.class);
+                startActivity(intent);
+            }
+        });
         search_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

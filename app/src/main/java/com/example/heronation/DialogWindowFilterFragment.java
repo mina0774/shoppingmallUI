@@ -1,32 +1,57 @@
 package com.example.heronation;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.google.android.material.tabs.TabLayout;
 
 
-
-public class ItemFragment extends Fragment {
+public class DialogWindowFilterFragment extends DialogFragment{
     private TabLayout item_tabLayout;
-
     /* 프래그먼트 나타낼때, 프래그먼트를 담는 뷰페이저, 뷰페이저를 도와주는 어댑터 */
-    private ViewPager viewPager;
-    private ItemViewPagerAdapter itemViewPagerAdapter;
+    private ViewPager item_search_filter_viewpager;
+    private ItemSearchFilterPagerAdapter item_search_filter_adapter;
+
+    /* 화면 크기 조정 */
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+        return dialog;
+    }
+
+    /* 화면 크기 조정 */
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Dialog dialog = getDialog();
+        if (dialog != null) {
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item,container,false);
+        View rootView=inflater.inflate(R.layout.fragment_dialog_window_filter,container);
 
         /* Item의 상단탭*/
         item_tabLayout=(TabLayout)rootView.findViewById(R.id.item_tab_layout);
@@ -37,35 +62,28 @@ public class ItemFragment extends Fragment {
          * 뷰페이저에 어댑터를 설정한다.
          * 그 후, tabLayout과 viewPager 연결
          */
-        viewPager=(ViewPager)rootView.findViewById(R.id.item_fragment_container);
-        itemViewPagerAdapter=new ItemViewPagerAdapter(getChildFragmentManager(),item_tabLayout.getTabCount());
-        viewPager.setAdapter(itemViewPagerAdapter);
-
+        item_search_filter_viewpager=(ViewPager)rootView.findViewById(R.id.item_search_filter_fragment_container);
+        item_search_filter_adapter=new ItemSearchFilterPagerAdapter(getChildFragmentManager(),item_tabLayout.getTabCount());
+        item_search_filter_viewpager.setAdapter(item_search_filter_adapter);
         /*
          상단탭이 선택되었을 때, 상단탭의 선택된 현재 위치를 얻어 Fragment를 이동시킨다.
          */
         item_tabLayout.addOnTabSelectedListener(new ItemTopItemSelectedListener());
 
         /* ViewPager의 페이지가 변경될 때 알려주는 리스너*/
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(item_tabLayout));
+        item_search_filter_viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(item_tabLayout));
 
-
+        //바깥을 터치했을 경우 다이얼로그가 사라짐 (작동 안함) 찾아보기....
+       getDialog().setCanceledOnTouchOutside(true);
         return rootView;
     }
 
 
-    /*
-     * Item 상단 탭에 있는 특정 값을 선택하였을 때
-     * Switch문으로 경우를 나누어
-     * 홈 버튼을  눌렀을 때, ItemHomeFragment로 이동
-     * 신상 버튼을 눌렀을 때, ItemNewFragment로 이동
-     * 베스트 버튼을 눌렀을 때, ItemBestFragment로 이동
-     * AI 버튼을 눌렀을 때, ItemAiFragment로 이동
-     * 세일 버튼을 눌렀을 때, ItemSaleFragment로 이동*/
+    /* 상단탭이 선택되었을 때, 탭의 위치를 받아와 탭의 하이라이트를 이동시켜줌 */
     class ItemTopItemSelectedListener implements TabLayout.OnTabSelectedListener{
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
-            viewPager.setCurrentItem(tab.getPosition());
+            item_search_filter_viewpager.setCurrentItem(tab.getPosition());
         }
 
         @Override
@@ -76,7 +94,6 @@ public class ItemFragment extends Fragment {
         public void onTabReselected(TabLayout.Tab tab) {
         }
     }
-
 
     /**
      * This interface must be implemented by activities that contain this

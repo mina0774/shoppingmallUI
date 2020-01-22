@@ -1,0 +1,26 @@
+package com.example.heronation;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
+import android.content.Intent;
+import android.os.Bundle;
+
+public class RegisterAi extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register_ai);
+    }
+
+    public void click_registerai_previous(View view) {
+        Intent intent = new Intent(this, RegisterBodyActivity.class);
+        startActivity(intent);
+    }
+
+    public void click_registerai_next(View view) {
+        Intent intent = new Intent(this, IntroActivity.class);
+        startActivity(intent);
+    }
+}

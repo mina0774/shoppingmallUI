@@ -91,62 +91,74 @@
 
                     <TableRow android:layout_weight="1">
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="casual"/>
+                            android:text="casual" />
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="street"/>
+                            android:text="street" />
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="vintage"/>
+                            android:text="vintage" />
                     </TableRow>
 
                     <TableRow android:layout_weight="1">
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="sexy"/>
+                            android:text="sexy" />
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="modern"/>
+                            android:text="modern" />
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="feminine"/>
+                            android:text="feminine" />
                     </TableRow>
 
                     <TableRow android:layout_weight="1">
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="dandy"/>
+                            android:text="dandy" />
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="lovely"/>
+                            android:text="lovely" />
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="Unique"/>
+                            android:text="Unique" />
                     </TableRow>
 
                     <TableRow android:layout_weight="1">
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="classic"/>
+                            android:text="classic" />
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="sporty"/>
+                            android:text="sporty" />
 
-                        <Button android:layout_height="match_parent"
+                        <Button
+                            android:layout_height="match_parent"
                             android:layout_margin="5dp"
-                            android:text="layered"/>
+                            android:text="layered" />
                     </TableRow>
                 </TableLayout>
             </LinearLayout>

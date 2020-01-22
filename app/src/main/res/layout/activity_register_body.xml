@@ -15,8 +15,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5"
             android:layout_marginBottom="20dp"
+            android:layout_weight="5"
             android:background="@drawable/button_background"
             android:gravity="center"
             android:padding="20dp"
@@ -62,10 +62,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"
+            android:layout_weight="1"
             android:background="@drawable/btn_background"
             android:gravity="center"
             android:orientation="horizontal">
@@ -88,18 +88,18 @@
             android:id="@+id/seekBar_height"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_gravity="center"
+            android:layout_weight="1"
             android:max="200"
             android:progress="200" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"
+            android:layout_weight="1"
             android:background="@drawable/btn_background"
             android:gravity="center"
             android:orientation="horizontal">
@@ -129,10 +129,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
             android:layout_marginBottom="20dp"
+            android:layout_weight="1"
             android:background="@drawable/btn_background"
             android:gravity="center"
             android:orientation="horizontal">
@@ -182,6 +182,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/btn_background"
+                android:onClick="click_registerbody_next"
                 android:text="다음" />
         </RelativeLayout>
     </LinearLayout>

@@ -5,12 +5,15 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,9 @@ import android.view.Window;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class DialogWindowFilterFragment extends DialogFragment{
     private TabLayout item_tabLayout;
@@ -26,16 +32,16 @@ public class DialogWindowFilterFragment extends DialogFragment{
     private ViewPager item_search_filter_viewpager;
     private ItemSearchFilterPagerAdapter item_search_filter_adapter;
 
-    /* 화면 크기 조정 */
+
+    /* 화면 크기 조정*/
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-
         return dialog;
     }
 
-    /* 화면 크기 조정 */
+    /* 화면 크기 조정*/
     @Override
     public void onStart() {
         super.onStart();
@@ -44,14 +50,17 @@ public class DialogWindowFilterFragment extends DialogFragment{
         if (dialog != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_dialog_window_filter,container);
+
 
         /* Item의 상단탭*/
         item_tabLayout=(TabLayout)rootView.findViewById(R.id.item_tab_layout);
@@ -64,7 +73,8 @@ public class DialogWindowFilterFragment extends DialogFragment{
          */
         item_search_filter_viewpager=(ViewPager)rootView.findViewById(R.id.item_search_filter_fragment_container);
         item_search_filter_adapter=new ItemSearchFilterPagerAdapter(getChildFragmentManager(),item_tabLayout.getTabCount());
-        item_search_filter_viewpager.setAdapter(item_search_filter_adapter);
+         item_search_filter_viewpager.setAdapter(item_search_filter_adapter);
+
         /*
          상단탭이 선택되었을 때, 상단탭의 선택된 현재 위치를 얻어 Fragment를 이동시킨다.
          */
@@ -73,10 +83,12 @@ public class DialogWindowFilterFragment extends DialogFragment{
         /* ViewPager의 페이지가 변경될 때 알려주는 리스너*/
         item_search_filter_viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(item_tabLayout));
 
-        //바깥을 터치했을 경우 다이얼로그가 사라짐 (작동 안함) 찾아보기....
-       getDialog().setCanceledOnTouchOutside(true);
+        Window window = getDialog().getWindow();
+        window.requestFeature(Window.FEATURE_NO_TITLE);
+        window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         return rootView;
     }
+
 
 
     /* 상단탭이 선택되었을 때, 탭의 위치를 받아와 탭의 하이라이트를 이동시켜줌 */

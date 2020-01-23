@@ -5,13 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".filter_category">
 <LinearLayout
-    android:layout_margin="8dp"
+    android:layout_gravity="center_vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_marginTop="64dp"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:orientation="vertical">

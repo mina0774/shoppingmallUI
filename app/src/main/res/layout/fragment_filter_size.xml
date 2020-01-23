@@ -229,5 +229,32 @@
         </RelativeLayout>
 
     </LinearLayout>
+        <LinearLayout
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            >
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="32dp"
+                android:background="@drawable/round_rectange_color"
+                android:layout_marginRight="4dp"
+                android:text="초기화"
+                android:textSize="12sp"
+                android:textColor="#ffffff"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="4dp"
+                android:layout_height="32dp"
+                android:background="@drawable/round_rectange_color"
+                android:text="450개 상품 보기"
+                android:textSize="12sp"
+                android:textColor="#ffffff"/>
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>

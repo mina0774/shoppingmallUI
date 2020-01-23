@@ -232,6 +232,7 @@
             >
 
             <Button
+                android:id="@+id/item_filter_return"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="32dp"

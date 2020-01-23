@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.innovattic.rangeseekbar.RangeSeekBar;
@@ -26,6 +28,12 @@ import com.innovattic.rangeseekbar.RangeSeekBar;
  * create an instance of this fragment.
  */
 public class filter_size extends Fragment {
+    private TextView text_view1;
+    private TextView text_view2;
+    private TextView text_view3;
+    private TextView text_view4;
+    private TextView text_view5;
+    private Button reset_button;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -73,7 +81,9 @@ public class filter_size extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_filter_size, container, false);
-        RangeSeekBar seekBar = (RangeSeekBar) rootView.findViewById(R.id.rangeSeekBar);
+
+        /* seekbar의 기본값 설정 작업 */
+        final RangeSeekBar seekBar = (RangeSeekBar) rootView.findViewById(R.id.rangeSeekBar);
         seekBar.setSidePadding(12);
         seekBar.setMinThumbValue(0);
         seekBar.setMaxThumbValue(100);
@@ -98,6 +108,106 @@ public class filter_size extends Fragment {
         seekBar5.setMinThumbValue(0);
         seekBar5.setMaxThumbValue(100);
         seekBar5.setTrackSelectedColor(Color.parseColor("#000000"));
+
+        /* seekbar의 범위가 변화할때 텍스트뷰에 값 설정 */
+        text_view1=rootView.findViewById(R.id.shoulder_length);
+        seekBar.setSeekBarChangeListener(new RangeSeekBar.SeekBarChangeListener() {
+            @Override
+            public void onStartedSeeking() {
+
+            }
+
+            @Override
+            public void onStoppedSeeking() {
+
+            }
+
+            @Override
+            public void onValueChanged(int i, int i1) {
+                text_view1.setText(i+"~"+i1+"cm");
+            }
+        });
+
+        text_view2=rootView.findViewById(R.id.chest_length);
+        seekBar2.setSeekBarChangeListener(new RangeSeekBar.SeekBarChangeListener() {
+            @Override
+            public void onStartedSeeking() {
+
+            }
+
+            @Override
+            public void onStoppedSeeking() {
+
+            }
+
+            @Override
+            public void onValueChanged(int i, int i1) {
+                text_view2.setText(i+"~"+i1+"cm");
+            }
+        });
+
+        text_view3=rootView.findViewById(R.id.waist_length);
+        seekBar3.setSeekBarChangeListener(new RangeSeekBar.SeekBarChangeListener() {
+            @Override
+            public void onStartedSeeking() {
+
+            }
+
+            @Override
+            public void onStoppedSeeking() {
+
+            }
+
+            @Override
+            public void onValueChanged(int i, int i1) {
+                text_view3.setText(i+"~"+i1+"cm");
+            }
+        });
+
+        text_view4=rootView.findViewById(R.id.hip_length);
+        seekBar4.setSeekBarChangeListener(new RangeSeekBar.SeekBarChangeListener() {
+            @Override
+            public void onStartedSeeking() {
+
+            }
+
+            @Override
+            public void onStoppedSeeking() {
+
+            }
+
+            @Override
+            public void onValueChanged(int i, int i1) {
+                text_view4.setText(i+"~"+i1+"cm");
+            }
+        });
+
+        text_view5=rootView.findViewById(R.id.thigh_length);
+        seekBar5.setSeekBarChangeListener(new RangeSeekBar.SeekBarChangeListener() {
+            @Override
+            public void onStartedSeeking() {
+
+            }
+
+            @Override
+            public void onStoppedSeeking() {
+
+            }
+
+            @Override
+            public void onValueChanged(int i, int i1) {
+                text_view5.setText(i+"~"+i1+"cm");
+            }
+        });
+
+        /* 초기화 버튼을 눌렀을 때*/
+        reset_button=rootView.findViewById(R.id.item_filter_return);
+        reset_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*원래대로 되돌리기 작업*/
+            }
+        });
         return rootView;
     }
 

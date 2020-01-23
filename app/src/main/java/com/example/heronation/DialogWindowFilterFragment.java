@@ -50,7 +50,6 @@ public class DialogWindowFilterFragment extends DialogFragment{
         if (dialog != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         }
     }
 
@@ -86,6 +85,7 @@ public class DialogWindowFilterFragment extends DialogFragment{
         Window window = getDialog().getWindow();
         window.requestFeature(Window.FEATURE_NO_TITLE);
         window.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
         return rootView;
     }
 

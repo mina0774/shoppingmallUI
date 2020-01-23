@@ -1,17 +1,20 @@
 package com.example.heronation;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.innovattic.rangeseekbar.RangeSeekBar;
 
 
 /**
@@ -70,7 +73,26 @@ public class filter_size extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView=inflater.inflate(R.layout.fragment_filter_size, container, false);
-
+        RangeSeekBar seekBar = (RangeSeekBar) rootView.findViewById(R.id.rangeSeekBar);
+        seekBar.setSidePadding(12);
+        seekBar.setMinThumbValue(0);
+        seekBar.setMaxThumbValue(100);
+        RangeSeekBar seekBar2 = (RangeSeekBar) rootView.findViewById(R.id.rangeSeekBar2);
+        seekBar2.setSidePadding(12);
+        seekBar2.setMinThumbValue(0);
+        seekBar2.setMaxThumbValue(100);
+        RangeSeekBar seekBar3 = (RangeSeekBar) rootView.findViewById(R.id.rangeSeekBar3);
+        seekBar3.setSidePadding(12);
+        seekBar3.setMinThumbValue(0);
+        seekBar3.setMaxThumbValue(100);
+        RangeSeekBar seekBar4 = (RangeSeekBar) rootView.findViewById(R.id.rangeSeekBar4);
+        seekBar4.setSidePadding(12);
+        seekBar4.setMinThumbValue(0);
+        seekBar4.setMaxThumbValue(100);
+        RangeSeekBar seekBar5 = (RangeSeekBar) rootView.findViewById(R.id.rangeSeekBar5);
+        seekBar5.setSidePadding(12);
+        seekBar5.setMinThumbValue(0);
+        seekBar5.setMaxThumbValue(100);
         return rootView;
     }
 

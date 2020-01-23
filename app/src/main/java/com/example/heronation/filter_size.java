@@ -77,22 +77,27 @@ public class filter_size extends Fragment {
         seekBar.setSidePadding(12);
         seekBar.setMinThumbValue(0);
         seekBar.setMaxThumbValue(100);
+        seekBar.setTrackSelectedColor(Color.parseColor("#000000"));
         RangeSeekBar seekBar2 = (RangeSeekBar) rootView.findViewById(R.id.rangeSeekBar2);
         seekBar2.setSidePadding(12);
         seekBar2.setMinThumbValue(0);
         seekBar2.setMaxThumbValue(100);
+        seekBar2.setTrackSelectedColor(Color.parseColor("#000000"));
         RangeSeekBar seekBar3 = (RangeSeekBar) rootView.findViewById(R.id.rangeSeekBar3);
         seekBar3.setSidePadding(12);
         seekBar3.setMinThumbValue(0);
         seekBar3.setMaxThumbValue(100);
+        seekBar3.setTrackSelectedColor(Color.parseColor("#000000"));
         RangeSeekBar seekBar4 = (RangeSeekBar) rootView.findViewById(R.id.rangeSeekBar4);
         seekBar4.setSidePadding(12);
         seekBar4.setMinThumbValue(0);
         seekBar4.setMaxThumbValue(100);
+        seekBar4.setTrackSelectedColor(Color.parseColor("#000000"));
         RangeSeekBar seekBar5 = (RangeSeekBar) rootView.findViewById(R.id.rangeSeekBar5);
         seekBar5.setSidePadding(12);
         seekBar5.setMinThumbValue(0);
         seekBar5.setMaxThumbValue(100);
+        seekBar5.setTrackSelectedColor(Color.parseColor("#000000"));
         return rootView;
     }
 

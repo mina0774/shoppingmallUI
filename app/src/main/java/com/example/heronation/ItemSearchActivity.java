@@ -25,6 +25,7 @@ public class ItemSearchActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_search);
+
     }
 
     public void click_back_button(View view){
@@ -34,6 +35,7 @@ public class ItemSearchActivity extends AppCompatActivity
     public void item_search_filter_button(View view){
         /* 필터 PopUp창 띄우기 */
         dialogWindowFilterFragment=new DialogWindowFilterFragment();
+
         dialogWindowFilterFragment.show(getSupportFragmentManager(), "");
     }
 

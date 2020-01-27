@@ -6,10 +6,10 @@
     tools:context=".DialogWindowFilterFragment">
 
         <LinearLayout
+            android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_gravity="bottom"
             android:background="@drawable/round_rectangle">
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/item_tab_layout"

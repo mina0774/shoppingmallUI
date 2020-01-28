@@ -43,6 +43,7 @@
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="500dp"
+                android:layout_marginTop="10dp"
                 android:stretchColumns="0,1">
 
                 <TableRow
@@ -50,12 +51,22 @@
                     android:layout_marginBottom="-5dp"
                     android:layout_weight="1">
 
-                    <Button
+                    <ImageButton
+                        android:id="@+id/register_style_1"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_background"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/style_1"
                         android:text="" />
 
-                    <Button
+                    <ImageButton
+                        android:id="@+id/register_style_2"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_background"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/style_4"
                         android:text="" />
                 </TableRow>
 
@@ -63,9 +74,23 @@
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
-                    <Button android:layout_height="match_parent" />
+                    <ImageButton
+                        android:id="@+id/register_style_3"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_background"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/style_3"
+                        android:text="" />
 
-                    <Button android:layout_height="match_parent" />
+                    <ImageButton
+                        android:id="@+id/register_style_4"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_background"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/style_2"
+                        android:text="" />
                 </TableRow>
             </TableLayout>
 

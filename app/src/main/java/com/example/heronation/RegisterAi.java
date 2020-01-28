@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 public class RegisterAi extends AppCompatActivity {
+    /*스타일 버튼 클릭 상태를 체크하기 위한 변수*/
     boolean casual_state = false;
     boolean street_state = false;
     boolean vintage_state = false;
@@ -26,6 +27,7 @@ public class RegisterAi extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_ai);
 
+        /*스타일 버튼들*/
         final Button casual_btn = (Button) findViewById(R.id.btn_casual);
         final Button street_btn = (Button) findViewById(R.id.btn_street);
         final Button vintage_btn = (Button) findViewById(R.id.btn_vintage);
@@ -38,6 +40,8 @@ public class RegisterAi extends AppCompatActivity {
         final Button classic_btn = (Button) findViewById(R.id.btn_classic);
         final Button sporty_btn = (Button) findViewById(R.id.btn_sporty);
         final Button layered_btn = (Button) findViewById(R.id.btn_layered);
+
+        /*아래부턴 각 스타일들의 클릭시 디자인변화 이벤트*/
 
         casual_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -184,8 +188,10 @@ public class RegisterAi extends AppCompatActivity {
                 }
             }
         });
+
     }
 
+    /*이전버튼과 완료버튼 이동*/
     public void click_registerai_previous(View view) {
         Intent intent = new Intent(this, RegisterBodyActivity.class);
         startActivity(intent);

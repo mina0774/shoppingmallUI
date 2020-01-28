@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterAi"></activity>
+        <activity android:name=".RegisterAi" />
         <activity android:name=".WishlistClosetDeleteActivity" />
         <activity android:name=".IntroActivity">
             <intent-filter>

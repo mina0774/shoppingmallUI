@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
-    <!-- 차례대로
-                 1. 아이디 - Textview
-                 2. 비밀번호, 비밀번호 확인 - EditText
-                 3. 이메일, 이름 - TextView
-                 4. 동의 - 체크버튼
-                 5. 생년월일 - TextView
-                 6. 다음 - 버튼 -->
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -27,12 +19,12 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="15dp"
                 android:text="아이디"
                 android:textSize="15sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/userModify_id_text"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -101,7 +93,7 @@
                 android:text="이메일"
                 android:textSize="15sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/userModify_email_text"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -124,7 +116,7 @@
                 android:text="이름"
                 android:textSize="15sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/userModify_name_text"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -148,7 +140,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/textView_date"
+                android:id="@+id/textView_register_datepicker"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
@@ -162,9 +154,8 @@
                 android:paddingTop="5dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="5dp"
-                android:text="1999/10/11"
+                android:text="선택해주세요"
                 android:textSize="20sp" />
-
 
             <CheckBox
                 android:id="@+id/userModify_ad_check"

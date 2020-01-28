@@ -54,7 +54,7 @@ public class RegisterAi extends AppCompatActivity {
         street_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (street_state== false) {
+                if (street_state == false) {
                     street_state = true;
                     street_btn.setBackgroundResource(R.drawable.btn_background_black);
                 } else {
@@ -67,7 +67,7 @@ public class RegisterAi extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (vintage_state == false) {
-                     vintage_state = true;
+                    vintage_state = true;
                     vintage_btn.setBackgroundResource(R.drawable.btn_background_black);
                 } else {
                     vintage_btn.setBackgroundResource(R.drawable.btn_background);
@@ -85,6 +85,102 @@ public class RegisterAi extends AppCompatActivity {
                 } else {
                     sexy_btn.setBackgroundResource(R.drawable.btn_background);
                     sexy_state = false;
+                }
+            }
+        });
+        modern_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (modern_state == false) {
+                    modern_state = true;
+                    modern_btn.setBackgroundResource(R.drawable.btn_background_black);
+                } else {
+                    modern_btn.setBackgroundResource(R.drawable.btn_background);
+                    modern_state = false;
+                }
+            }
+        });
+        feminine_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (feminine_state == false) {
+                    feminine_state = true;
+                    feminine_btn.setBackgroundResource(R.drawable.btn_background_black);
+                } else {
+                    feminine_btn.setBackgroundResource(R.drawable.btn_background);
+                    feminine_state = false;
+                }
+            }
+        });
+        dandy_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dandy_state == false) {
+                    dandy_state = true;
+                    dandy_btn.setBackgroundResource(R.drawable.btn_background_black);
+                } else {
+                    dandy_btn.setBackgroundResource(R.drawable.btn_background);
+                    dandy_state = false;
+                }
+            }
+        });
+        lovely_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lovely_state == false) {
+                    lovely_state = true;
+                    lovely_btn.setBackgroundResource(R.drawable.btn_background_black);
+                } else {
+                    lovely_btn.setBackgroundResource(R.drawable.btn_background);
+                    lovely_state = false;
+                }
+            }
+        });
+        unique_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (unique_state == false) {
+                    unique_state = true;
+                    unique_btn.setBackgroundResource(R.drawable.btn_background_black);
+                } else {
+                    unique_btn.setBackgroundResource(R.drawable.btn_background);
+                    unique_state = false;
+                }
+            }
+        });
+        classic_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (classic_state == false) {
+                    classic_state = true;
+                    classic_btn.setBackgroundResource(R.drawable.btn_background_black);
+                } else {
+                    classic_btn.setBackgroundResource(R.drawable.btn_background);
+                    classic_state = false;
+                }
+            }
+        });
+        sporty_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (sporty_state == false) {
+                    sporty_state = true;
+                    sporty_btn.setBackgroundResource(R.drawable.btn_background_black);
+                } else {
+                    sporty_btn.setBackgroundResource(R.drawable.btn_background);
+                    sporty_state = false;
+                }
+            }
+        });
+        layered_btn.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (layered_state == false) {
+                    layered_state = true;
+                    layered_btn.setBackgroundResource(R.drawable.btn_background_black);
+                } else {
+                    layered_btn.setBackgroundResource(R.drawable.btn_background);
+                    layered_state = false;
                 }
             }
         });

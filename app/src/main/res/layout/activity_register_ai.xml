@@ -95,18 +95,21 @@
                             android:id="@+id/btn_casual"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="casual" />
 
                         <Button
                             android:id="@+id/btn_street"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="street" />
 
                         <Button
                             android:id="@+id/btn_vintage"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="vintage" />
                     </TableRow>
 
@@ -116,18 +119,21 @@
                             android:id="@+id/btn_sexy"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="sexy" />
 
                         <Button
                             android:id="@+id/btn_modern"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="modern" />
 
                         <Button
                             android:id="@+id/btn_feminine"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="feminine" />
                     </TableRow>
 
@@ -137,18 +143,21 @@
                             android:id="@+id/btn_dandy"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="dandy" />
 
                         <Button
                             android:id="@+id/btn_lovely"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="lovely" />
 
                         <Button
                             android:id="@+id/btn_unique"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="Unique" />
                     </TableRow>
 
@@ -158,18 +167,21 @@
                             android:id="@+id/btn_classic"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="classic" />
 
                         <Button
                             android:id="@+id/btn_sporty"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="sporty" />
 
                         <Button
                             android:id="@+id/btn_layered"
                             android:layout_height="match_parent"
                             android:layout_margin="5dp"
+                            android:background="@drawable/btn_background"
                             android:text="layered" />
                     </TableRow>
                 </TableLayout>

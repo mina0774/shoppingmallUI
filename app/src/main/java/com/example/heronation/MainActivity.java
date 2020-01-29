@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity
     */
     private FragmentManager fragmentManager=getSupportFragmentManager(); //Fragment 가져오기
     private MeasurementFragment measurementFragment=new MeasurementFragment();
-    private MypageConnectingFragment mypageFragment=new MypageConnectingFragment();
+    private MypageConnectingFragment mypageConnectingFragment=new MypageConnectingFragment();
+    private MypageFragment mypageNoConnectingFragment = new MypageFragment();
     private ItemFragment itemFragment=new ItemFragment();
     private ShopFragment shopFragment=new ShopFragment();
     private WishlistFragment wishlistFragment=new WishlistFragment();
@@ -181,7 +182,10 @@ public class MainActivity extends AppCompatActivity
                     transaction.replace(R.id.fragment_container, wishlistFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_mypage:
-                    transaction.replace(R.id.fragment_container,mypageFragment).commit();
+                    if (loginState == true)
+                        transaction.replace(R.id.fragment_container,mypageConnectingFragment).commit();
+                    else
+                        transaction.replace(R.id.fragment_container,mypageNoConnectingFragment).commit();
                     return true;
             }
             return false;

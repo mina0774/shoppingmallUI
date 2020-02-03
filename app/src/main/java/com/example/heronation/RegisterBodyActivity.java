@@ -9,6 +9,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class RegisterBodyActivity extends AppCompatActivity {
+    /*키, 무게, 나이 변수*/
     public int number_height = 0;
     public int number_weight = 0;
     public int number_age = 0;
@@ -17,6 +18,7 @@ public class RegisterBodyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_body);
+        /*SeekBar - height 값 바꾸는건 xml 파일에서 바꿀 수 있어용 */
         final TextView height = (TextView) findViewById(R.id.height_text);
         SeekBar seekBar_height = (SeekBar) findViewById(R.id.seekBar_height);
         seekBar_height.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -35,6 +37,7 @@ public class RegisterBodyActivity extends AppCompatActivity {
                 number_height = seekBar_height.getProgress();
             }
         });
+        /*SeekBar - weight 값 바꾸는건 xml 파일에서 바꿀 수 있어용 */
         final TextView weight = (TextView) findViewById(R.id.weight_text);
         SeekBar seekBar_weight = (SeekBar) findViewById(R.id.seekBar_weight);
         seekBar_weight.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -53,6 +56,7 @@ public class RegisterBodyActivity extends AppCompatActivity {
                 number_weight = seekBar_weight.getProgress();
             }
         });
+        /*SeekBar - age 값 바꾸는건 xml 파일에서 바꿀 수 있어용 */
         final TextView age = (TextView) findViewById(R.id.age_text);
         SeekBar seekBar_age = (SeekBar) findViewById(R.id.seekBar_age);
         seekBar_age.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -73,11 +77,12 @@ public class RegisterBodyActivity extends AppCompatActivity {
         });
     }
 
+/*이전 버튼 클릭시 이동*/
     public void click_registerbody_previous(View view) {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
-
+/*다음 버튼 클릭시 이동*/
     public void click_registerbody_next(View view) {
         Intent intent = new Intent(this, RegisterAi.class);
         startActivity(intent);

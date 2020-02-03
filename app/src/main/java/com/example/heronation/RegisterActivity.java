@@ -54,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity{
                     + "-" + String.valueOf(dayOfMonth));
         }
     };
+    /*다음 이동 버튼*/
     public void register_next_btn(View view){
         Intent intent = new Intent(this, RegisterBodyActivity.class);
         startActivity(intent);

@@ -34,25 +34,6 @@
                 android:src="@drawable/ic_favorite_folder"
                 />
 
-            <!--
-            <ImageButton
-                android:id="@+id/favorite_trash"
-                android:layout_centerVertical="true"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:scaleType="centerInside"
-                android:layout_alignParentRight="true"
-                android:background="#f3f3f3"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_favorite_trash"
-               />
-               즐겨찾기 버튼 눌러서 취소하면 되는데
-               없어도 되지 않을까요?
-               -->
-
-
-
 
         </RelativeLayout>
 

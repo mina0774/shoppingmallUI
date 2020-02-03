@@ -2,8 +2,12 @@ package com.example.heronation;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -69,9 +73,8 @@ public class RegisterActivity extends AppCompatActivity{
             }
         });
 
-        /* 다음 버튼 클릭시, 회원가입 정보가 서버단으로 넘어가고, 스타일 설정 페이지로 넘어감 */
+        /* 회원가입 버튼 클릭시, 회원가입 정보가 서버단으로 넘어가고, 스타일 설정 페이지로 넘어감 */
         register_next_button.setOnClickListener(new View.OnClickListener() {
-
 
             @Override
             public void onClick(View view) {
@@ -115,7 +118,11 @@ public class RegisterActivity extends AppCompatActivity{
 
                     @Override
                     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        System.out.println(response.code()); //200-204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐 -- 분기 처리
+                        System.out.println("Response"+response.code()); //204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐
+                        //204의 값이 나오지 않으면, 회원가입이 정상적으로 이루어지지 않음
+                        if(response.code()!=204){
+                            backgroundThreadShortToast(getApplicationContext(),response.body().string());
+                        }
                     }
                 });
 
@@ -124,6 +131,20 @@ public class RegisterActivity extends AppCompatActivity{
             }
         });
     }
+
+    //Toast는 비동기 태스크 내에서 처리할 수 없으므로, 메인 쓰레드 핸들러를 생성하여 toast가 메인쓰레드에서 생성될 수 있도록 처리해준다.
+    public static void backgroundThreadShortToast(final Context context,
+                                                  final String msg) {
+        if (context != null && msg != null) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
     /*각 생년 월일 입력받음*/
     private void showDatePicker() {
         DatePickerFragment date = new DatePickerFragment();

@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="LOGIN"
-                android:textSize="30sp"
+                android:textSize="26sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -32,7 +32,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/btn_background"
                 android:hint="Id"
-                android:padding="15dp" />
+                android:padding="8dp" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/btn_background"
                 android:hint="password"
-                android:padding="15dp" />
+                android:padding="8dp" />
 
             <Button
                 android:layout_width="match_parent"

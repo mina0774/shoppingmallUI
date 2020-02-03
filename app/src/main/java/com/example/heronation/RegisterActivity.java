@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -30,8 +31,12 @@ public class RegisterActivity extends AppCompatActivity{
     private EditText userModify_email_text;
     private EditText userModify_name_text;
     private CheckBox userModify_push_check;
+    private CheckBox userModify_male;
+    private CheckBox userModify_female;
     //사용자 푸시 알림 체킹 여부
     private String push_check;
+    //성별
+    private String gender_info;
     //사용자 생년월일
     private String user_year;
     private String user_month;
@@ -51,15 +56,9 @@ public class RegisterActivity extends AppCompatActivity{
         userModify_email_text=(EditText)findViewById(R.id.userModify_email_text);
         userModify_name_text=(EditText)findViewById(R.id.userModify_name_text);
         register_next_button=(Button)findViewById(R.id.register_next_btn);
-
-        //체크박스가 체크 되어있으면, 푸시알림을 Y로 설정 아니면 N으로 설정, API 처리를 위해 이러한 형태로 바꿔줌
+        userModify_male=(CheckBox)findViewById(R.id.userModify_male);
+        userModify_female=(CheckBox)findViewById(R.id.userModify_female);
         userModify_push_check=(CheckBox) findViewById(R.id.userModify_push_check);
-        if(userModify_push_check.isChecked()){
-            push_check="Y";
-        }
-        else{
-            push_check="N";
-        }
 
         /*생년월일 TextView클릭시 showDatePicker가 실행됨*/
         TextView register_datepicker = (TextView)findViewById(R.id.textView_register_datepicker);
@@ -72,39 +71,55 @@ public class RegisterActivity extends AppCompatActivity{
 
         /* 다음 버튼 클릭시, 회원가입 정보가 서버단으로 넘어가고, 스타일 설정 페이지로 넘어감 */
         register_next_button.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View view) {
-                    // API 연동
-                    OkHttpClient client=new OkHttpClient().newBuilder().build();
-                    MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-                    //성별 설정칸 만들기
-                    RequestBody body = RequestBody.create("consumerId="+userModify_id_text.getText().toString()+
-                            "&email="+userModify_email_text.getText().toString()+"&name="+userModify_name_text.getText().toString()+
-                            "&password="+userModify_check_pw_et.getText().toString()+
-                            "&gender=M"+"&termsAdvertisement="+push_check+
-                            "&birthYear="+user_year+"&birthMonth="+user_month+"&birthDay="+user_day,mediaType);
-                    Request request = new Request.Builder()
-                            .url("http://rest.dev.zeyo.co.kr/api/consumers/registry")
-                            .method("POST", body)
-                            .addHeader("Authorization", "zeyo-api-key QVntgqTsu6jqt7hQSVpF7ZS8Tw==")
-                            .addHeader("Accept", "application/json")
-                            .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                            .build();
+                //체크박스가 체크 되어있으면, 푸시알림을 Y로 설정 아니면 N으로 설정, API 처리를 위해 이러한 형태로 바꿔줌
+                if (userModify_push_check.isChecked()) {
+                    push_check = "Y";
+                } else {
+                    push_check = "N";
+                }
 
-                    //네트워크 비동기처리 (enqueue 사용)
-                    client.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                            System.out.println("error + Connect Server Error is " + e.toString());
-                        }
+                //성별 여자이면 F, 남자이면 M, API 처리를 위해 이러한 형태로 바꿔줌
+                if (userModify_male.isChecked()) {
+                    gender_info = "M";
+                } else if (userModify_female.isChecked()) {
+                    gender_info = "F";
+                }
 
-                        @Override
-                        public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                            System.out.println("Response Body is " + response.body().string());
-                        }
-                    });
+                OkHttpClient client = new OkHttpClient().newBuilder().build();
+                MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+                RequestBody body = RequestBody.create("consumerId=" + userModify_id_text.getText().toString() +
+                        "&email=" + userModify_email_text.getText().toString() +
+                        "&name=" + userModify_name_text.getText().toString() +
+                        "&password=" + userModify_check_pw_et.getText().toString() +
+                        "&gender=" + gender_info +
+                        "&termsAdvertisement=" + push_check +
+                        "&birthYear=" + user_year + "&birthMonth=" + user_month + "&birthDay=" + user_day, mediaType);
+                Request request = new Request.Builder()
+                        .url("http://rest.dev.zeyo.co.kr/api/consumers/registry")
+                        .method("POST", body)
+                        .addHeader("Authorization", "zeyo-api-key QVntgqTsu6jqt7hQSVpF7ZS8Tw==")
+                        .addHeader("Accept", "application/json")
+                        .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                        .build();
 
-                Intent intent = new Intent(getApplicationContext(), RegisterBodyActivity.class);
+                //네트워크 비동기처리 (enqueue 사용)
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                        System.out.println("error + Connect Server Error is " + e.toString());
+                    }
+
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        System.out.println(response.code()); //200-204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐 -- 분기 처리
+                    }
+                });
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
@@ -141,32 +156,5 @@ public class RegisterActivity extends AppCompatActivity{
                     + "-" + user_day);
         }
     };
-    /*
-    public void register_next_btn(View view){
-        try {
-            // API 연동
-            OkHttpClient client=new OkHttpClient().newBuilder().build();
-            MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-            //성별 설정칸 만들기
-            RequestBody body = RequestBody.create(mediaType, "consumerId="+userModify_id_text.getText().toString()+
-                    "&email="+userModify_email_text.getText().toString()+"&password="+userModify_check_pw_et.getText().toString()+
-                    "&gender=M"+"&termsAdvertisement="+push_check+
-                    "&birthYear="+user_year+"&birthMonth="+user_month+"&birthDay="+user_day);
-            Request request = new Request.Builder()
-                    .url("http://rest.dev.zeyo.co.kr/api/consumers/registry")
-                    .method("POST", body)
-                    .addHeader("Authorization", "zeyo-api-key QVntgqTsu6jqt7hQSVpF7ZS8Tw==")
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                    .build();
-            Response response = client.newCall(request).execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Intent intent = new Intent(this, RegisterBodyActivity.class);
-        startActivity(intent);
-    }
-    */
 
 }

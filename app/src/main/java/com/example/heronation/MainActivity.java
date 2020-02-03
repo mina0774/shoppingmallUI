@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawerLayout;
     private View drawerView;
     /* 로그인 상태 boolean값 */
-    public boolean loginState = true;
+    public boolean loginState = false;
 
     /* Shop Ranking에 필터 버튼 눌렀을 때, seekBar 설정에 필요한 변수들 */
     int number=0;

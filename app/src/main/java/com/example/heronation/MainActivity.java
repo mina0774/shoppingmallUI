@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity
          * bottomItemSelectedListener 클래스를, bottomNavigatioView 객체에 할당
          */
         bottomNavigationView=findViewById(R.id.bottomnavigation_menu_bar);
-        BottomNavigationHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomItemSelectedListener());
 
        /* 첫 화면이 ItemFragment이므로, Transaction을 getSupportFragmentManager().beginTransaction()을 통해 가져온 후,

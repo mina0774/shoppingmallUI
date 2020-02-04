@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -46,9 +47,11 @@ public class RegisterActivity extends AppCompatActivity{
     private String user_month;
     private String user_day;
 
-    //'다음' 표시 버튼
+    //'회원가입' 표시 버튼
     private Button register_next_button;
 
+    //HttpConnection class의 객체를 받음
+    private HttpConnection httpConnection=HttpConnection.getInstance();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,90 +95,92 @@ public class RegisterActivity extends AppCompatActivity{
                     gender_info = "F";
                 }
 
-                OkHttpClient client = new OkHttpClient().newBuilder().build();
-                MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-                RequestBody body = RequestBody.create("consumerId=" + userModify_id_text.getText().toString() +
-                        "&email=" + userModify_email_text.getText().toString() +
-                        "&name=" + userModify_name_text.getText().toString() +
-                        "&password=" + userModify_check_pw_et.getText().toString() +
-                        "&gender=" + gender_info +
-                        "&termsAdvertisement=" + push_check +
-                        "&birthYear=" + user_year + "&birthMonth=" + user_month + "&birthDay=" + user_day, mediaType);
-                Request request = new Request.Builder()
-                        .url("http://rest.dev.zeyo.co.kr/api/consumers/registry")
-                        .method("POST", body)
-                        .addHeader("Authorization", "zeyo-api-key QVntgqTsu6jqt7hQSVpF7ZS8Tw==")
-                        .addHeader("Accept", "application/json")
-                        .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                        .build();
+                new Thread() {
 
-                //네트워크 비동기처리 (enqueue 사용)
-                client.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                        System.out.println("error + Connect Server Error is " + e.toString());
+                    public void run() {
+
+                        String parameter = "consumerId=" + userModify_id_text.getText().toString() +
+                                "&email=" + userModify_email_text.getText().toString() +
+                                "&name=" + userModify_name_text.getText().toString() +
+                                "&password=" + userModify_check_pw_et.getText().toString() +
+                                "&gender=" + gender_info +
+                                "&termsAdvertisement=" + push_check +
+                                "&birthYear=" + user_year + "&birthMonth=" + user_month + "&birthDay=" + user_day;
+                        String url = "http://rest.dev.zeyo.co.kr/api/consumers/registry";
+                        
+                        httpConnection.requestWebServer(getApplicationContext(), parameter, url, callback);
                     }
 
-                    @Override
-                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                        System.out.println("Response"+response.code()); //204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐
-                        //204의 값이 나오지 않으면, 회원가입이 정상적으로 이루어지지 않음
-                        if(response.code()!=204){
-                            backgroundThreadShortToast(getApplicationContext(),response.body().string());
-                        }
-                    }
-                });
-
+                    ;
+                }.start();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
             }
         });
     }
 
+    private final Callback callback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            System.out.println("error + Connect Server Error is " + e.toString());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            System.out.println("Response" + response.code()); //204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐
+            //204의 값이 나오지 않으면, 회원가입이 정상적으로 이루어지지 않음
+            if (response.code() != 204) {
+                backgroundThreadShortToast(getApplicationContext(), response.body().string());
+            }
+        }
+    };
+
     //Toast는 비동기 태스크 내에서 처리할 수 없으므로, 메인 쓰레드 핸들러를 생성하여 toast가 메인쓰레드에서 생성될 수 있도록 처리해준다.
-    public static void backgroundThreadShortToast(final Context context,
-                                                  final String msg) {
+    public static void backgroundThreadShortToast(final Context context, final String msg) {
         if (context != null && msg != null) {
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
-    /*각 생년 월일 입력받음*/
-    private void showDatePicker() {
-        DatePickerFragment date = new DatePickerFragment();
-        /**
-         * Set Up Current Date Into dialog
-         */
-        Calendar calender = Calendar.getInstance();
-        Bundle args = new Bundle();
-        args.putInt("year", calender.get(Calendar.YEAR));
-        args.putInt("month", calender.get(Calendar.MONTH));
-        args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
-        date.setArguments(args);
-        /**
-         * Set Call back to capture selected date
-         */
-        date.setCallBack(ondate);
-        date.show(getSupportFragmentManager(), "Date Picker");
-    }
-    /*입력 받은것 출력*/
-    DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
 
-        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                              int dayOfMonth) {
-
-            TextView textView_register_datepicker = (TextView) findViewById(R.id.textView_register_datepicker);
-            user_year=String.valueOf(year);
-            user_month=String.valueOf(monthOfYear+1);
-            user_day= String.valueOf(dayOfMonth);
-            textView_register_datepicker.setText(user_year + "-" + user_month
-                    + "-" + user_day);
+        /*각 생년 월일 입력받음*/
+        private void showDatePicker() {
+            DatePickerFragment date = new DatePickerFragment();
+            /**
+             * Set Up Current Date Into dialog
+             */
+            Calendar calender = Calendar.getInstance();
+            Bundle args = new Bundle();
+            args.putInt("year", calender.get(Calendar.YEAR));
+            args.putInt("month", calender.get(Calendar.MONTH));
+            args.putInt("day", calender.get(Calendar.DAY_OF_MONTH));
+            date.setArguments(args);
+            /**
+             * Set Call back to capture selected date
+             */
+            date.setCallBack(ondate);
+            date.show(getSupportFragmentManager(), "Date Picker");
         }
-    };
+
+        /*입력 받은것 출력*/
+        DatePickerDialog.OnDateSetListener ondate = new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+
+                TextView textView_register_datepicker = (TextView) findViewById(R.id.textView_register_datepicker);
+                user_year = String.valueOf(year);
+                user_month = String.valueOf(monthOfYear + 1);
+                user_day = String.valueOf(dayOfMonth);
+                textView_register_datepicker.setText(user_year + "-" + user_month
+                        + "-" + user_day);
+            }
+        };
+
 
 }

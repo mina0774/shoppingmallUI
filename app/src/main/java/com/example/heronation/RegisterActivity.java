@@ -35,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity{
     private EditText userModify_check_pw_et;
     private EditText userModify_email_text;
     private EditText userModify_name_text;
+    private EditText userModify_edit_pw_et;
     private CheckBox userModify_push_check;
     private CheckBox userModify_male;
     private CheckBox userModify_female;
@@ -53,6 +54,8 @@ public class RegisterActivity extends AppCompatActivity{
     //HttpConnection class의 객체를 받음
     private HttpConnection httpConnection=HttpConnection.getInstance();
 
+    //회원가입이 정상적으로 이루어졌는지 확인하는 부분
+    private int response_code;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity{
 
         userModify_id_text=(EditText)findViewById(R.id.userModify_id_text);
         userModify_check_pw_et=(EditText)findViewById(R.id.userModify_check_pw_et);
+        userModify_edit_pw_et=(EditText)findViewById(R.id.userModify_edit_pw_et);
         userModify_email_text=(EditText)findViewById(R.id.userModify_email_text);
         userModify_name_text=(EditText)findViewById(R.id.userModify_name_text);
         register_next_button=(Button)findViewById(R.id.register_next_btn);
@@ -95,10 +99,11 @@ public class RegisterActivity extends AppCompatActivity{
                     gender_info = "F";
                 }
 
+                //네트워크 처리는 모두 백그라운드 쓰레드에서 처리함
                 new Thread() {
 
                     public void run() {
-
+                        /* body 부분의 값 */
                         String parameter = "consumerId=" + userModify_id_text.getText().toString() +
                                 "&email=" + userModify_email_text.getText().toString() +
                                 "&name=" + userModify_name_text.getText().toString() +
@@ -106,17 +111,21 @@ public class RegisterActivity extends AppCompatActivity{
                                 "&gender=" + gender_info +
                                 "&termsAdvertisement=" + push_check +
                                 "&birthYear=" + user_year + "&birthMonth=" + user_month + "&birthDay=" + user_day;
+                        /* 웹서버 URL */
                         String url = "http://rest.dev.zeyo.co.kr/api/consumers/registry";
-                        
-                        httpConnection.requestWebServer(getApplicationContext(), parameter, url, callback);
-                    }
 
-                    ;
+                        httpConnection.requestWebServer(parameter, url, callback);
+                    }
                 }.start();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
+
+
             }
         });
+    }
+
+    //회원정보가 바르게 입력되었는지 분기처리를 하자
+    private void User_info_check(){
+
     }
 
     private final Callback callback = new Callback() {
@@ -128,10 +137,17 @@ public class RegisterActivity extends AppCompatActivity{
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             System.out.println("Response" + response.code()); //204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐
+            response_code=response.code();
             //204의 값이 나오지 않으면, 회원가입이 정상적으로 이루어지지 않음
             if (response.code() != 204) {
                 backgroundThreadShortToast(getApplicationContext(), response.body().string());
+                return;
             }
+
+            Intent intent = new Intent(getApplicationContext(), loginPageActivity.class);
+            intent.putExtra("user_id",userModify_id_text.getText().toString());
+            startActivity(intent);
+            finish();
         }
     };
 

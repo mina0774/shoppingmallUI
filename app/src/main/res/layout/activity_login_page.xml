@@ -27,6 +27,7 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:id="@+id/login_id_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -35,6 +36,7 @@
                 android:padding="8dp" />
 
             <EditText
+                android:id="@+id/login_password_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -43,6 +45,7 @@
                 android:padding="8dp" />
 
             <Button
+                android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

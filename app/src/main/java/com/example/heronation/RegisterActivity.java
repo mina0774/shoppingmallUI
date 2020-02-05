@@ -47,9 +47,6 @@ public class RegisterActivity extends AppCompatActivity {
     //'회원가입' 표시 버튼
     private Button register_next_button;
 
-    //HttpConnection class의 객체를 받음
-    private HttpConnection httpConnection = HttpConnection.getInstance();
-
     //회원가입이 정상적으로 이루어졌는지 확인하는 부분
     private int response_code;
 

@@ -74,6 +74,7 @@ public class  loginPageActivity extends AppCompatActivity {
                 }
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("access_token",userLoginInfo.access_token);
                 startActivity(intent);
                 finish();
             }

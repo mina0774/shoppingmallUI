@@ -6,14 +6,15 @@ public class UserLoginInfo {
     String refresh_token;
     String member_id;
     String member_name;
+    Integer expires_in;
 
-
-    public UserLoginInfo(String access_token, String token_type, String refresh_token, String member_id, String member_name) {
+    public UserLoginInfo(String access_token, String token_type, String refresh_token, String member_id, String member_name, Integer expires_in) {
         this.access_token = access_token;
         this.token_type = token_type;
         this.refresh_token = refresh_token;
         this.member_id = member_id;
         this.member_name = member_name;
+        this.expires_in = expires_in;
     }
 
     public String getAccess_token() {
@@ -55,4 +56,15 @@ public class UserLoginInfo {
     public void setMember_name(String member_name) {
         this.member_name = member_name;
     }
+
+
+    public Integer getExpires_in() {
+        return expires_in;
+    }
+
+    public void setExpires_in(Integer expires_in) {
+        this.expires_in = expires_in;
+    }
+
+
 }

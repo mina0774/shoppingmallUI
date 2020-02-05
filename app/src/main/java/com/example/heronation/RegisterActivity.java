@@ -1,5 +1,6 @@
 package com.example.heronation;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -8,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,6 +21,8 @@ import android.widget.Toast;
 import retrofit2.Call;
 
 import java.util.Calendar;
+import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,10 +36,12 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText userModify_check_pw_et;
     private EditText userModify_email_text;
     private EditText userModify_name_text;
-    private EditText userModify_edit_pw_et;
+    private EditText userModify_present_pw_et;
     private CheckBox userModify_push_check;
     private CheckBox userModify_male;
     private CheckBox userModify_female;
+    private CheckBox userModify_info_check;
+    private TextView register_datepicker;
     //사용자 푸시 알림 체킹 여부
     private String push_check;
     //성별
@@ -50,6 +57,12 @@ public class RegisterActivity extends AppCompatActivity {
     //회원가입이 정상적으로 이루어졌는지 확인하는 부분
     private int response_code;
 
+    // 비밀번호 정규식
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,15}$");
+
+    // 아이디 정규식
+    private static final Pattern ID_PATTERN = Pattern.compile("^[a-zA-Z0-9]{4,15}$");
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,16 +70,17 @@ public class RegisterActivity extends AppCompatActivity {
 
         userModify_id_text = (EditText) findViewById(R.id.userModify_id_text);
         userModify_check_pw_et = (EditText) findViewById(R.id.userModify_check_pw_et);
-        userModify_edit_pw_et = (EditText) findViewById(R.id.userModify_edit_pw_et);
+        userModify_present_pw_et = (EditText) findViewById(R.id.userModify_present_pw_et);
         userModify_email_text = (EditText) findViewById(R.id.userModify_email_text);
         userModify_name_text = (EditText) findViewById(R.id.userModify_name_text);
         register_next_button = (Button) findViewById(R.id.register_next_btn);
         userModify_male = (CheckBox) findViewById(R.id.userModify_male);
         userModify_female = (CheckBox) findViewById(R.id.userModify_female);
         userModify_push_check = (CheckBox) findViewById(R.id.userModify_push_check);
+        userModify_info_check=(CheckBox)findViewById(R.id.userModify_info_check);
 
         /*생년월일 TextView클릭시 showDatePicker가 실행됨*/
-        TextView register_datepicker = (TextView) findViewById(R.id.textView_register_datepicker);
+       register_datepicker = (TextView) findViewById(R.id.textView_register_datepicker);
         register_datepicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,10 +107,108 @@ public class RegisterActivity extends AppCompatActivity {
                     gender_info = "F";
                 }
 
-                //Retrofit을 이용하여 회원가입을 위한 사용자 정보를 서버로 넘겨주는 작업을 진행함
-                RegisterUserInfo();
+                Boolean email=isValidEmail();
+                Log.d("이메일",email.toString());
+
+                //입력 조건에 맞지 않을 시 종료시킴
+                if(isGender()&&isID()&&isValidPasswd()&&isValidEmail()&&isName()&&isBirth()&&isInfoCheck()){
+                    //Retrofit을 이용하여 회원가입을 위한 사용자 정보를 서버로 넘겨주는 작업을 진행함
+                    RegisterUserInfo();
+                }
+
             }
         });
+    }
+
+    // 이메일 유효성 검사
+    private boolean isValidEmail() {
+        if (userModify_email_text.getText().toString().isEmpty()) {
+            // 이메일 공백
+            Toast.makeText(RegisterActivity.this,"이메일을 입력해주세요",Toast.LENGTH_SHORT);
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(userModify_email_text.getText().toString()).matches()) {
+            // 이메일 형식 불일치
+            Toast.makeText(RegisterActivity.this,"이메일 형식이 아닙니다.",Toast.LENGTH_SHORT);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //이름 유효성 검사
+    private boolean isName() {
+        if (userModify_name_text.getText().toString().isEmpty()) {
+            Toast.makeText(RegisterActivity.this,"이름을 입력해주세요",Toast.LENGTH_SHORT);
+            return false;
+        }else return true;
+    }
+
+    // 비밀번호 유효성 검사
+    private boolean isValidPasswd() {
+        if (userModify_present_pw_et.getText().toString().isEmpty()) {
+            // 비밀번호 공백
+            Toast.makeText(RegisterActivity.this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (!PASSWORD_PATTERN.matcher(userModify_present_pw_et.getText().toString()).matches()) {
+            // 비밀번호 형식 불일치
+            Toast.makeText(RegisterActivity.this, "잘못된 비밀번호 형식입니다. (영문, 숫자, 특수문자를 포함한 4~15자를 입력해주세요.)", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (!userModify_present_pw_et.getText().toString().equals(userModify_check_pw_et.getText().toString())) {
+            // 비밀번호 더블체크
+            Toast.makeText(RegisterActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //이메일 유효성 검사
+    private boolean isID() {
+        if (userModify_id_text.getText().toString().isEmpty()) {
+            // 비밀번호 공백
+            Toast.makeText(RegisterActivity.this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
+            return false;
+        } else if (!ID_PATTERN.matcher(userModify_id_text.getText().toString()).matches()) {
+            // 비밀번호 형식 불일치
+            Toast.makeText(RegisterActivity.this, "잘못된 아이디 형식입니다. (영문, 숫자를 포함한 4~15자를 입력해주세요.)", Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //성별 유효성 검사
+    private boolean isGender(){
+        if(!userModify_male.isChecked()&&!userModify_female.isChecked()) {
+            Toast.makeText(RegisterActivity.this, "성별을 체크해주세요.", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(userModify_female.isChecked()&&userModify_male.isChecked()){
+            Toast.makeText(RegisterActivity.this, "성별을 하나만 체크해주세요.", Toast.LENGTH_SHORT).show();
+            return false;
+        }else{
+            return true;
+        }
+
+    }
+
+    //생년월일 유효성 검사
+    private boolean isBirth(){
+        if(register_datepicker.getText().toString()=="선택해주세요"){
+            Toast.makeText(RegisterActivity.this, "생년월일을 입력해주세요.", Toast.LENGTH_SHORT).show();
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    //개인정보 동의 확인
+    private boolean isInfoCheck(){
+        if(!userModify_info_check.isChecked()){
+            Toast.makeText(RegisterActivity.this, "서비스 이용약관 및 개인 정보 취급 방침에 동의해주세요.", Toast.LENGTH_SHORT).show();
+            return false;
+        }else{
+            return true;
+        }
     }
 
 
@@ -125,11 +237,10 @@ public class RegisterActivity extends AppCompatActivity {
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
 
-            TextView textView_register_datepicker = (TextView) findViewById(R.id.textView_register_datepicker);
             user_year = String.valueOf(year);
             user_month = String.valueOf(monthOfYear + 1);
             user_day = String.valueOf(dayOfMonth);
-            textView_register_datepicker.setText(user_year + "-" + user_month
+            register_datepicker.setText(user_year + "-" + user_month
                     + "-" + user_day);
         }
     };
@@ -155,7 +266,7 @@ public class RegisterActivity extends AppCompatActivity {
                  response_code = response.code();
                  //204의 값이 나오지 않으면, 회원가입이 정상적으로 이루어지지 않음 + 분기처리 필요 (할일)
                  if (response.code() != 204) {
-                     backgroundThreadShortToast(getApplicationContext(), "정보를 다시 입력해주세요.");
+                     backgroundThreadShortToast(getApplicationContext(), "이미 등록된 아이디입니다.");
                      return;
                  } else if(response.code() == 204){
                      backgroundThreadShortToast(getApplicationContext(),"회원가입이 완료 되었습니다.");

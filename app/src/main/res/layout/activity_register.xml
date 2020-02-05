@@ -199,7 +199,7 @@
                 android:textSize="16sp" />
 
             <CheckBox
-                android:id="@+id/userModify_ad_check"
+                android:id="@+id/userModify_info_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

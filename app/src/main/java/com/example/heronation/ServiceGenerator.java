@@ -10,7 +10,7 @@ public class ServiceGenerator {
     private static OkHttpClient.Builder httpClient=new OkHttpClient.Builder();
 
     //baseUrl은 어떤 서버로 네트워크 통신을 요청할 것인지에 대한 설정
-    //addConverterFactory는 통신이 완료된 후, 어던 Converter(Gson-Converter)를 이용하여 데이터를 파싱할 것인지에 대한 설정
+    //addConverterFactory는 통신이 완료된 후, 어떤 Converter(Gson-Converter)를 이용하여 데이터를 파싱할 것인지에 대한 설정
     private static Retrofit.Builder builder=
             new Retrofit.Builder()
             .baseUrl(URL)

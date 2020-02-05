@@ -92,6 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (userModify_female.isChecked()) {
                     gender_info = "F";
                 }
+
                 //Retrofit을 이용하여 회원가입을 위한 사용자 정보를 서버로 넘겨주는 작업을 진행함
                 RegisterUserInfo();
             }

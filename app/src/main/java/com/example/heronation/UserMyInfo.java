@@ -25,8 +25,6 @@ public class UserMyInfo {
         this.birthDay = birthDay;
         this.termsAdvertisement = termsAdvertisement;
     }
-
-
 }
 
 /*

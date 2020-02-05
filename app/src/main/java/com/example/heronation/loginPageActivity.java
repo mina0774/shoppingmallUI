@@ -22,7 +22,6 @@ public class  loginPageActivity extends AppCompatActivity {
     private EditText login_password_et;
     private Button login_button;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +39,6 @@ public class  loginPageActivity extends AppCompatActivity {
                 Login();
             }
         });
-
     }
 
     public void Login(){
@@ -57,8 +55,13 @@ public class  loginPageActivity extends AppCompatActivity {
         request.enqueue(new retrofit2.Callback<UserLoginInfo>() {
             @Override
             public void onResponse(retrofit2.Call<UserLoginInfo> call, retrofit2.Response<UserLoginInfo> response) {
-                System.out.println("Response" + response.code() +"!!" + response.toString()+"!!" + call.toString());
+                UserLoginInfo userLoginInfo=response.body();
+                //JSON 파일의 값이 이렇게 Parsing 되어 값이 나옴
+                System.out.println("Response" + userLoginInfo.access_token+","+userLoginInfo.refresh_token+","+userLoginInfo.member_id+","+userLoginInfo.member_name);
+
                 if(response.code()!=200){
+
+
                     backgroundThreadShortToast(getApplicationContext(), "등록되지 않은 아이디거나 아이디 또는 비밀번호가 일치하지 않습니다.");
                     return;
                 }

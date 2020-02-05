@@ -12,24 +12,30 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public class  loginPageActivity extends AppCompatActivity {
-    private EditText login_id_et;
-    private EditText login_password_et;
-    private Button login_button;
+
+    @BindView(R.id.login_id_et)
+    EditText login_id_et;
+
+    @BindView(R.id.login_password_et)
+    EditText login_password_et;
+
+    @BindView(R.id.login_button)
+    Button login_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
-        login_id_et=(EditText)findViewById(R.id.login_id_et);
-        login_password_et=(EditText)findViewById(R.id.login_password_et);
-        login_button=(Button)findViewById(R.id.login_button);
+        ButterKnife.bind(this);
 
         login_id_et.setText( getIntent().getStringExtra("user_id") );
 
@@ -56,16 +62,14 @@ public class  loginPageActivity extends AppCompatActivity {
             @Override
             public void onResponse(retrofit2.Call<UserLoginInfo> call, retrofit2.Response<UserLoginInfo> response) {
                 UserLoginInfo userLoginInfo=response.body();
-                //JSON 파일의 값이 이렇게 Parsing 되어 값이 나옴
-                System.out.println("Response" + userLoginInfo.access_token+","+userLoginInfo.refresh_token+","+userLoginInfo.member_id+","+userLoginInfo.member_name);
 
                 if(response.code()!=200){
-
-
                     backgroundThreadShortToast(getApplicationContext(), "등록되지 않은 아이디거나 아이디 또는 비밀번호가 일치하지 않습니다.");
                     return;
                 }
                 else if(response.code()==200){
+                    //JSON 파일의 값이 이렇게 Parsing 되어 값이 나옴
+                    System.out.println("Response" + userLoginInfo.access_token+","+userLoginInfo.refresh_token+","+userLoginInfo.member_id+","+userLoginInfo.member_name);
                     backgroundThreadShortToast(getApplicationContext(), "로그인이 완료되었습니다.");
                 }
 

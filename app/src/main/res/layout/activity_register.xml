@@ -76,7 +76,7 @@
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="heronation"
+                android:hint="아이디"
                 android:textSize="16sp" />
 
             <TextView
@@ -96,7 +96,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/btn_background"
                 android:gravity="start"
-                android:hint="password"
+                android:hint="비밀번호"
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
@@ -119,7 +119,7 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/btn_background"
                 android:gravity="start"
-                android:hint="password"
+                android:hint="비밀번호 확인"
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
@@ -145,7 +145,7 @@
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="heronation@gmail.com"
+                android:hint="heronation@gmail.com"
                 android:textSize="16sp" />
 
             <TextView
@@ -168,7 +168,7 @@
                 android:paddingLeft="15dp"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="히어로네이션"
+                android:hint="이름"
                 android:textSize="16sp" />
 
 
@@ -195,7 +195,7 @@
                 android:paddingTop="5dp"
                 android:paddingRight="15dp"
                 android:paddingBottom="5dp"
-                android:text="선택해주세요"
+                android:hint="선택해주세요"
                 android:textSize="16sp" />
 
             <CheckBox

@@ -18,6 +18,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 
 import java.util.Calendar;
@@ -32,16 +35,41 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public class RegisterActivity extends AppCompatActivity {
-    private EditText userModify_id_text;
-    private EditText userModify_check_pw_et;
-    private EditText userModify_email_text;
-    private EditText userModify_name_text;
-    private EditText userModify_present_pw_et;
-    private CheckBox userModify_push_check;
-    private CheckBox userModify_male;
-    private CheckBox userModify_female;
-    private CheckBox userModify_info_check;
-    private TextView register_datepicker;
+
+    @BindView(R.id.userModify_id_text)
+    EditText userModify_id_text;
+
+    @BindView(R.id.userModify_check_pw_et)
+    EditText userModify_check_pw_et;
+
+    @BindView(R.id.userModify_email_text)
+    EditText userModify_email_text;
+
+    @BindView(R.id.userModify_name_text)
+    EditText userModify_name_text;
+
+    @BindView(R.id.userModify_present_pw_et)
+    EditText userModify_present_pw_et;
+
+    @BindView(R.id.userModify_push_check)
+    CheckBox userModify_push_check;
+
+    @BindView(R.id.userModify_male)
+    CheckBox userModify_male;
+
+    @BindView(R.id.userModify_female)
+    CheckBox userModify_female;
+
+    @BindView(R.id.userModify_info_check)
+    CheckBox userModify_info_check;
+
+    @BindView(R.id.textView_register_datepicker)
+    TextView register_datepicker;
+
+    @BindView(R.id.register_next_btn)
+    Button register_next_button;
+
+
     //사용자 푸시 알림 체킹 여부
     private String push_check;
     //성별
@@ -50,9 +78,6 @@ public class RegisterActivity extends AppCompatActivity {
     private static String user_year;
     private static String user_month;
     private static String user_day;
-
-    //'회원가입' 표시 버튼
-    private Button register_next_button;
 
     //회원가입이 정상적으로 이루어졌는지 확인하는 부분
     private int response_code;
@@ -68,16 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        userModify_id_text = (EditText) findViewById(R.id.userModify_id_text);
-        userModify_check_pw_et = (EditText) findViewById(R.id.userModify_check_pw_et);
-        userModify_present_pw_et = (EditText) findViewById(R.id.userModify_present_pw_et);
-        userModify_email_text = (EditText) findViewById(R.id.userModify_email_text);
-        userModify_name_text = (EditText) findViewById(R.id.userModify_name_text);
-        register_next_button = (Button) findViewById(R.id.register_next_btn);
-        userModify_male = (CheckBox) findViewById(R.id.userModify_male);
-        userModify_female = (CheckBox) findViewById(R.id.userModify_female);
-        userModify_push_check = (CheckBox) findViewById(R.id.userModify_push_check);
-        userModify_info_check=(CheckBox)findViewById(R.id.userModify_info_check);
+        ButterKnife.bind(this);
 
         /*생년월일 TextView클릭시 showDatePicker가 실행됨*/
        register_datepicker = (TextView) findViewById(R.id.textView_register_datepicker);
@@ -107,9 +123,6 @@ public class RegisterActivity extends AppCompatActivity {
                     gender_info = "F";
                 }
 
-                Boolean email=isValidEmail();
-                Log.d("이메일",email.toString());
-
                 //입력 조건에 맞지 않을 시 종료시킴
                 if(isGender()&&isID()&&isValidPasswd()&&isValidEmail()&&isName()&&isBirth()&&isInfoCheck()){
                     //Retrofit을 이용하여 회원가입을 위한 사용자 정보를 서버로 넘겨주는 작업을 진행함
@@ -124,11 +137,11 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isValidEmail() {
         if (userModify_email_text.getText().toString().isEmpty()) {
             // 이메일 공백
-            Toast.makeText(RegisterActivity.this,"이메일을 입력해주세요",Toast.LENGTH_SHORT);
+            Toast.makeText(RegisterActivity.this,"이메일을 입력해주세요",Toast.LENGTH_SHORT).show();
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(userModify_email_text.getText().toString()).matches()) {
             // 이메일 형식 불일치
-            Toast.makeText(RegisterActivity.this,"이메일 형식이 아닙니다.",Toast.LENGTH_SHORT);
+            Toast.makeText(RegisterActivity.this,"이메일 형식이 아닙니다.",Toast.LENGTH_SHORT).show();
             return false;
         } else {
             return true;
@@ -139,7 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isName() {
         if (userModify_name_text.getText().toString().isEmpty()) {
             //이름 공백
-            Toast.makeText(RegisterActivity.this,"이름을 입력해주세요",Toast.LENGTH_SHORT);
+            Toast.makeText(RegisterActivity.this,"이름을 입력해주세요",Toast.LENGTH_SHORT).show();
             return false;
         }else return true;
     }
@@ -196,7 +209,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     //생년월일 유효성 검사
     private boolean isBirth(){
-        if(register_datepicker.getText().toString()=="선택해주세요"){
+        if(register_datepicker.getText().toString().isEmpty()){
             //생년월일 입력 안함
             Toast.makeText(RegisterActivity.this, "생년월일을 입력해주세요.", Toast.LENGTH_SHORT).show();
             return false;
@@ -268,7 +281,7 @@ public class RegisterActivity extends AppCompatActivity {
              public void onResponse(Call<String> call, Response<String> response) {
                  System.out.println("Response" + response.code()); //204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐
                  response_code = response.code();
-                 //204의 값이 나오지 않으면, 회원가입이 정상적으로 이루어지지 않음 + 분기처리 필요 (할일)
+                 //204의 값이 나오지 않으면, 회원가입이 정상적으로 이루어지지 않음
                  if (response.code() != 204) {
                      backgroundThreadShortToast(getApplicationContext(), "이미 등록된 아이디입니다.");
                      return;
@@ -302,7 +315,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    //인터페이스 - 추상 메소드(구현부가 없는 메시드)의 모임
+    //인터페이스 - 추상 메소드(구현부가 없는 메소드)의 모임
     /* retrofit은 인터페이스에 기술된 명세를 Http API(호출 가능한 객체)로 전환해줌
     => 우리가 요청할 API들에 대한 명세만을 Interface에 기술해두면 됨.
      */

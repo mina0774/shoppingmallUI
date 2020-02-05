@@ -138,6 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
     //이름 유효성 검사
     private boolean isName() {
         if (userModify_name_text.getText().toString().isEmpty()) {
+            //이름 공백
             Toast.makeText(RegisterActivity.this,"이름을 입력해주세요",Toast.LENGTH_SHORT);
             return false;
         }else return true;
@@ -162,14 +163,14 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    //이메일 유효성 검사
+    //아이디 유효성 검사
     private boolean isID() {
         if (userModify_id_text.getText().toString().isEmpty()) {
-            // 비밀번호 공백
+            // 아이디 공백
             Toast.makeText(RegisterActivity.this, "아이디를 입력해주세요.", Toast.LENGTH_SHORT).show();
             return false;
         } else if (!ID_PATTERN.matcher(userModify_id_text.getText().toString()).matches()) {
-            // 비밀번호 형식 불일치
+            // 아이디 형식 불일치
             Toast.makeText(RegisterActivity.this, "잘못된 아이디 형식입니다. (영문, 숫자를 포함한 4~15자를 입력해주세요.)", Toast.LENGTH_SHORT).show();
             return false;
         } else {
@@ -180,9 +181,11 @@ public class RegisterActivity extends AppCompatActivity {
     //성별 유효성 검사
     private boolean isGender(){
         if(!userModify_male.isChecked()&&!userModify_female.isChecked()) {
+            //성별 체크 안함
             Toast.makeText(RegisterActivity.this, "성별을 체크해주세요.", Toast.LENGTH_SHORT).show();
             return false;
         }else if(userModify_female.isChecked()&&userModify_male.isChecked()){
+            //성별 두개 체크
             Toast.makeText(RegisterActivity.this, "성별을 하나만 체크해주세요.", Toast.LENGTH_SHORT).show();
             return false;
         }else{
@@ -194,6 +197,7 @@ public class RegisterActivity extends AppCompatActivity {
     //생년월일 유효성 검사
     private boolean isBirth(){
         if(register_datepicker.getText().toString()=="선택해주세요"){
+            //생년월일 입력 안함
             Toast.makeText(RegisterActivity.this, "생년월일을 입력해주세요.", Toast.LENGTH_SHORT).show();
             return false;
         }else{

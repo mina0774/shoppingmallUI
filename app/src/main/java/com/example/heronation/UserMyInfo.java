@@ -1,11 +1,12 @@
 package com.example.heronation;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 //수정 필요
-public class UserMyInfo {
+public class UserMyInfo implements Serializable {
 
     private String consumerId;
     private String name;

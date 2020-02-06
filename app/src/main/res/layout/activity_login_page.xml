@@ -41,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/btn_background"
+                android:inputType="textPassword"
                 android:hint="password"
                 android:padding="8dp" />
 

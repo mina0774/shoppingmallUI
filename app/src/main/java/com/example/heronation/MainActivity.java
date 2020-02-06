@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -47,6 +51,8 @@ import retrofit2.http.POST;
  * 프래그먼트에서 액티비티로 통신(데이터 주고 받는 것)이 있을 수도 있기 때문에
  * MainActivity 에서 이를 implement한 후 오버라이딩 (임시로)
  */
+
+// TODO: 2020-02-06 세션 처리 어떻게 할지 고민하기... 현재 드로워에서 사용자 정보 출력 방식과, 마이페이지 정보 출력 방식에서 코드가 반복되는 경우가 많은데 두가지의 방법을 통일시킬 방안 생각해보기 
 public class MainActivity extends AppCompatActivity
         implements
         ShopFragment.OnFragmentInteractionListener,
@@ -102,11 +108,6 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.btn_order_delivery)
     Button btn_order_delivery;
 
-
-
-    /* 로그인 상태 boolean값 */
-    public boolean loginState = false;
-
     /* Shop Ranking에 필터 버튼 눌렀을 때, seekBar 설정에 필요한 변수들 */
     int number=0;
     private SeekBar seekBar;
@@ -133,6 +134,10 @@ public class MainActivity extends AppCompatActivity
     private Button style_office;
     private Button filter_return;
     private Button filter_finish;
+
+    //로그인 여부 확인 기다리기 위함
+    ProgressDialog dialog;
+    public static int TM_OUT=1001;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,7 +166,7 @@ public class MainActivity extends AppCompatActivity
             /* 클릭했을때 Drawer open, 로그인 상태에 따라 닉네임 or 로그인/회원가입 */
             @Override   //클릭했을때 Drawer open
             public void onClick(View v) {
-                GetUserInfo();
+                DrawerGetUserInfo();
                 drawerLayout.openDrawer(drawerView);
             }
         });
@@ -182,7 +187,8 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void GetUserInfo(){
+    /*로그인 여부를 판단하는 함수 (필요할 때 사용)*/
+    public void myPageGetUserInfo(){
         String authorization="";
         String accept="application/json";
 
@@ -193,44 +199,70 @@ public class MainActivity extends AppCompatActivity
             authorization="bearer " +getIntent().getStringExtra("access_token");
             UserInfoService userInfoService=ServiceGenerator.createService(UserInfoService.class);
             retrofit2.Call<UserMyInfo> request=userInfoService.UserInfo(authorization,accept);
-
             request.enqueue(new Callback<UserMyInfo>() {
                 @Override
                 public void onResponse(Call<UserMyInfo> call, Response<UserMyInfo> response) {
-                    System.out.println("ResponseMain" + response.code()); //204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐
-                    if(response.code()==200) {
-                        UserMyInfo userMyInfo = response.body();
-                        System.out.println("ResponseMain1" + userMyInfo.getConsumerId());
-                        id_text.setText(userMyInfo.getName() + "님, 안녕하세요!");
-                        btn_mypage.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                drawerLayout.closeDrawers();
-                                go_to_mypage_connecting();
-                            }
-                        });
+                    if(response.code()==200) { //정상적으로 로그인이 되었을 때
+                        UserMyInfo userMyInfo=response.body();
+                       go_to_mypage_connecting(userMyInfo);
                     }
-                    else{
-                        id_text.setText("로그인/회원가입");
+                    else{ //토큰 만료기한이 끝나, 재로그인이 필요할 때
                         backgroundThreadShortToast(getApplicationContext(), "세션이 만료되어 재로그인이 필요합니다.");
-                        GotoIntroActivity();
+                        go_to_mypage_noconnecting();
                     }
                 }
-
                 @Override
                 public void onFailure(Call<UserMyInfo> call, Throwable t) {
-                    id_text.setText("로그인/회원가입");
-                    System.out.println("error + Connect Server Error is " + t.toString());
+                    go_to_mypage_noconnecting();
                 }
             });
-
-        }else { //비회원 사용자일 때
-            id_text.setText("로그인/회원가입");
-            GotoIntroActivity();
+        }else {//비회원 사용자일 때
+            go_to_mypage_noconnecting();
         }
     }
 
-    public void GotoIntroActivity(){
+    /*드로워에서 User의 정보를 얻는 함수*/
+    public void DrawerGetUserInfo(){
+        String authorization="";
+        String accept="application/json";
+
+        /* access_token이 null이면 비회원 사용자이고, access_token의 값이 존재하면 회원 사용자임
+        (token이 유효한지 판단한 후에, 이를 통해 로그인 여부를 판단할 수 있음)
+        */
+        if(!getIntent().getStringExtra("access_token").matches("null")) { //회원 사용자일 때
+            authorization="bearer " +getIntent().getStringExtra("access_token");
+            UserInfoService userInfoService=ServiceGenerator.createService(UserInfoService.class);
+            retrofit2.Call<UserMyInfo> request=userInfoService.UserInfo(authorization,accept);
+            request.enqueue(new Callback<UserMyInfo>() {
+                @Override
+                public void onResponse(Call<UserMyInfo> call, Response<UserMyInfo> response) {
+                    /* 정상적으로 로그인이 되었을 때 */
+                    if(response.code()==200) {
+                    UserMyInfo userMyInfo = response.body();
+                    id_text.setText(userMyInfo.getName() + "님, 안녕하세요!");
+                    DrawerGotoLoginConnect(userMyInfo);
+                }
+                    /*토큰 만료기한이 끝나, 재로그인이 필요할 때*/
+                    else{
+                    id_text.setText("로그인/회원가입");
+                    backgroundThreadShortToast(getApplicationContext(), "세션이 만료되어 재로그인이 필요합니다.");
+                    DrawerGotoNoLoginConnect();
+                }
+            }
+            @Override
+                public void onFailure(Call<UserMyInfo> call, Throwable t) {
+                    System.out.println("error + Connect Server Error is " + t.toString());
+                }
+            });
+        }
+        /* 비회원 사용자일 때 */
+        else {
+            id_text.setText("로그인/회원가입");
+            DrawerGotoNoLoginConnect();
+        }
+    }
+
+    public void DrawerGotoNoLoginConnect(){
         id_text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -278,6 +310,23 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    public void DrawerGotoLoginConnect(UserMyInfo userMyInfo){
+        //마이페이지 버튼 클릭시 해당 마이페이지로 이동
+        btn_mypage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawerLayout.closeDrawers();
+                /* 사용자 정보를 마이페이지에 넘기기 위한 번들, Serializable을 이용하여 번들로 넘겨줌*/
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("UserMyInfo",userMyInfo);
+                mypageConnectingFragment.setArguments(bundle);
+                bottomNavigationView.setSelectedItemId(R.id.menuitem_bottombar_mypage);
+                FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
+                transaction.replace(R.id.fragment_container, mypageConnectingFragment).commit();
+            }
+        });
+    }
+
     //Toast는 비동기 태스크 내에서 처리할 수 없으므로, 메인 쓰레드 핸들러를 생성하여 toast가 메인쓰레드에서 생성될 수 있도록 처리해준다.
     public static void backgroundThreadShortToast(final Context context, final String msg) {
         if (context != null && msg != null) {
@@ -317,15 +366,13 @@ public class MainActivity extends AppCompatActivity
                     transaction.replace(R.id.fragment_container, wishlistFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_mypage:
-                    if (loginState == true)
-                        transaction.replace(R.id.fragment_container,mypageConnectingFragment).commit();
-                    else
-                        transaction.replace(R.id.fragment_container,mypageNoConnectingFragment).commit();
+                    myPageGetUserInfo();
                     return true;
             }
             return false;
         }
     }
+
 
     void go_to_shop_fragment(){
         bottomNavigationView.setSelectedItemId(R.id.menuitem_bottombar_shop);
@@ -339,14 +386,16 @@ public class MainActivity extends AppCompatActivity
         transaction.replace(R.id.fragment_container, measurementFragment).commit();
     }
 
-    void go_to_mypage_connecting(){
-        bottomNavigationView.setSelectedItemId(R.id.menuitem_bottombar_mypage);
+    void go_to_mypage_connecting(UserMyInfo userMyInfo){
+        /* 사용자 정보를 마이페이지에 넘기기 위한 번들, Serializable을 이용하여 번들로 넘겨줌*/
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("UserMyInfo",userMyInfo);
+        mypageConnectingFragment.setArguments(bundle);
         FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
         transaction.replace(R.id.fragment_container, mypageConnectingFragment).commit();
     }
 
     void go_to_mypage_noconnecting(){
-        bottomNavigationView.setSelectedItemId(R.id.menuitem_bottombar_mypage);
         FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
         transaction.replace(R.id.fragment_container, mypageNoConnectingFragment).commit();
     }

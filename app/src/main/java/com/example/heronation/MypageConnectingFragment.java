@@ -2,6 +2,7 @@ package com.example.heronation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -12,22 +13,53 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MypageConnectingFragment extends Fragment {
+    @BindView(R.id.mypage_userModify_btn)
+    ImageButton mypage_userModify_btn;
+
+    @BindView(R.id.mypage_ninkname_text)
+    TextView mypage_ninkname_text;
+
+    @BindView(R.id.mypage_gender_f)
+    TextView mypage_gender_f;
+
+    @BindView(R.id.mypage_gender_m)
+    TextView mypage_gender_m;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_mypage_connecting,container,false);
-        /* 로그인/회원가입 버튼 클릭시 이동 */
-        ImageButton btn1 = (ImageButton)rootView.findViewById(R.id.mypage_userModify_btn);
-        btn1.setOnClickListener(new View.OnClickListener() {
+        ButterKnife.bind(this,rootView);
+
+        /* 회원 정보 수정 버튼을 눌렀을 때 */
+        mypage_userModify_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, new userModifyFragment()).commit();
             }
         });
+
+        //회원정보를 받아옴
+        Bundle bundle=getArguments();
+        UserMyInfo userMyInfo=(UserMyInfo)bundle.getSerializable("UserMyInfo");
+        //회원정보 설정
+        /* 상단 텍스트뷰 설정 */
+        mypage_ninkname_text.setText("안녕하세요!\n"+userMyInfo.getName()+"님\n"+userMyInfo.getEmail());
+        /* 성별 설정 */
+        if(userMyInfo.getGender().matches("M")){
+            mypage_gender_m.setTextColor(Color.parseColor("#000000"));
+        }else if(userMyInfo.getGender().matches("F")){
+            mypage_gender_f.setTextColor(Color.parseColor("#000000"));
+        }
         return rootView;
+
     }
 
     /* Acitivity와 Fragment가 통신할 때, OnFragmentInteractionListener를 사용함.

@@ -63,6 +63,7 @@
 
             <Button
                 android:id="@+id/btn_setting"
+                android:layout_width="69dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_background_rectangle"

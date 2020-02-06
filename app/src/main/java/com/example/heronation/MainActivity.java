@@ -8,10 +8,13 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -22,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.bottomnavigation_menu_bar)
     BottomNavigationView bottomNavigationView;
 
-    /* 상단 메뉴 버튼을 눌렀을 때 뜨는 레이아웃을 위한 변수들 */
+    /* <드로워> 상단 메뉴 버튼을 눌렀을 때 뜨는 레이아웃을 위한 변수들 */
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.drawer)
@@ -89,6 +93,16 @@ public class MainActivity extends AppCompatActivity
     ImageButton btn_open;
     @BindView(R.id.text_id)
     TextView id_text;
+    @BindView(R.id.btn_alarm)
+    Button btn_alarm;
+    @BindView(R.id.btn_setting)
+    Button btn_setting;
+    @BindView(R.id.btn_mypage)
+    Button btn_mypage;
+    @BindView(R.id.btn_order_delivery)
+    Button btn_order_delivery;
+
+
 
     /* 로그인 상태 boolean값 */
     public boolean loginState = false;
@@ -172,17 +186,35 @@ public class MainActivity extends AppCompatActivity
         String authorization="";
         String accept="application/json";
 
-        if(!getIntent().getStringExtra("access_token").matches("null")) {
-            authorization="bearer "+getIntent().getStringExtra("access_token");
+        /* access_token이 null이면 비회원 사용자이고, access_token의 값이 존재하면 회원 사용자임
+        (token이 유효한지 판단한 후에, 이를 통해 로그인 여부를 판단할 수 있음)
+        */
+        if(!getIntent().getStringExtra("access_token").matches("null")) { //회원 사용자일 때
+            authorization="bearer " +getIntent().getStringExtra("access_token");
             UserInfoService userInfoService=ServiceGenerator.createService(UserInfoService.class);
             retrofit2.Call<UserMyInfo> request=userInfoService.UserInfo(authorization,accept);
+
             request.enqueue(new Callback<UserMyInfo>() {
                 @Override
                 public void onResponse(Call<UserMyInfo> call, Response<UserMyInfo> response) {
-                    System.out.println("Response" + response.code()); //204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐
-                    UserMyInfo userMyInfo=response.body();
-                    System.out.println("Response1" + userMyInfo.getConsumerId()); //204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐
-                    id_text.setText(userMyInfo.getName()+"님, 안녕하세요!");
+                    System.out.println("ResponseMain" + response.code()); //204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐
+                    if(response.code()==200) {
+                        UserMyInfo userMyInfo = response.body();
+                        System.out.println("ResponseMain1" + userMyInfo.getConsumerId());
+                        id_text.setText(userMyInfo.getName() + "님, 안녕하세요!");
+                        btn_mypage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                drawerLayout.closeDrawers();
+                                go_to_mypage_connecting();
+                            }
+                        });
+                    }
+                    else{
+                        id_text.setText("로그인/회원가입");
+                        backgroundThreadShortToast(getApplicationContext(), "세션이 만료되어 재로그인이 필요합니다.");
+                        GotoIntroActivity();
+                    }
                 }
 
                 @Override
@@ -191,9 +223,71 @@ public class MainActivity extends AppCompatActivity
                     System.out.println("error + Connect Server Error is " + t.toString());
                 }
             });
-        }
-        id_text.setText("로그인/회원가입");
 
+        }else { //비회원 사용자일 때
+            id_text.setText("로그인/회원가입");
+            GotoIntroActivity();
+        }
+    }
+
+    public void GotoIntroActivity(){
+        id_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(),IntroActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        btn_alarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(),IntroActivity.class);
+                Toast.makeText(getApplicationContext(),"로그인이 필요한 서비스입니다.",Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+                finish();
+            }
+        });
+        btn_mypage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(),IntroActivity.class);
+                Toast.makeText(getApplicationContext(),"로그인이 필요한 서비스입니다.",Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+                finish();
+            }
+        });
+        btn_order_delivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(),IntroActivity.class);
+                Toast.makeText(getApplicationContext(),"로그인이 필요한 서비스입니다.",Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+                finish();
+            }
+        });
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getApplicationContext(),IntroActivity.class);
+                Toast.makeText(getApplicationContext(),"로그인이 필요한 서비스입니다.",Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+                finish();
+            }
+        });
+
+    }
+
+    //Toast는 비동기 태스크 내에서 처리할 수 없으므로, 메인 쓰레드 핸들러를 생성하여 toast가 메인쓰레드에서 생성될 수 있도록 처리해준다.
+    public static void backgroundThreadShortToast(final Context context, final String msg) {
+        if (context != null && msg != null) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     /*
@@ -244,6 +338,25 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
         transaction.replace(R.id.fragment_container, measurementFragment).commit();
     }
+
+    void go_to_mypage_connecting(){
+        bottomNavigationView.setSelectedItemId(R.id.menuitem_bottombar_mypage);
+        FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
+        transaction.replace(R.id.fragment_container, mypageConnectingFragment).commit();
+    }
+
+    void go_to_mypage_noconnecting(){
+        bottomNavigationView.setSelectedItemId(R.id.menuitem_bottombar_mypage);
+        FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
+        transaction.replace(R.id.fragment_container, mypageNoConnectingFragment).commit();
+    }
+
+    void go_to_wishlist(){
+        bottomNavigationView.setSelectedItemId(R.id.menuitem_bottombar_wishlist);
+        FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
+        transaction.replace(R.id.fragment_container, wishlistFragment).commit();
+    }
+
 
     ///그냥 나중에 필요할까봐 넣어 놓았습니다
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {

@@ -15,6 +15,8 @@ public class IntroActivity extends AppCompatActivity {
     }
     public void go_to_main(View view){
         Intent intent = new Intent(this, MainActivity.class);
+        //비회원 사용자일 때
+        intent.putExtra("access_token","null");
         startActivity(intent);
         finish();
     }

@@ -26,6 +26,17 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.POST;
+
 /*
  * implements~ 를 한 이유
  * Acitivity와 Fragment가 통신할 때, OnFragmentInteractionListener를 사용함.
@@ -64,11 +75,21 @@ public class MainActivity extends AppCompatActivity
     private WishlistFragment wishlistFragment=new WishlistFragment();
 
     /* 하단바 */
-    private BottomNavigationView bottomNavigationView;
+    @BindView(R.id.bottomnavigation_menu_bar)
+    BottomNavigationView bottomNavigationView;
 
     /* 상단 메뉴 버튼을 눌렀을 때 뜨는 레이아웃을 위한 변수들 */
-    private DrawerLayout drawerLayout;
-    private View drawerView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.drawer)
+    View drawerView;
+    @BindView(R.id.btn_close)
+    Button btn_close;
+    @BindView(R.id.btn_open)
+    ImageButton btn_open;
+    @BindView(R.id.text_id)
+    TextView id_text;
+
     /* 로그인 상태 boolean값 */
     public boolean loginState = false;
 
@@ -76,6 +97,7 @@ public class MainActivity extends AppCompatActivity
     int number=0;
     private SeekBar seekBar;
     private TextView age;
+
     /* Shop Ranking에 필터 버튼에 필요한 변수들 */
     private Button gender_male;
     private Button gender_female;
@@ -106,11 +128,12 @@ public class MainActivity extends AppCompatActivity
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.bind(this);
+
         /* BottomNavigation view를 선언해주고, bottomNavigationView의 객체를 생성한 후,
          * bottomNavigationView에 activity_main.xml의 bottomnavigation_menu_bar를 할당해준 후,
          * bottomItemSelectedListener 클래스를, bottomNavigatioView 객체에 할당
          */
-        bottomNavigationView=findViewById(R.id.bottomnavigation_menu_bar);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomItemSelectedListener());
 
        /* 첫 화면이 ItemFragment이므로, Transaction을 getSupportFragmentManager().beginTransaction()을 통해 가져온 후,
@@ -120,24 +143,15 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, itemFragment).commit();
 
         /* 상단바 메뉴 드로워 */
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerView = (View) findViewById(R.id.drawer);
-        ImageButton btn_open = (ImageButton) findViewById(R.id.btn_open);   //openimage 정의
-        final TextView id_text = (TextView)findViewById(R.id.text_id);
         btn_open.setOnClickListener(new View.OnClickListener() {
             /* 클릭했을때 Drawer open, 로그인 상태에 따라 닉네임 or 로그인/회원가입 */
             @Override   //클릭했을때 Drawer open
             public void onClick(View v) {
-                if(loginState == true){
-                    id_text.setText("닉네임");
-                }
-                else{
-                    id_text.setText("로그인/회원가입");
-                }
+                GetUserInfo();
                 drawerLayout.openDrawer(drawerView);
             }
         });
-        Button btn_close = (Button) findViewById(R.id.btn_close);
+
         btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +165,34 @@ public class MainActivity extends AppCompatActivity
             }
         });
         /* 상단바 메뉴 드로워 */
+
+    }
+
+    public void GetUserInfo(){
+        String authorization="";
+        String accept="application/json";
+
+        if(!getIntent().getStringExtra("access_token").matches("null")) {
+            authorization="bearer "+getIntent().getStringExtra("access_token");
+            UserInfoService userInfoService=ServiceGenerator.createService(UserInfoService.class);
+            retrofit2.Call<UserMyInfo> request=userInfoService.UserInfo(authorization,accept);
+            request.enqueue(new Callback<UserMyInfo>() {
+                @Override
+                public void onResponse(Call<UserMyInfo> call, Response<UserMyInfo> response) {
+                    System.out.println("Response" + response.code()); //204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐
+                    UserMyInfo userMyInfo=response.body();
+                    System.out.println("Response1" + userMyInfo.getConsumerId()); //204 사이의 값이 나왔을 때는 회원가입이 정상적으로 이루어짐
+                    id_text.setText(userMyInfo.getName()+"님, 안녕하세요!");
+                }
+
+                @Override
+                public void onFailure(Call<UserMyInfo> call, Throwable t) {
+                    id_text.setText("로그인/회원가입");
+                    System.out.println("error + Connect Server Error is " + t.toString());
+                }
+            });
+        }
+        id_text.setText("로그인/회원가입");
 
     }
 
@@ -202,7 +244,6 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
         transaction.replace(R.id.fragment_container, measurementFragment).commit();
     }
-
 
     ///그냥 나중에 필요할까봐 넣어 놓았습니다
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
@@ -624,5 +665,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    //인터페이스 - 추상 메소드(구현부가 없는 메시드)의 모임
+    /* retrofit은 인터페이스에 기술된 명세를 Http API(호출 가능한 객체)로 전환해줌
+    => 우리가 요청할 API들에 대한 명세만을 Interface에 기술해두면 됨.
+     */
+    /* 사용자 정보를 서버에서 받아오는 인터페이스*/
+    public interface UserInfoService {
+        @GET("api/consumers/me")
+        retrofit2.Call<UserMyInfo> UserInfo(@Header("authorization") String authorization,
+                                                @Header("Accept") String accept);
     }
 }

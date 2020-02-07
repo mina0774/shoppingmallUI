@@ -46,7 +46,6 @@ public class MypageConnectingFragment extends Fragment {
         ButterKnife.bind(this,rootView);
         Bundle bundle=getArguments();
         String access_token=(String)bundle.getString("access_token");
-        Log.d("번들번들",access_token+"엑세스");
         getUserInfo(access_token);
 
         /* 회원 정보 수정 버튼을 눌렀을 때 */
@@ -55,7 +54,7 @@ public class MypageConnectingFragment extends Fragment {
             public void onClick(View v) {
 
                 userModifyFragment userModifyFragment=new userModifyFragment();
-                bundle.putString("acess_token",access_token);
+                bundle.putString("access_token",access_token);
                 userModifyFragment.setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, userModifyFragment).commit();
             }

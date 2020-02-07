@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,11 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 
 public class MypageConnectingFragment extends Fragment {
     @BindView(R.id.mypage_userModify_btn)
@@ -31,35 +37,65 @@ public class MypageConnectingFragment extends Fragment {
     @BindView(R.id.mypage_gender_m)
     TextView mypage_gender_m;
 
+    userModifyFragment userModifyFragment=new userModifyFragment();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_mypage_connecting,container,false);
         ButterKnife.bind(this,rootView);
+        Bundle bundle=getArguments();
+        String access_token=(String)bundle.getString("access_token");
+        Log.d("번들번들",access_token+"엑세스");
+        getUserInfo(access_token);
 
         /* 회원 정보 수정 버튼을 눌렀을 때 */
         mypage_userModify_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, new userModifyFragment()).commit();
+                bundle.putString("acess_token",access_token);
+                userModifyFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.fragment_container, userModifyFragment).commit();
             }
         });
 
-        //회원정보를 받아옴
-        Bundle bundle=getArguments();
-        UserMyInfo userMyInfo=(UserMyInfo)bundle.getSerializable("UserMyInfo");
-        //회원정보 설정
-        /* 상단 텍스트뷰 설정 */
-        mypage_ninkname_text.setText("안녕하세요!\n"+userMyInfo.getName()+"님\n"+userMyInfo.getEmail());
-        /* 성별 설정 */
-        if(userMyInfo.getGender().matches("M")){
-            mypage_gender_m.setTextColor(Color.parseColor("#000000"));
-        }else if(userMyInfo.getGender().matches("F")){
-            mypage_gender_f.setTextColor(Color.parseColor("#000000"));
-        }
         return rootView;
+    }
 
+    private void getUserInfo(String access_token){
+        //회원정보를 받아옴
+
+        String authorization="bearer " + access_token;
+        String accept="application/json";
+        MainActivity.UserInfoService userInfoService=ServiceGenerator.createService(MainActivity.UserInfoService.class);
+        retrofit2.Call<UserMyInfo> request=userInfoService.UserInfo(authorization,accept);
+        request.enqueue(new Callback<UserMyInfo>() {
+            @Override
+            public void onResponse(Call<UserMyInfo> call, Response<UserMyInfo> response) {
+                /* 정상적으로 로그인이 되었을 때 */
+                if (response.code() == 200) {
+                    UserMyInfo userMyInfo = response.body();
+                    //회원정보 설정
+                    /* 상단 텍스트뷰 설정 */
+                    mypage_ninkname_text.setText("안녕하세요!\n"+userMyInfo.getName()+"님\n"+userMyInfo.getEmail());
+                    /* 성별 설정 */
+                    if(userMyInfo.getGender().matches("M")){
+                        mypage_gender_m.setTextColor(Color.parseColor("#000000"));
+                    }else if(userMyInfo.getGender().matches("F")){
+                        mypage_gender_f.setTextColor(Color.parseColor("#000000"));
+                    }
+                }
+                /*토큰 만료기한이 끝나, 재로그인이 필요할 때*/
+                else {
+                    MainActivity.backgroundThreadShortToast(getActivity(), "세션이 만료되어 재로그인이 필요합니다.");
+                }
+            }
+            @Override
+            public void onFailure(Call<UserMyInfo> call, Throwable t) {
+                System.out.println("error + Connect Server Error is " + t.toString());
+            }
+        });
     }
 
     /* Acitivity와 Fragment가 통신할 때, OnFragmentInteractionListener를 사용함.
@@ -70,4 +106,6 @@ public class MypageConnectingFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

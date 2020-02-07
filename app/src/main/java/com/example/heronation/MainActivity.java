@@ -135,10 +135,6 @@ public class MainActivity extends AppCompatActivity
     private Button filter_return;
     private Button filter_finish;
 
-    //로그인 여부 확인 기다리기 위함
-    ProgressDialog dialog;
-    public static int TM_OUT=1001;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -316,9 +312,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
-                /* 사용자 정보를 마이페이지에 넘기기 위한 번들, Serializable을 이용하여 번들로 넘겨줌*/
+                /* 사용자 정보를 마이페이지에 넘기기 위한 번들*/
                 Bundle bundle=new Bundle();
-                bundle.putSerializable("UserMyInfo",userMyInfo);
+                bundle.putString("access_token",getIntent().getStringExtra("access_token"));
                 mypageConnectingFragment.setArguments(bundle);
                 bottomNavigationView.setSelectedItemId(R.id.menuitem_bottombar_mypage);
                 FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
@@ -387,9 +383,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     void go_to_mypage_connecting(UserMyInfo userMyInfo){
-        /* 사용자 정보를 마이페이지에 넘기기 위한 번들, Serializable을 이용하여 번들로 넘겨줌*/
+        /* 사용자 정보를 마이페이지에 넘기기 위한 번들*/
         Bundle bundle=new Bundle();
-        bundle.putSerializable("UserMyInfo",userMyInfo);
+        bundle.putString("access_token",getIntent().getStringExtra("access_token"));
         mypageConnectingFragment.setArguments(bundle);
         FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
         transaction.replace(R.id.fragment_container, mypageConnectingFragment).commit();

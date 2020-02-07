@@ -30,7 +30,6 @@
                     android:layout_gravity="center|center_horizontal"
                     android:background="@drawable/button_background"
                     android:gravity="center"
-                    android:text="안녕하세요 \n 히어로네이션 님"
                     android:textSize="18sp" />
 
                 <TextView
@@ -53,14 +52,13 @@
                     android:paddingLeft="15dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="heronation"
                     android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:text="현재 비밀번호"
+                    android:text="비밀번호"
                     android:textSize="15sp" />
 
                 <EditText
@@ -75,54 +73,6 @@
                     android:gravity="start"
                     android:inputType="textPassword"
                     android:hint="password"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:text="비밀번호 수정"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:id="@+id/userModify_edit_pw_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:inputType="textPassword"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="-10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/btn_background"
-                    android:gravity="start"
-                    android:hint="password"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:text="비밀번호 확인"
-                    android:textSize="15sp" />
-
-                <EditText
-                    android:id="@+id/userModify_check_pw_et"
-                    android:layout_width="match_parent"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="-10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/btn_background"
-                    android:gravity="start"
-                    android:hint="password"
-                    android:inputType="textPassword"
                     android:paddingLeft="15dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
@@ -148,7 +98,6 @@
                     android:paddingLeft="15dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="heronation@gmail.com"
                     android:textSize="16sp" />
 
                 <TextView
@@ -158,7 +107,7 @@
                     android:text="이름"
                     android:textSize="15sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/userModify_name_text"
                     android:layout_width="match_parent"
                     android:layout_height="32dp"
@@ -171,7 +120,6 @@
                     android:paddingLeft="15dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:text="히어로네이션"
                     android:textSize="16sp" />
 
                 <TextView
@@ -196,7 +144,6 @@
                     android:paddingTop="5dp"
                     android:paddingRight="15dp"
                     android:paddingBottom="5dp"
-                    android:text="1999-10-11"
                     android:textSize="16sp" />
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -207,27 +154,22 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/userModify_female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="32dp"
                         android:layout_marginRight="15dp"
                         android:text="Woman"
+                        android:textColor="#d3d3d3"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <Switch
-                        android:id="@+id/gender_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:switchMinWidth="50dp"
-                        android:textOff="OFF"
-                        android:textOn="ON"
-                        android:textSize="24sp" />
-
                     <TextView
+                        android:id="@+id/userModify_male"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
+                        android:textColor="#d3d3d3"
                         android:text="Man"
                         android:textSize="16sp"
                         android:textStyle="bold" />

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,9 +62,7 @@ public class userModifyFragment extends Fragment{
     @BindView(R.id.userModify_hi_nickname_text)
     TextView userModify_hi_nickname_text;
 
-    MypageConnectingFragment mypageConnectingFragment;
 
-    Bundle bundle=new Bundle();
     Integer modify_year;
     Integer modify_month;
     Integer modify_date;
@@ -107,7 +106,7 @@ public class userModifyFragment extends Fragment{
             }
         });
 
-        // 수정 버튼을 눌렀을 때
+        // 수정 버튼을 눌렀을 때ㅜ
         userModify_edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,17 +127,21 @@ public class userModifyFragment extends Fragment{
         }
         UserModifyInfo userModifyInfo=new UserModifyInfo(user_name,modify_year,modify_month,modify_date,gender,termsAdvertisement);
 
-        String authorization="bearer " +(String)bundle.getString("access_token");
+        Bundle bundle=getArguments();
+        String authorization="bearer "+(String)bundle.getString("access_token");
         String accept="application/json";
         String content_type="application/json";
         ModifyUserInfoService modifyUserInfoService=ServiceGenerator.createService(ModifyUserInfoService.class);
-        retrofit2.Call<UserModifyInfo> request=modifyUserInfoService.ModifyUserInfo(authorization,accept,content_type,userModifyInfo);
-        request.enqueue(new Callback<UserModifyInfo>() {
+        retrofit2.Call<String> request=modifyUserInfoService.ModifyUserInfo(authorization,accept,content_type,userModifyInfo);
+        request.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<UserModifyInfo> call, Response<UserModifyInfo> response) {
-                if(response.code()==200) { //정상적으로 로그인이 되었을 때
-                    bundle.putString("acess_token",(String)bundle.getString("access_token"));
+            public void onResponse(Call<String> call, Response<String>  response) {
+                if(response.code()==204) { //정상적으로 로그인이 되었을 때
+                    Bundle bundle1=new Bundle();
+                    bundle1.putString("access_token",(String)bundle.getString("access_token"));
                     MainActivity.backgroundThreadShortToast(getActivity(), "수정되었습니다.");
+                    MypageConnectingFragment mypageConnectingFragment=new MypageConnectingFragment();
+                    mypageConnectingFragment.setArguments(bundle1);
                     getFragmentManager().beginTransaction().replace(R.id.fragment_container, mypageConnectingFragment).commit();
                 }
                 else{ //토큰 만료기한이 끝나, 재로그인이 필요할 때
@@ -146,7 +149,7 @@ public class userModifyFragment extends Fragment{
                 }
             }
             @Override
-            public void onFailure(Call<UserModifyInfo> call, Throwable t) {
+            public void onFailure(Call<String> call, Throwable t) {
             }
         });
     }
@@ -250,9 +253,8 @@ public class userModifyFragment extends Fragment{
      */
     /* 사용자 정보를 변경하는 인터페이스*/
     public interface ModifyUserInfoService {
-        @FormUrlEncoded
         @PATCH("api/consumers")
-        retrofit2.Call ModifyUserInfo(@Header("Authorization") String authorization,
+        retrofit2.Call<String> ModifyUserInfo(@Header("Authorization") String authorization,
                                       @Header("Accept") String accept,
                                       @Header("Content-Type") String content_type,
                                       @Body UserModifyInfo userModifyInfo);

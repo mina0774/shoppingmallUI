@@ -37,7 +37,6 @@ public class MypageConnectingFragment extends Fragment {
     @BindView(R.id.mypage_gender_m)
     TextView mypage_gender_m;
 
-    userModifyFragment userModifyFragment=new userModifyFragment();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +53,8 @@ public class MypageConnectingFragment extends Fragment {
         mypage_userModify_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                userModifyFragment userModifyFragment=new userModifyFragment();
                 bundle.putString("acess_token",access_token);
                 userModifyFragment.setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, userModifyFragment).commit();

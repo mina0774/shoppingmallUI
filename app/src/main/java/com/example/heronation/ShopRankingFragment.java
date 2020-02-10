@@ -18,10 +18,13 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
+import retrofit2.http.GET;
+import retrofit2.http.Header;
+
 
 public class ShopRankingFragment extends Fragment {
     private RecyclerView shop_recyclerView;
-    private ArrayList<Shop> shop_list=new ArrayList<>();
+    private ArrayList<Content> shop_list=new ArrayList<>();
     private ImageButton filter_button;
     private Button search_button;
 
@@ -32,14 +35,13 @@ public class ShopRankingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        shop_list.clear();
+
         /* Shop 목록을 생성함 */
         this.make_shop_list();
 
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_shop_ranking, container,false);
         shop_recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view_shop_ranking);
-
 
         /* 리사이클러뷰 객체 생성 */
         ShopRecyclerViewAdapter shopRecyclerViewAdapter=new ShopRecyclerViewAdapter(getActivity(),shop_list);
@@ -81,7 +83,7 @@ public class ShopRankingFragment extends Fragment {
     public void make_shop_list(){
         /* Shop 목록을 생성함 */
 
-        shop_list.add(new Shop("1","크림치즈마켓","#20대 #심플베이직 #러블리",
+      /*  shop_list.add(new Shop("1","크림치즈마켓","#20대 #심플베이직 #러블리",
                 "https://creamcheese.co.kr/web/product/extra/big/20200103/a6f044e55e57a52499d86d8d52fbbe97.jpg",
                 "https://creamcheese.co.kr/web/product/extra/big/201910/771a37dd6951ee991d401d58000999d6.jpeg",
                 "https://creamcheese.co.kr/web/product/extra/big/201908/4bb1ddaaaacbbc33aef005355888877a.jpeg"));
@@ -101,10 +103,21 @@ public class ShopRankingFragment extends Fragment {
                 "https://shop-phinf.pstatic.net/20191125_109/1574647089099J0mEe_JPEG/12007827730061169_1986553615.jpg?type=f260",
                 "https://shop-phinf.pstatic.net/20191218_109/1576635660713BY1b0_JPEG/13997203139003091_948360031.jpg?type=f260",
                 "https://shop-phinf.pstatic.net/20191217_209/1576546329655vHwlr_JPEG/13907068283633976_1742837673.jpg?type=f260"));
-
-
-
+*/
     }
+
+    //인터페이스 - 추상 메소드(구현부가 없는 메시드)의 모임
+    /* retrofit은 인터페이스에 기술된 명세를 Http API(호출 가능한 객체)로 전환해줌
+    => 우리가 요청할 API들에 대한 명세만을 Interface에 기술해두면 됨.
+     */
+    /* 사용자 정보를 서버에서 받아오는 인터페이스*/
+    public interface UserInfoService {
+        @GET("api//shopmalls?page=1&size=31&sort=id,desc") //여기서 size는 몇개의 쇼핑몰의 정보를 불러올 것인지, sort는 id로 내림차순
+        retrofit2.Call<UserMyInfo> UserInfo(@Header("authorization") String authorization,
+                                            @Header("Accept") String accept);
+    }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:text="#20대 #심플베이직 #러블리"/>
-
+<!--
         <LinearLayout
             android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"/>
         </LinearLayout>
-
+-->
 
         </LinearLayout>
 

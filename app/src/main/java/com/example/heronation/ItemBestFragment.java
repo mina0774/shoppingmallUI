@@ -32,8 +32,6 @@ public class ItemBestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        item_list.clear();
-
         /* 카테고리 리스트에 아이템 추가
          *  여기서 카테고리 이름이나, 이미지 변경하면 됨*/
         this.make_category();

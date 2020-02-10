@@ -21,11 +21,11 @@ import java.util.List;
 public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerViewAdapter.Holder> {
 
     private Context context;
-    private List<Shop> shop_list=new ArrayList<>();
+    private List<com.example.heronation.Content> content=new ArrayList<>();
 
-    public ShopRecyclerViewAdapter(Context context, List<Shop> shop_list) {
+    public ShopRecyclerViewAdapter(Context context,List<com.example.heronation.Content> shop_list) {
         this.context = context;
-        this.shop_list = shop_list;
+        this.content = shop_list;
     }
 
     /* viewType 형태의 아이템 뷰를 위한 뷰홀더 객체 생성*/
@@ -40,15 +40,26 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
     /* position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시 */
     @Override
     public void onBindViewHolder(@NonNull final ShopRecyclerViewAdapter.Holder holder, int position) {
-        holder.shop_ranking.setText(shop_list.get(position).getShop_num());
-        holder.shop_name.setText(shop_list.get(position).getShop_name());
-        holder.shop_tag.setText(shop_list.get(position).getShop_tag());
+        holder.shop_ranking.setText(content.get(position).getId());
+        holder.shop_name.setText(content.get(position).getName());
 
-        /* Glide를 통해 URL로 받아온 이미지를 로드해서 뷰홀더에 있는 이미지뷰에 뿌려줌 */
+        String shop_tag="";
+
+        for(int i=0;i<content.get(position).getAgeTagResponses().size();i++){
+            shop_tag.concat(content.get(position).getAgeTagResponses().get(i)+" ");
+        }
+        for(int i=0;i<content.get(position).getStyleTagResponses().size();i++){
+            shop_tag.concat(content.get(position).getStyleTagResponses().get(i)+" ");
+        }
+
+        holder.shop_tag.setText(shop_tag);
+
+        /* Glide를 통해 URL로 받아온 이미지를 로드해서 뷰홀더에 있는 이미지뷰에 뿌려줌
         int item_position=position;
         Glide.with(context).load(shop_list.get(item_position).getShop_image1()).error(R.drawable.shop_img1).crossFade().into(holder.shop_img1);
         Glide.with(context).load(shop_list.get(item_position).getShop_image2()).error(R.drawable.shop_img2).crossFade().into(holder.shop_img2);
         Glide.with(context).load(shop_list.get(item_position).getShop_image3()).error(R.drawable.shop_img3).crossFade().into(holder.shop_img3);
+         */
 
         /* 즐겨찾기 버튼 별 모양을 클릭했을 때,
         선택될 시에 사진을 노란색 별모양으로 설정
@@ -73,7 +84,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
     /* 전체 아이템 개수를 return */
     @Override
     public int getItemCount() {
-        return shop_list.size();
+        return content.size();
     }
 
     /* 뷰홀더 데이터가 놓일 공간을 마련해준다. */
@@ -81,9 +92,9 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
         public TextView shop_ranking;
         public TextView shop_name;
         public TextView shop_tag;
-        public ImageView shop_img1;
-        public ImageView shop_img2;
-        public ImageView shop_img3;
+   //     public ImageView shop_img1;
+   //    public ImageView shop_img2;
+   //     public ImageView shop_img3;
         public ImageButton favorite_button;
 
         public Holder(View view){
@@ -91,9 +102,9 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
             shop_ranking=(TextView)view.findViewById(R.id.shop_ranking_shop_ranking);
             shop_name=(TextView)view.findViewById(R.id.shop_ranking_shop_name);
             shop_tag=(TextView)view.findViewById(R.id.shop_ranking_shop_tag);
-            shop_img1=(ImageView)view.findViewById(R.id.shop_ranking_shop_img1);
-            shop_img2=(ImageView)view.findViewById(R.id.shop_ranking_shop_img2);
-            shop_img3=(ImageView)view.findViewById(R.id.shop_ranking_shop_img3);
+   //         shop_img1=(ImageView)view.findViewById(R.id.shop_ranking_shop_img1);
+   //         shop_img2=(ImageView)view.findViewById(R.id.shop_ranking_shop_img2);
+   //         shop_img3=(ImageView)view.findViewById(R.id.shop_ranking_shop_img3);
             favorite_button=(ImageButton)view.findViewById(R.id.favorite_button);
 
         }

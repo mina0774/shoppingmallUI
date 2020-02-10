@@ -30,8 +30,6 @@ public class ItemAiFragment extends Fragment {
         /* 아이템(상품) 추가 */
         this.make_item_list();
 
-
-
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_ai,container,false);
         /* 수직 리사이클러뷰의 하나의 아이템에 수평 리사이클러뷰의 아이템을 수평 방향으로 배치 설정, 어댑터 지정

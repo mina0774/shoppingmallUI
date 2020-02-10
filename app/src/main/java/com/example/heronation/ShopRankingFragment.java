@@ -18,6 +18,9 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 
@@ -36,19 +39,13 @@ public class ShopRankingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        /* Shop 목록을 생성함 */
-        this.make_shop_list();
 
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_shop_ranking, container,false);
         shop_recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view_shop_ranking);
 
-        /* 리사이클러뷰 객체 생성 */
-        ShopRecyclerViewAdapter shopRecyclerViewAdapter=new ShopRecyclerViewAdapter(getActivity(),shop_list);
-        /* 레이아웃 매니저 수평으로 지정 */
-        shop_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
-        /* 리사이클러뷰에 어댑터 지정 */
-        shop_recyclerView.setAdapter(shopRecyclerViewAdapter);
+
+        GetShopInfo();
 
         /* 필터 버튼
          *  필터 버튼을 눌렀을 때, 팝업창을 띄어줌
@@ -80,8 +77,11 @@ public class ShopRankingFragment extends Fragment {
         return rootView;
     }
 
-    public void make_shop_list(){
+    public void make_shop_list(ShopListInfo shopListInfo){
         /* Shop 목록을 생성함 */
+        for(int i=0;i<shopListInfo.getContent().size();i++){
+            shop_list.add(shopListInfo.getContent().get(i));
+        }
 
       /*  shop_list.add(new Shop("1","크림치즈마켓","#20대 #심플베이직 #러블리",
                 "https://creamcheese.co.kr/web/product/extra/big/20200103/a6f044e55e57a52499d86d8d52fbbe97.jpg",
@@ -106,17 +106,34 @@ public class ShopRankingFragment extends Fragment {
 */
     }
 
-    //인터페이스 - 추상 메소드(구현부가 없는 메시드)의 모임
-    /* retrofit은 인터페이스에 기술된 명세를 Http API(호출 가능한 객체)로 전환해줌
-    => 우리가 요청할 API들에 대한 명세만을 Interface에 기술해두면 됨.
-     */
-    /* 사용자 정보를 서버에서 받아오는 인터페이스*/
-    public interface UserInfoService {
-        @GET("api//shopmalls?page=1&size=31&sort=id,desc") //여기서 size는 몇개의 쇼핑몰의 정보를 불러올 것인지, sort는 id로 내림차순
-        retrofit2.Call<UserMyInfo> UserInfo(@Header("authorization") String authorization,
-                                            @Header("Accept") String accept);
-    }
 
+    /*Shop의 정보를 얻는 함수*/
+    public void GetShopInfo(){
+        String authorization="zeyo-api-key QVntgqTsu6jqt7hQSVpF7ZS8Tw==";
+        String accept="application/json";
+
+        ShopInfoService shopInfoService=ServiceGenerator.createService(ShopInfoService.class);
+        retrofit2.Call<ShopListInfo> request=shopInfoService.ShopInfo(authorization,accept);
+           request.enqueue(new Callback<ShopListInfo>() {
+                @Override
+                public void onResponse(Call<ShopListInfo> call, Response<ShopListInfo> response) {
+                    System.out.println("Response"+response.code());
+                    ShopListInfo shopListInfo=response.body();
+                    /* Shop 목록을 생성함 */
+                    make_shop_list(shopListInfo);
+                    /* 리사이클러뷰 객체 생성 */
+                    ShopRecyclerViewAdapter shopRecyclerViewAdapter=new ShopRecyclerViewAdapter(getActivity(),shop_list);
+                    /* 레이아웃 매니저 수평으로 지정 */
+                    shop_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
+                    /* 리사이클러뷰에 어댑터 지정 */
+                    shop_recyclerView.setAdapter(shopRecyclerViewAdapter);
+                }
+                @Override
+                public void onFailure(Call<ShopListInfo> call, Throwable t) {
+                    System.out.println("error + Connect Server Error is " + t.toString());
+                }
+            });
+        }
 
 
     /**
@@ -138,4 +155,18 @@ public class ShopRankingFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+    //인터페이스 - 추상 메소드(구현부가 없는 메시드)의 모임
+    /* retrofit은 인터페이스에 기술된 명세를 Http API(호출 가능한 객체)로 전환해줌
+    => 우리가 요청할 API들에 대한 명세만을 Interface에 기술해두면 됨.
+     */
+    /* 사용자 정보를 서버에서 받아오는 인터페이스*/
+    public interface ShopInfoService {
+        @GET("api//shopmalls?page=1&size=31&sort=id,asc")
+            //여기서 size는 몇개의 쇼핑몰의 정보를 불러올 것인지, sort는 id로 내림차순
+        retrofit2.Call<ShopListInfo> ShopInfo(@Header("authorization") String authorization,
+                                              @Header("Accept") String accept);
+    }
+
 }

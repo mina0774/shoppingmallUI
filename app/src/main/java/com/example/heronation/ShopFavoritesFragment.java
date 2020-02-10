@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class ShopFavoritesFragment extends Fragment {
     private RecyclerView shop_recyclerView;
-    private ArrayList<Shop> shop_list=new ArrayList<>();
+    private ArrayList<Content> shop_list=new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,7 +42,7 @@ public class ShopFavoritesFragment extends Fragment {
 
     public void make_shop_list(){
         /* Shop 목록을 생성함 */
-
+/*
         shop_list.add(new Shop("1", "크림치즈마켓", "#20대 #심플베이직 #러블리",
                 "https://image.brandi.me/cproduct/2019/10/12/11088968_1570884084_image1_M.jpg",
                 "https://image.brandi.me/cproduct/2020/01/10/13113748_1578653315_image1_M.jpg",
@@ -52,8 +52,7 @@ public class ShopFavoritesFragment extends Fragment {
                 "https://image.brandi.me/cproduct/2019/10/29/11520797_1572357010_image1_M.jpg",
                 "https://image.brandi.me/cproduct/2019/11/15/11911973_1573813700_image1_M.jpg"));
 
-
-
+*/
 
     }
 

@@ -1,6 +1,7 @@
 package com.example.heronation;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,16 +41,16 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
     /* position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시 */
     @Override
     public void onBindViewHolder(@NonNull final ShopRecyclerViewAdapter.Holder holder, int position) {
-        holder.shop_ranking.setText(content.get(position).getId());
+        holder.shop_ranking.setText(content.get(position).getId().toString());
         holder.shop_name.setText(content.get(position).getName());
 
         String shop_tag="";
 
         for(int i=0;i<content.get(position).getAgeTagResponses().size();i++){
-            shop_tag.concat(content.get(position).getAgeTagResponses().get(i)+" ");
+            shop_tag+="#"+content.get(position).getAgeTagResponses().get(i).getName()+" ";
         }
         for(int i=0;i<content.get(position).getStyleTagResponses().size();i++){
-            shop_tag.concat(content.get(position).getStyleTagResponses().get(i)+" ");
+            shop_tag+="#"+content.get(position).getStyleTagResponses().get(i).getName()+" ";
         }
 
         holder.shop_tag.setText(shop_tag);

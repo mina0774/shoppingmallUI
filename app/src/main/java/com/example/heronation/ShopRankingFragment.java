@@ -79,7 +79,7 @@ public class ShopRankingFragment extends Fragment {
 
     public void make_shop_list(ShopListInfo shopListInfo){
         /* Shop 목록을 생성함 */
-        for(int i=0;i<shopListInfo.getContent().size();i++){
+        for(int i=shopListInfo.getContent().size()-1;i>=0;i--){
             shop_list.add(shopListInfo.getContent().get(i));
         }
 

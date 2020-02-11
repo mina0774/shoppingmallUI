@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class ShopItemPackage {
 /* all best, 하의 best ... 등의 아이템 묶음의 대표 제목과, 그에 속하는 각각의 상품들을 나타내는 클래스 */
     private String packageName;
-    private ArrayList<ShopItem> shopItems;
+    private ArrayList<ItemContent> shopItems;
 
-    public ShopItemPackage(String packageName, ArrayList<ShopItem> shopItems) {
+    public ShopItemPackage(String packageName, ArrayList<ItemContent> shopItems) {
         this.packageName = packageName;
         this.shopItems = shopItems;
     }
@@ -16,7 +16,7 @@ public class ShopItemPackage {
         return packageName;
     }
 
-    public ArrayList<ShopItem> getShopItems() {
+    public ArrayList<ItemContent> getShopItems() {
         return shopItems;
     }
 }

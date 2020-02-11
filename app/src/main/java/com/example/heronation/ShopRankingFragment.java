@@ -162,7 +162,7 @@ public class ShopRankingFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    //인터페이스 - 추상 메소드(구현부가 없는 메시드)의 모임
+    //인터페이스 - 추상 메소드(구현부가 없는 메서드)의 모임
     /* retrofit은 인터페이스에 기술된 명세를 Http API(호출 가능한 객체)로 전환해줌
     => 우리가 요청할 API들에 대한 명세만을 Interface에 기술해두면 됨.
      */

@@ -54,7 +54,7 @@ public class ItemAiFragment extends Fragment {
     }
 
     public void make_item_list(){
-        /* 아이템(상품) 추가 */
+        /* 아이템(상품) 추가
         ArrayList<ShopItem> shopItem1=new ArrayList<>();
         shopItem1.add(new ShopItem("https://slowand.com/web/product/medium/20191231/19123abae92c3f10204863e9d4bba5b9.webp",
                 "버터 케이블 가디건", "슬로우앤드", 30000, 25000));
@@ -110,6 +110,8 @@ public class ItemAiFragment extends Fragment {
                 "오트밀 세인트 핸드메이드 코트", "고고싱", 53000, 50000));
         // 상품들 묶음 추가
         item_list.add(new ShopItemPackage("비슷한 스타일 유저의 추천",shopItem4));
+
+         */
 
     }
 

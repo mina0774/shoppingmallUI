@@ -73,7 +73,7 @@ public class ItemBestFragment extends Fragment {
     }
 
     public void make_item_list(){
-        /* 아이템(상품) 추가 */
+        /* 아이템(상품) 추가
         ArrayList<ShopItem> shopItem1=new ArrayList<>();
         shopItem1.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191122/31de60c9a2096b6bf648d111684eacb7.gif",
                 "앙고라 머플러 반코트", "고고싱", 53000, 50000));
@@ -115,6 +115,8 @@ public class ItemBestFragment extends Fragment {
                 "앙고라머플러반코트", "고고싱", 53000, 50000));
         // 상품들 묶음 추가
         item_list.add(new ShopItemPackage("하의 best",shopItem3));
+
+         */
     }
 
 

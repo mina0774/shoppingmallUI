@@ -16,7 +16,7 @@ public class ShopWebViewActivity extends AppCompatActivity {
 
     @BindView(R.id.shop_web_view)
     WebView shop_web_view;
-    
+
     // TODO: 2020-02-11 뒤로가기 버튼 눌렀을 때, 아이템 홈 화면 뜨는 것 처리하기 
 
     @Override
@@ -25,10 +25,10 @@ public class ShopWebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_shop_web_view);
         ButterKnife.bind(this);
         String site_link;
-        if(!getIntent().getStringExtra("shop_link").contains("http")){
-            site_link="http://"+getIntent().getStringExtra("shop_link");
-        }else{
-            site_link=getIntent().getStringExtra("shop_link");
+        if(!getIntent().getStringExtra("shop_link").contains("http")){ // 링크에 http가 포함되어있지 않을 경우에
+            site_link="http://"+getIntent().getStringExtra("shop_link"); // 링크 앞에 http를 포함시켜줌
+        }else{ //링크에 http가 포함되어 있을 경우에
+            site_link=getIntent().getStringExtra("shop_link"); //그대로 링크를 받음
         }
 
         shop_web_view.getSettings().setJavaScriptEnabled(true); //자바스크립트 허용

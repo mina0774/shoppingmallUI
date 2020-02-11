@@ -5,16 +5,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,10 +26,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public class ShopRankingFragment extends Fragment {
     private RecyclerView shop_recyclerView;
+    private ShopRecyclerViewAdapter shopRecyclerViewAdapter;
     private ArrayList<Content> shop_list=new ArrayList<>();
     private ImageButton filter_button;
     private Button search_button;
@@ -35,17 +41,22 @@ public class ShopRankingFragment extends Fragment {
     private ImageAdapter imageAdapter;
     private ViewPager viewPager;
 
+    /* 데이터의 총 페이지수와 현재 가리키고 있는 페이지 번호*/
+    private Integer current_page;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_shop_ranking, container,false);
         shop_recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view_shop_ranking);
+        /* 레이아웃 매니저 수평으로 지정 */
+        shop_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-
-        GetShopInfo();
+        /* 처음에 리사이클러뷰 값을 설정해주는 작업 */
+        SetRecyclerViewFirst();
+        /* 페이징 처리한 데이터를 로딩하는 함수 */
+        LoadingData();
 
         /* 필터 버튼
          *  필터 버튼을 눌렀을 때, 팝업창을 띄어줌
@@ -106,34 +117,61 @@ public class ShopRankingFragment extends Fragment {
 */
     }
 
+    /* 처음에 리사이클러뷰 값을 설정해주는 작업 */
+    public void SetRecyclerViewFirst(){
+        //전체 페이지의 개수는 4개이므로 4페이지부터 시작
+        GetShopInfo(4);
+        //현재 가리키고 있는 페이지 번호
+        current_page = 4;
+        //데이터를 서버에서 8개씩 로드해서 리사이클러뷰에 뿌려줌
+        /* 리사이클러뷰 객체 생성 */
+        shopRecyclerViewAdapter = new ShopRecyclerViewAdapter(getActivity(), shop_list);
+        /* 리사이클러뷰에 어댑터 지정 */
+        shop_recyclerView.setAdapter(shopRecyclerViewAdapter);
+    }
 
     /*Shop의 정보를 얻는 함수*/
-    public void GetShopInfo(){
-        String authorization="zeyo-api-key QVntgqTsu6jqt7hQSVpF7ZS8Tw==";
-        String accept="application/json";
+    public void GetShopInfo(Integer page_num) {
+        String authorization = "zeyo-api-key QVntgqTsu6jqt7hQSVpF7ZS8Tw==";
+        String accept = "application/json";
 
-        ShopInfoService shopInfoService=ServiceGenerator.createService(ShopInfoService.class);
-        retrofit2.Call<ShopListInfo> request=shopInfoService.ShopInfo(authorization,accept);
-           request.enqueue(new Callback<ShopListInfo>() {
-                @Override
-                public void onResponse(Call<ShopListInfo> call, Response<ShopListInfo> response) {
-                    System.out.println("Response"+response.code());
-                    ShopListInfo shopListInfo=response.body();
+        ShopInfoService shopInfoService = ServiceGenerator.createService(ShopInfoService.class);
+        retrofit2.Call<ShopListInfo> request = shopInfoService.ShopInfo(page_num,8,"id,asc", authorization, accept);
+        request.enqueue(new Callback<ShopListInfo>() {
+            @Override
+            public void onResponse(Call<ShopListInfo> call, Response<ShopListInfo> response) {
+                System.out.println("Response" + response.code());
+                if(response.code()==200) {
+                    ShopListInfo shopListInfo = response.body();
                     /* Shop 목록을 생성함 */
                     make_shop_list(shopListInfo);
-                    /* 리사이클러뷰 객체 생성 */
-                    ShopRecyclerViewAdapter shopRecyclerViewAdapter=new ShopRecyclerViewAdapter(getActivity(),shop_list);
-                    /* 레이아웃 매니저 수평으로 지정 */
-                    shop_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
-                    /* 리사이클러뷰에 어댑터 지정 */
-                    shop_recyclerView.setAdapter(shopRecyclerViewAdapter);
+                    shopRecyclerViewAdapter.notifyDataSetChanged();
                 }
-                @Override
-                public void onFailure(Call<ShopListInfo> call, Throwable t) {
-                    System.out.println("error + Connect Server Error is " + t.toString());
+            }
+
+            @Override
+            public void onFailure(Call<ShopListInfo> call, Throwable t) {
+                System.out.println("error + Connect Server Error is " + t.toString());
+            }
+        });
+    }
+
+    /* 페이징 처리한 데이터를 로딩하는 함수 */
+    public void LoadingData() {
+        shop_recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                int itemTotalCount = recyclerView.getAdapter().getItemCount() - 1;
+                if (lastVisibleItemPosition == itemTotalCount) {
+                    current_page-=1;
+                    GetShopInfo(current_page);
                 }
-            });
-        }
+            }
+
+        });
+    }
 
 
     /**
@@ -163,9 +201,12 @@ public class ShopRankingFragment extends Fragment {
      */
     /* 사용자 정보를 서버에서 받아오는 인터페이스*/
     public interface ShopInfoService {
-        @GET("api//shopmalls?page=1&size=31&sort=id,asc")
-            //여기서 size는 몇개의 쇼핑몰의 정보를 불러올 것인지, sort는 id로 내림차순
-        retrofit2.Call<ShopListInfo> ShopInfo(@Header("authorization") String authorization,
+        @GET("api/shopmalls")
+            //여기서 size는 몇개의 쇼핑몰의 정보를 불러올 것인지, 오름차순으로 sort 해야하는데 안됨.
+        retrofit2.Call<ShopListInfo> ShopInfo(@Query("page") Integer page_num,
+                                              @Query("size") Integer size,
+                                              @Query("sort") String sort,
+                                              @Header("authorization") String authorization,
                                               @Header("Accept") String accept);
     }
 

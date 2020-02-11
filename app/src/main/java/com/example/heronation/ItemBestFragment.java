@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ItemBestFragment extends Fragment {
     private RecyclerView category_recyclerView;
@@ -28,6 +33,12 @@ public class ItemBestFragment extends Fragment {
     private ImageAdapter imageAdapter;
     private ViewPager viewPager;
 
+    private NestedScrollView nested_item_best;
+    /* 상품 리스트 묶음 번호 */
+    private Integer package_num;
+    /* 상품 리스트 묶음 이름의 리스트 */
+    private ArrayList<String> package_name_list=new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,12 +47,11 @@ public class ItemBestFragment extends Fragment {
          *  여기서 카테고리 이름이나, 이미지 변경하면 됨*/
         this.make_category();
 
-        /* 아이템(상품) 추가 */
-        this.make_item_list();
 
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_best,container,false);
         category_recyclerView=(RecyclerView)rootView.findViewById(R.id.item_best_item_category);
+        nested_item_best=(NestedScrollView)rootView.findViewById(R.id.nested_item_best);
 
         /* 리사이클러뷰 객체 생성 */
         itemBestCategoryAdapter=new ItemBestCategoryAdapter(getActivity(),list);
@@ -64,6 +74,12 @@ public class ItemBestFragment extends Fragment {
         item_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         item_recyclerView.setAdapter(verticalAdapter);
 
+        /* 상품 목록 리스트의 이름 리스트 생성*/
+        package_name_list.add("All best");
+        package_name_list.add("상의 best");
+        package_name_list.add("하의 best");
+        loadItems(nested_item_best,getActivity());
+
         /* 이미지 슬라이딩을 위해 뷰페이저를 이용했고, 이를 설정해주는 이미지 어댑터를 설정하여 슬라이딩 구현 */
         viewPager=(ViewPager)rootView.findViewById(R.id.image_view_best);
         imageAdapter=new ImageAdapter(getActivity());
@@ -72,51 +88,53 @@ public class ItemBestFragment extends Fragment {
         return rootView;
     }
 
-    public void make_item_list(){
-        /* 아이템(상품) 추가
-        ArrayList<ShopItem> shopItem1=new ArrayList<>();
-        shopItem1.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191122/31de60c9a2096b6bf648d111684eacb7.gif",
-                "앙고라 머플러 반코트", "고고싱", 53000, 50000));
-        shopItem1.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191128/87b5a0ae6e03d0977e58b787bab5d1ac.gif",
-                "떡볶이 코트", "고고싱", 53000, 45000));
-        shopItem1.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
-                "핸드메이드 코트", "고고싱", 63000, 60000));
-        shopItem1.add(new ShopItem("https://www.ggsing.com/web/product/medium/201911/1d060a6ef06b95fcff02f2237d661f82.gif",
-                "앙고라 머플러 반코트", "고고싱", 53000, 50000));
-        shopItem1.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
-                "앙고라 머플러 반코트", "고고싱", 53000, 50000));
-        // 상품들 묶음 추가
-        item_list.add(new ShopItemPackage("All best",shopItem1));
+    /*Item의 정보를 얻는 함수*/
+    public void GetItemInfo(Integer page_num,String package_name) {
+        String authorization = "zeyo-api-key QVntgqTsu6jqt7hQSVpF7ZS8Tw==";
+        String accept = "application/json";
 
-        ArrayList<ShopItem> shopItem2=new ArrayList<>();
-        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191122/31de60c9a2096b6bf648d111684eacb7.gif",
-                "앙고라머플러반코트", "고고싱", 53000, 50000));
-        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191128/87b5a0ae6e03d0977e58b787bab5d1ac.gif",
-                "떡볶이코트", "고고싱", 53000, 50000));
-        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
-                "떡볶이코트", "고고싱", 53000, 50000));
-        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/201911/1d060a6ef06b95fcff02f2237d661f82.gif",
-                "앙고라머플러반코트", "고고싱", 53000, 50000));
-        shopItem2.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
-                "앙고라머플러반코트", "고고싱", 53000, 50000));
-        // 상품들 묶음 추가
-        item_list.add(new ShopItemPackage("상의 best",shopItem2));
+        ItemHomeFragment.ItemInfoService itemInfoService = ServiceGenerator.createService(ItemHomeFragment.ItemInfoService.class);
+        retrofit2.Call<ShopItemInfo> request = itemInfoService.ItemInfo(page_num,5,"id,asc","heronation","cafe24", authorization, accept);
+        request.enqueue(new Callback<ShopItemInfo>() {
+            @Override
+            public void onResponse(Call<ShopItemInfo> call, Response<ShopItemInfo> response) {
+                System.out.println("Response" + response.code());
+                if(response.code()==200) {
+                    //아이템의 데이터를 받는 리스트
+                    ArrayList<ItemContent> item_info=new ArrayList<>();
+                    ShopItemInfo shopItemInfo = response.body();
+                    /* Shop 목록을 생성함 */
+                    for(int i = 0; i<shopItemInfo.getContent().size(); i++){
+                        item_info.add(shopItemInfo.getContent().get(i));
+                    }
+                    item_list.add(new ShopItemPackage(package_name,item_info));
+                    verticalAdapter.notifyDataSetChanged();
+                }
+            }
 
-        ArrayList<ShopItem> shopItem3=new ArrayList<>();
-        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191122/31de60c9a2096b6bf648d111684eacb7.gif",
-                "앙고라머플러반코트", "고고싱", 53000, 50000));
-        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/20191128/87b5a0ae6e03d0977e58b787bab5d1ac.gif",
-                "앙고라머플러반코트", "고고싱", 53000, 50000));
-        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
-                "앙고라머플러반코트", "고고싱", 53000, 50000));
-        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/201911/1d060a6ef06b95fcff02f2237d661f82.gif",
-                "앙고라머플러반코트", "고고싱", 53000, 50000));
-        shopItem3.add(new ShopItem("https://www.ggsing.com/web/product/medium/201910/ec8129532e1a12ff2728d6c45ba51d39.gif",
-                "앙고라머플러반코트", "고고싱", 53000, 50000));
-        // 상품들 묶음 추가
-        item_list.add(new ShopItemPackage("하의 best",shopItem3));
+            @Override
+            public void onFailure(Call<ShopItemInfo> call, Throwable t) {
+                System.out.println("error + Connect Server Error is " + t.toString());
+            }
+        });
+    }
 
-         */
+    //package 넘버가 page 넘버 (임의로 이렇게 구현해둠 변경 필요)
+    /** 동적 로딩을 위한 NestedScrollView의 아래 부분을 인식 **/
+    public void loadItems(NestedScrollView nestedScrollView, final Context context) {
+        package_num=4;
+        GetItemInfo(package_num,package_name_list.get(package_num-4));
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+                    if(package_num<6) {
+                        package_num+=1;
+                        GetItemInfo(package_num, package_name_list.get(package_num-4));
+                    }
+                }
+            }
+        });
     }
 
 

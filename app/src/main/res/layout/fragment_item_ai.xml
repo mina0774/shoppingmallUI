@@ -6,6 +6,7 @@
     tools:context=".ItemAiFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_item_ai"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -18,8 +19,7 @@
                 android:id="@+id/image_view_ai"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
-                android:scaleType="centerCrop"
-             />
+                android:scaleType="centerCrop" />
 
 
             <androidx.recyclerview.widget.RecyclerView

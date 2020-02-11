@@ -1,5 +1,6 @@
 package com.example.heronation;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +28,7 @@ import retrofit2.http.Query;
 
 
 public class ItemHomeFragment extends Fragment {
+    private NestedScrollView nested_item_home;
     private RecyclerView item_recyclerView;
     //아이템들의 묶음
     private ArrayList<ShopItemPackage> item_list=new ArrayList<>();
@@ -40,6 +44,11 @@ public class ItemHomeFragment extends Fragment {
     /* 검색창 */
     private EditText search_item;
 
+    /* 상품 리스트 묶음 번호 */
+    private Integer package_num;
+    /* 상품 리스트 묶음 이름의 리스트 */
+    private ArrayList<String> package_name_list=new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,14 +63,17 @@ public class ItemHomeFragment extends Fragment {
          *       수평 리사이클러뷰
          * */
         item_recyclerView=(RecyclerView)rootView.findViewById(R.id.item_home_recyclerViewVertical1);
+        nested_item_home=(NestedScrollView)rootView.findViewById(R.id.nested_item_home);
 
         verticalAdapter=new ItemVerticalAdapter(item_list,getActivity());
         item_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
         item_recyclerView.setAdapter(verticalAdapter);
 
-        GetItemInfo(1,"신상품");
-        GetItemInfo(2,"내 사이즈 추천");
-        GetItemInfo(3,"내 사이즈와 같은 회원의 인기상품");
+        /* 상품 목록 리스트의 이름 리스트 생성*/
+        package_name_list.add("신상품");
+        package_name_list.add("내 사이즈 추천");
+        package_name_list.add("내 사이즈와 같은 회원의 인기상품");
+        loadItems(nested_item_home,getActivity());
 
         /*  검색창 클릭했을 때, 아이템 검색 액티비티로 이동 */
         search_item=(EditText)rootView.findViewById(R.id.item_home_search_edittext);
@@ -131,6 +143,22 @@ public class ItemHomeFragment extends Fragment {
         });
     }
 
+    /** 동적 로딩을 위한 NestedScrollView의 아래 부분을 인식 **/
+    public void loadItems(NestedScrollView nestedScrollView, final Context context) {
+        package_num=1;
+        GetItemInfo(package_num,package_name_list.get(package_num-1));
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+                    if(package_num<3) {
+                        package_num+=1;
+                        GetItemInfo(package_num, package_name_list.get(package_num-1));
+                    }
+                }
+            }
+        });
+    }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

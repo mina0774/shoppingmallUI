@@ -48,6 +48,12 @@
             android:layout_height="wrap_content"
             android:textSize="10sp"
             android:text="#20대 #심플베이직 #러블리"/>
+
+        <TextView
+            android:id="@+id/shop_ranking_site_link"
+            android:visibility="invisible"
+            android:layout_width="20dp"
+            android:layout_height="20dp"/>
 <!--
         <LinearLayout
             android:layout_marginTop="8dp"

@@ -1,6 +1,7 @@
 package com.example.heronation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
     public void onBindViewHolder(@NonNull final ShopRecyclerViewAdapter.Holder holder, int position) {
         holder.shop_ranking.setText(shopContent.get(position).getId().toString());
         holder.shop_name.setText(shopContent.get(position).getName());
+        holder.shop_link.setText(shopContent.get(position).getUrl());
 
         String shop_tag="";
 
@@ -89,6 +91,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
         public TextView shop_ranking;
         public TextView shop_name;
         public TextView shop_tag;
+        public TextView shop_link;
    //     public ImageView shop_img1;
    //    public ImageView shop_img2;
    //     public ImageView shop_img3;
@@ -103,7 +106,21 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
    //         shop_img2=(ImageView)view.findViewById(R.id.shop_ranking_shop_img2);
    //         shop_img3=(ImageView)view.findViewById(R.id.shop_ranking_shop_img3);
             favorite_button=(ImageButton)view.findViewById(R.id.favorite_button);
+            shop_link=(TextView)view.findViewById(R.id.shop_ranking_site_link);
 
+
+            //특정 아이템이 클릭되었을 때 아이템에 대한 데이터 정보를 아이템 수정 페이지로 이동시켜줌
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=getAdapterPosition();
+                    if(position!=RecyclerView.NO_POSITION){
+                        Intent intent=new Intent(context,ShopWebViewActivity.class);
+                        intent.putExtra("shop_link",shop_link.getText().toString());
+                        context.startActivity(intent);
+                    }
+                }
+            });
         }
     }
 }

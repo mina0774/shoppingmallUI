@@ -1,6 +1,5 @@
 package com.example.heronation;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 
 public class ShopFavoritesFragment extends Fragment {
     private RecyclerView shop_recyclerView;
-    private ArrayList<Content> shop_list=new ArrayList<>();
+    private ArrayList<ShopContent> shop_list=new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

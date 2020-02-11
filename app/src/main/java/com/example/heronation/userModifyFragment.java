@@ -256,7 +256,7 @@ public class userModifyFragment extends Fragment{
         @PATCH("api/consumers")
         retrofit2.Call<String> ModifyUserInfo(@Header("Authorization") String authorization,
                                       @Header("Accept") String accept,
-                                      @Header("Content-Type") String content_type,
+                                      @Header("ShopContent-Type") String content_type,
                                       @Body UserModifyInfo userModifyInfo);
     }
 }

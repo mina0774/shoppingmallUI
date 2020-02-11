@@ -106,7 +106,7 @@ public class  loginPageActivity extends AppCompatActivity {
         @FormUrlEncoded
         @POST("oauth/token")
         retrofit2.Call<UserLoginInfo> LoginInfo(@Header("Accept") String accept,
-                                        @Header("Content-Type") String content_type,
+                                        @Header("ShopContent-Type") String content_type,
                                         @Header("heronation-api-login-key") String heronation_api_login_key,
                                         @Header("heronation-api-uniqId-key") String heronation_api_uniqId_key,
                                         @Header("Authorization") String authorization,

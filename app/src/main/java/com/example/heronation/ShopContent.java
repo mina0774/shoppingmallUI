@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Content {
+public class ShopContent {
     private Integer id;
     private String name;
     private String createDt;
@@ -18,7 +18,7 @@ public class Content {
     private List<AgeTagResponse> ageTagResponses = null;
     private List<StyleTagResponse> styleTagResponses = null;
 
-    public Content(Integer id, String name, String createDt, String storeType, String storeId, String url, String useYn, String memberId, Integer billingPolicyId, String billingPolicyName, List<AgeTagResponse> ageTagResponses, List<StyleTagResponse> styleTagResponses) {
+    public ShopContent(Integer id, String name, String createDt, String storeType, String storeId, String url, String useYn, String memberId, Integer billingPolicyId, String billingPolicyName, List<AgeTagResponse> ageTagResponses, List<StyleTagResponse> styleTagResponses) {
         this.id = id;
         this.name = name;
         this.createDt = createDt;

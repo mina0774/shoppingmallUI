@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class WishlistShopHaveFragment extends Fragment {
     private RecyclerView shop_recyclerView;
-    private ArrayList<Content> shop_list=new ArrayList<>();
+    private ArrayList<ShopContent> shop_list=new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

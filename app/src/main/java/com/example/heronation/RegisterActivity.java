@@ -324,7 +324,7 @@ public class RegisterActivity extends AppCompatActivity {
         @POST("api/consumers/registry")
         Call<String> postInfo(@Header("Authorization") String authorization,
                               @Header("Accept") String accept,
-                              @Header("Content-Type") String content_type,
+                              @Header("ShopContent-Type") String content_type,
                               @Field("consumerId") String consumerID, @Field("email") String email,
                               @Field("name") String name, @Field("password") String password,
                               @Field("gender") String gender, @Field("termsAdvertisement") String termsAdvertisement,

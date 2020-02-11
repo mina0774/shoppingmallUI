@@ -1,28 +1,21 @@
 package com.example.heronation;
 
+import com.airbnb.lottie.animation.content.Content;
 
 import java.util.List;
 
-public class ShopListInfo {
-    private List<ShopContent> content = null;
+public class ShopItemInfo {
+    private List<ItemContent> content = null;
     private Integer totalPages;
     private Integer totalElements;
     private Integer number;
     private Integer size;
 
-    public ShopListInfo(List<ShopContent> content, Integer totalPages, Integer totalElements, Integer number, Integer size) {
-        this.content = content;
-        this.totalPages = totalPages;
-        this.totalElements = totalElements;
-        this.number = number;
-        this.size = size;
-    }
-
-    public List<ShopContent> getShopContent() {
+    public List<ItemContent> getContent() {
         return content;
     }
 
-    public void setShopContent(List<ShopContent> content) {
+    public void setContent(List<ItemContent> content) {
         this.content = content;
     }
 

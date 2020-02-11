@@ -1,18 +1,14 @@
 package com.example.heronation;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +18,11 @@ import java.util.List;
 public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerViewAdapter.Holder> {
 
     private Context context;
-    private List<com.example.heronation.Content> content=new ArrayList<>();
+    private List<ShopContent> shopContent =new ArrayList<>();
 
-    public ShopRecyclerViewAdapter(Context context,List<com.example.heronation.Content> shop_list) {
+    public ShopRecyclerViewAdapter(Context context,List<ShopContent> shop_list) {
         this.context = context;
-        this.content = shop_list;
+        this.shopContent = shop_list;
     }
 
     /* viewType 형태의 아이템 뷰를 위한 뷰홀더 객체 생성*/
@@ -41,16 +37,16 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
     /* position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시 */
     @Override
     public void onBindViewHolder(@NonNull final ShopRecyclerViewAdapter.Holder holder, int position) {
-        holder.shop_ranking.setText(content.get(position).getId().toString());
-        holder.shop_name.setText(content.get(position).getName());
+        holder.shop_ranking.setText(shopContent.get(position).getId().toString());
+        holder.shop_name.setText(shopContent.get(position).getName());
 
         String shop_tag="";
 
-        for(int i=0;i<content.get(position).getAgeTagResponses().size();i++){
-            shop_tag+="#"+content.get(position).getAgeTagResponses().get(i).getName()+" ";
+        for(int i = 0; i< shopContent.get(position).getAgeTagResponses().size(); i++){
+            shop_tag+="#"+ shopContent.get(position).getAgeTagResponses().get(i).getName()+" ";
         }
-        for(int i=0;i<content.get(position).getStyleTagResponses().size();i++){
-            shop_tag+="#"+content.get(position).getStyleTagResponses().get(i).getName()+" ";
+        for(int i = 0; i< shopContent.get(position).getStyleTagResponses().size(); i++){
+            shop_tag+="#"+ shopContent.get(position).getStyleTagResponses().get(i).getName()+" ";
         }
 
         holder.shop_tag.setText(shop_tag);
@@ -85,7 +81,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
     /* 전체 아이템 개수를 return */
     @Override
     public int getItemCount() {
-        return content.size();
+        return shopContent.size();
     }
 
     /* 뷰홀더 데이터가 놓일 공간을 마련해준다. */

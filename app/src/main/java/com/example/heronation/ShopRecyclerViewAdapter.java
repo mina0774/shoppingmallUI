@@ -80,6 +80,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
 
     }
 
+
     /* 전체 아이템 개수를 return */
     @Override
     public int getItemCount() {

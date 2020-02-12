@@ -47,6 +47,11 @@ public class ShopWebViewActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override //뒤로가기 버튼을 눌렀을 때
+    public void onBackPressed(){
+
+    }
+
     private class WebViewClientClass extends WebViewClient {//페이지 이동
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

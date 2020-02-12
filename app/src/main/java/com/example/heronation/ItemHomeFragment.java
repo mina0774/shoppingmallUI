@@ -31,7 +31,7 @@ public class ItemHomeFragment extends Fragment {
     private NestedScrollView nested_item_home;
     private RecyclerView item_recyclerView;
     //아이템들의 묶음
-    private ArrayList<ShopItemPackage> item_list=new ArrayList<>();
+    private ArrayList<ShopItemPackage> item_list;
 
     private ItemVerticalAdapter verticalAdapter;
 
@@ -57,6 +57,8 @@ public class ItemHomeFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_home,container,false);
 
+        // 리사이클러뷰에 들어있는 아이템을 초기화
+        item_list=new ArrayList<>();
         /* 수직 리사이클러뷰의 하나의 아이템에 수평 리사이클러뷰의 아이템을 수평 방향으로 배치 설정, 어댑터 지정
          * (ex)  수평 리사이클러뷰
          *       수평 리사이클러뷰
@@ -77,13 +79,6 @@ public class ItemHomeFragment extends Fragment {
 
         /*  검색창 클릭했을 때, 아이템 검색 액티비티로 이동 */
         search_item=(EditText)rootView.findViewById(R.id.item_home_search_edittext);
-        search_item.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                Intent intent=new Intent(getContext(), ItemSearchActivity.class);
-                startActivity(intent);
-            }
-        });
         search_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

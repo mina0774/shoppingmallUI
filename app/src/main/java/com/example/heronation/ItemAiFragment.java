@@ -22,9 +22,8 @@ import retrofit2.Response;
 
 public class ItemAiFragment extends Fragment {
     private RecyclerView item_recyclerView1;
-    private ArrayList<ShopItemPackage> item_list=new ArrayList<>();
+    private ArrayList<ShopItemPackage> item_list;
     private ItemVerticalAdapter verticalAdapter1;
-
 
     /* 배너 슬라이딩을 위한 변수 */
     private ImageAdapter imageAdapter;
@@ -42,6 +41,10 @@ public class ItemAiFragment extends Fragment {
 
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_ai,container,false);
+
+        //아이템 리스트 초기화
+        item_list=new ArrayList<>();
+
         /* 수직 리사이클러뷰의 하나의 아이템에 수평 리사이클러뷰의 아이템을 수평 방향으로 배치 설정, 어댑터 지정
          * (ex)  수평 리사이클러뷰
          *       수평 리사이클러뷰

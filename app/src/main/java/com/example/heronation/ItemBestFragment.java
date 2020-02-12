@@ -26,8 +26,8 @@ public class ItemBestFragment extends Fragment {
     private RecyclerView item_recyclerView;
     private ItemBestCategoryAdapter itemBestCategoryAdapter;
     private ItemVerticalAdapter verticalAdapter;
-    private ArrayList<ItemBestCategory> list=new ArrayList<>();
-    private ArrayList<ShopItemPackage> item_list=new ArrayList<>();
+    private ArrayList<ItemBestCategory> list;
+    private ArrayList<ShopItemPackage> item_list;
 
     /* 배너 슬라이딩을 위한 변수 */
     private ImageAdapter imageAdapter;
@@ -42,6 +42,10 @@ public class ItemBestFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        //아이템 목록, 아이템 리스트 목록 초기화
+        list=new ArrayList<>();
+        item_list=new ArrayList<>();
 
         /* 카테고리 리스트에 아이템 추가
          *  여기서 카테고리 이름이나, 이미지 변경하면 됨*/

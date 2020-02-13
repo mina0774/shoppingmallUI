@@ -25,8 +25,12 @@ public class WishlistViewPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch(position){
             case 0:
-                WishlistClosetFragment wishlistClosetFragment=new WishlistClosetFragment();
-                return wishlistClosetFragment;
+                if(MainActivity.access_token.matches("null")) {
+                    WishlistClosetNotLoginFragment wishlistClosetNotLoginFragment = new WishlistClosetNotLoginFragment();
+                    return wishlistClosetNotLoginFragment;
+                }else{
+                    WishlistClosetFragment wishlistClosetFragment = new WishlistClosetFragment();
+                    return wishlistClosetFragment; }
             case 1:
                 WishlistItemFragment wishlistItemFragment=new WishlistItemFragment();
                 return wishlistItemFragment;

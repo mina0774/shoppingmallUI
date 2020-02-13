@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity
         ShopFavoritesFragment.OnFragmentInteractionListener,
         WishlistShopFragment.OnFragmentInteractionListener,
         WishlistRecentlyViewedItemFragment.OnFragmentInteractionListener,
-        WishlistClosetFragment.OnFragmentInteractionListener
+        WishlistClosetFragment.OnFragmentInteractionListener,
+        WishlistClosetNotLoginFragment.OnFragmentInteractionListener
 {
     /*
     * Fragment Manager 선언 -- Acitivity 내에서 Fragment를 관리해주기 위해서는 FragmentManager를 사용해야함

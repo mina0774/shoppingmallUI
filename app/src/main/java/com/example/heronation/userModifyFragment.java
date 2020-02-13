@@ -127,8 +127,7 @@ public class userModifyFragment extends Fragment{
         }
         UserModifyInfo userModifyInfo=new UserModifyInfo(user_name,modify_year,modify_month,modify_date,gender,termsAdvertisement);
 
-        Bundle bundle=getArguments();
-        String authorization="bearer "+(String)bundle.getString("access_token");
+        String authorization="bearer "+ MainActivity.access_token;
         String accept="application/json";
         String content_type="application/json";
         ModifyUserInfoService modifyUserInfoService=ServiceGenerator.createService(ModifyUserInfoService.class);
@@ -138,7 +137,7 @@ public class userModifyFragment extends Fragment{
             public void onResponse(Call<String> call, Response<String>  response) {
                 if(response.code()==204) { //정상적으로 로그인이 되었을 때
                     Bundle bundle1=new Bundle();
-                    bundle1.putString("access_token",(String)bundle.getString("access_token"));
+                    bundle1.putString("access_token", MainActivity.access_token);
                     MainActivity.backgroundThreadShortToast(getActivity(), "수정되었습니다.");
                     MypageConnectingFragment mypageConnectingFragment=new MypageConnectingFragment();
                     mypageConnectingFragment.setArguments(bundle1);
@@ -157,8 +156,7 @@ public class userModifyFragment extends Fragment{
     // 현재 유저 정보를 받아와 화면에 표시
     private void getCurrentUserInfo(){
         //회원정보를 받아옴
-        Bundle bundle=getArguments();
-        String authorization="bearer " + (String)bundle.getString("access_token");
+        String authorization="bearer " + MainActivity.access_token;
         String accept="application/json";
         MainActivity.UserInfoService userInfoService=ServiceGenerator.createService(MainActivity.UserInfoService.class);
         retrofit2.Call<UserMyInfo> request=userInfoService.UserInfo(authorization,accept);

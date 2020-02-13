@@ -44,18 +44,13 @@ public class MypageConnectingFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_mypage_connecting,container,false);
         ButterKnife.bind(this,rootView);
-        Bundle bundle=getArguments();
-        String access_token=(String)bundle.getString("access_token");
-        getUserInfo(access_token);
+        getUserInfo( MainActivity.access_token);
 
         /* 회원 정보 수정 버튼을 눌렀을 때 */
         mypage_userModify_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 userModifyFragment userModifyFragment=new userModifyFragment();
-                bundle.putString("access_token",access_token);
-                userModifyFragment.setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, userModifyFragment).commit();
             }
         });

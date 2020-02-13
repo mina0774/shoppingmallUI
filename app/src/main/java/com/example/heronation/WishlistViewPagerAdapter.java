@@ -20,7 +20,6 @@ public class WishlistViewPagerAdapter extends FragmentPagerAdapter {
         this.mPageCount=behavior;
     }
 
-
     @NonNull
     @Override
     public Fragment getItem(int position) {

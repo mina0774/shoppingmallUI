@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,6 @@ public class WishlistFragment extends Fragment {
          하단탭에서 Wishlist의 상단탭을 선택했을 시에만 보여져야 함
           */
         wishlist_tabLayout=(TabLayout)rootView.findViewById(R.id.wishlist_tab_layout);
-
         /* 뷰페이져 어댑터 객체를 생성하고,
          * 생성자를 통해서 프래그먼트 관리를 도와주는 FragmentManager와
          * 페이지의 개수를 탭의 개수와 맞춰주기 위해 Page Count를 받아온다.

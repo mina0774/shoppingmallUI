@@ -28,10 +28,10 @@ public class ItemNewFragment extends Fragment {
     private RecyclerView item_recyclerView_grid;
 
     private ItemVerticalAdapter newAdapter1;
-    private ArrayList<ShopItemPackage> item_list1=new ArrayList<>();
+    private ArrayList<ShopItemPackage> item_list1;
 
     private ItemNewAdapter newAdapter2;
-    private ArrayList<ShopItemPackage> item_list2=new ArrayList<>();
+    private ArrayList<ShopItemPackage> item_list2;
 
 
     /* 배너 슬라이딩을 위한 변수 */
@@ -56,6 +56,9 @@ public class ItemNewFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_new,container,false);
         nested_item_new=(NestedScrollView)rootView.findViewById(R.id.nested_item_new);
+
+        item_list1=new ArrayList<>();
+        item_list2=new ArrayList<>();
 
         /* 상품 목록 리스트의 이름 리스트 생성*/
         package_name_list.add("급상승");
@@ -179,8 +182,10 @@ public class ItemNewFragment extends Fragment {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-                    package_num+=1;
-                    GetItemInfo2(package_num, "");
+                    if(package_num<8) {
+                        package_num += 1;
+                        GetItemInfo2(package_num, "");
+                    }
                 }
             }
         });

@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity
     private Button filter_return;
     private Button filter_finish;
 
+    static String access_token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +143,8 @@ public class MainActivity extends AppCompatActivity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
+        access_token=getIntent().getStringExtra("access_token");
 
         ButterKnife.bind(this);
 
@@ -191,8 +194,8 @@ public class MainActivity extends AppCompatActivity
         /* access_token이 null이면 비회원 사용자이고, access_token의 값이 존재하면 회원 사용자임
         (token이 유효한지 판단한 후에, 이를 통해 로그인 여부를 판단할 수 있음)
         */
-        if(!getIntent().getStringExtra("access_token").matches("null")) { //회원 사용자일 때
-            authorization="bearer " +getIntent().getStringExtra("access_token");
+        if(!access_token.matches("null")) { //회원 사용자일 때
+            authorization="bearer " +access_token;
             UserInfoService userInfoService=ServiceGenerator.createService(UserInfoService.class);
             retrofit2.Call<UserMyInfo> request=userInfoService.UserInfo(authorization,accept);
             request.enqueue(new Callback<UserMyInfo>() {
@@ -225,8 +228,8 @@ public class MainActivity extends AppCompatActivity
         /* access_token이 null이면 비회원 사용자이고, access_token의 값이 존재하면 회원 사용자임
         (token이 유효한지 판단한 후에, 이를 통해 로그인 여부를 판단할 수 있음)
         */
-        if(!getIntent().getStringExtra("access_token").matches("null")) { //회원 사용자일 때
-            authorization="bearer " +getIntent().getStringExtra("access_token");
+        if(!access_token.matches("null")) { //회원 사용자일 때
+            authorization="bearer " +access_token;
             UserInfoService userInfoService=ServiceGenerator.createService(UserInfoService.class);
             retrofit2.Call<UserMyInfo> request=userInfoService.UserInfo(authorization,accept);
             request.enqueue(new Callback<UserMyInfo>() {
@@ -305,17 +308,12 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
-
     public void DrawerGotoLoginConnect(UserMyInfo userMyInfo){
         //마이페이지 버튼 클릭시 해당 마이페이지로 이동
         btn_mypage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawerLayout.closeDrawers();
-                /* 사용자 정보를 마이페이지에 넘기기 위한 번들*/
-                Bundle bundle=new Bundle();
-                bundle.putString("access_token",getIntent().getStringExtra("access_token"));
-                mypageConnectingFragment.setArguments(bundle);
                 bottomNavigationView.setSelectedItemId(R.id.menuitem_bottombar_mypage);
                 FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
                 transaction.replace(R.id.fragment_container, mypageConnectingFragment).commit();
@@ -359,6 +357,9 @@ public class MainActivity extends AppCompatActivity
                     transaction.replace(R.id.fragment_container,measurementFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_wishlist:
+                    Bundle bundle=new Bundle();
+                    bundle.putString("access_token",getIntent().getStringExtra("access_token"));
+                    wishlistFragment.setArguments(bundle);
                     transaction.replace(R.id.fragment_container, wishlistFragment).commit();
                     return true;
                 case R.id.menuitem_bottombar_mypage:
@@ -383,10 +384,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     void go_to_mypage_connecting(UserMyInfo userMyInfo){
-        /* 사용자 정보를 마이페이지에 넘기기 위한 번들*/
-        Bundle bundle=new Bundle();
-        bundle.putString("access_token",getIntent().getStringExtra("access_token"));
-        mypageConnectingFragment.setArguments(bundle);
         FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
         transaction.replace(R.id.fragment_container, mypageConnectingFragment).commit();
     }
@@ -401,7 +398,6 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction=fragmentManager.beginTransaction(); //FragmentTransaction 가져오기
         transaction.replace(R.id.fragment_container, wishlistFragment).commit();
     }
-
 
     ///그냥 나중에 필요할까봐 넣어 놓았습니다
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {

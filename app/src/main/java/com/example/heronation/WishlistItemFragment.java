@@ -11,20 +11,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class WishlistItemFragment extends Fragment {
 
     /* 찜한 아이템이 없을 시에 MeasurementFragment로 이동하기 위해 필요한 버튼 */
-    private Button wishlist_style_recommendation;
+    @BindView(R.id.wishlist_item_togo_measurement) Button wishlist_style_recommendation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_wishlist_item, container,false);
+        ButterKnife.bind(this,rootView);
 
          /* 찜한 아이템이 없을 시에 MeasurementFragment로 이동*/
-        wishlist_style_recommendation=(Button)rootView.findViewById(R.id.wishlist_item_togo_measurement);
         wishlist_style_recommendation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

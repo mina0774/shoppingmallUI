@@ -38,36 +38,19 @@ import retrofit2.Response;
 
 public class WishlistClosetFragment extends Fragment {
     /* 리사이클러뷰*/
-    @BindView(R.id.recycler_view_wishilist_closet)
-    RecyclerView closet_recyclerView;
-
+    @BindView(R.id.recycler_view_wishilist_closet) RecyclerView closet_recyclerView;
     /* 스피너 */
-    @BindView(R.id.wishlist_closet_spinner_category)
-    Spinner spinner_category;
-
+    @BindView(R.id.wishlist_closet_spinner_category) Spinner spinner_category;
     /* 체형 수정 버튼 */
-    @BindView(R.id.wishlist_closet_edit_button)
-    Button edit_button;
-
+    @BindView(R.id.wishlist_closet_edit_button) Button edit_button;
     /* 옷장 아이템 삭제 버튼 */
-    @BindView(R.id.closet_delete)
-    ImageButton delete_button;
-
+    @BindView(R.id.closet_delete) ImageButton delete_button;
     /* 상품 목록 등록 */
     private ArrayList<ClosetItem> item_list;
-
-    @BindView(R.id.closet_body_gender)
-    TextView closet_body_gender;
-
-    @BindView(R.id.closet_body_age)
-    TextView closet_body_age;
-
-    @BindView(R.id.closet_body_height)
-    TextView closet_body_height;
-
-    @BindView(R.id.closet_body_weight)
-    TextView closet_body_weight;
-
+    @BindView(R.id.closet_body_gender) TextView closet_body_gender;
+    @BindView(R.id.closet_body_age) TextView closet_body_age;
+    @BindView(R.id.closet_body_height) TextView closet_body_height;
+    @BindView(R.id.closet_body_weight) TextView closet_body_weight;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

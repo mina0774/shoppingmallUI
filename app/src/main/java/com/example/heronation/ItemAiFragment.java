@@ -15,21 +15,23 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
 public class ItemAiFragment extends Fragment {
-    private RecyclerView item_recyclerView1;
+    @BindView(R.id.item_ai_recyclerViewVertical1) RecyclerView item_recyclerView1;
+    @BindView(R.id.nested_item_ai) NestedScrollView nested_item_ai;
     private ArrayList<ShopItemPackage> item_list;
     private ItemVerticalAdapter verticalAdapter1;
 
     /* 배너 슬라이딩을 위한 변수 */
     private ImageAdapter imageAdapter;
-    private ViewPager viewPager;
+    @BindView(R.id.image_view_ai) ViewPager viewPager;
 
-    private NestedScrollView nested_item_ai;
     /* 상품 리스트 묶음 번호 */
     private Integer package_num;
     /* 상품 리스트 묶음 이름의 리스트 */
@@ -41,7 +43,7 @@ public class ItemAiFragment extends Fragment {
 
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_ai,container,false);
-
+        ButterKnife.bind(this,rootView);
         //아이템 리스트 초기화
         item_list=new ArrayList<>();
 
@@ -50,8 +52,6 @@ public class ItemAiFragment extends Fragment {
          *       수평 리사이클러뷰
          *       수평 리사이클러뷰
          * */
-        item_recyclerView1=(RecyclerView)rootView.findViewById(R.id.item_ai_recyclerViewVertical1);
-        nested_item_ai=(NestedScrollView)rootView.findViewById(R.id.nested_item_ai);
         /* 아이템 수직 리사이클러뷰 객체 생성 */
         verticalAdapter1=new ItemVerticalAdapter(item_list,getActivity());
         /* 레이아웃 매니저 수직으로 지정 */
@@ -67,7 +67,7 @@ public class ItemAiFragment extends Fragment {
 
 
         /* 이미지 슬라이딩을 위해 뷰페이저를 이용했고, 이를 설정해주는 이미지 어댑터를 설정하여 슬라이딩 구현 */
-        viewPager=(ViewPager)rootView.findViewById(R.id.image_view_ai);
+
         imageAdapter=new ImageAdapter(getActivity());
         viewPager.setAdapter(imageAdapter);
 

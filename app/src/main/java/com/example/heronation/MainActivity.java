@@ -86,28 +86,18 @@ public class MainActivity extends AppCompatActivity
     private WishlistFragment wishlistFragment=new WishlistFragment();
 
     /* 하단바 */
-    @BindView(R.id.bottomnavigation_menu_bar)
-    BottomNavigationView bottomNavigationView;
+    @BindView(R.id.bottomnavigation_menu_bar) BottomNavigationView bottomNavigationView;
 
     /* <드로워> 상단 메뉴 버튼을 눌렀을 때 뜨는 레이아웃을 위한 변수들 */
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
-    @BindView(R.id.drawer)
-    View drawerView;
-    @BindView(R.id.btn_close)
-    Button btn_close;
-    @BindView(R.id.btn_open)
-    ImageButton btn_open;
-    @BindView(R.id.text_id)
-    TextView id_text;
-    @BindView(R.id.btn_alarm)
-    Button btn_alarm;
-    @BindView(R.id.btn_setting)
-    Button btn_setting;
-    @BindView(R.id.btn_mypage)
-    Button btn_mypage;
-    @BindView(R.id.btn_order_delivery)
-    Button btn_order_delivery;
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.drawer) View drawerView;
+    @BindView(R.id.btn_close) Button btn_close;
+    @BindView(R.id.btn_open) ImageButton btn_open;
+    @BindView(R.id.text_id) TextView id_text;
+    @BindView(R.id.btn_alarm) Button btn_alarm;
+    @BindView(R.id.btn_setting) Button btn_setting;
+    @BindView(R.id.btn_mypage) Button btn_mypage;
+    @BindView(R.id.btn_order_delivery) Button btn_order_delivery;
 
     /* Shop Ranking에 필터 버튼 눌렀을 때, seekBar 설정에 필요한 변수들 */
     int number=0;
@@ -136,6 +126,7 @@ public class MainActivity extends AppCompatActivity
     private Button filter_return;
     private Button filter_finish;
 
+    /* access token을 Package 내에서 공유 , access token은 로그인할 때 한번만 받음 */
     static String access_token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,7 +162,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        btn_close.setOnClickListener(new View.OnClickListener() {
+        btn_close.setOnClickListener(new View.OnClickListener() { // 닫기 버튼을 클릭했을 때
             @Override
             public void onClick(View v) {
                 drawerLayout.closeDrawers();
@@ -187,7 +178,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    /*로그인 여부를 판단하는 함수 (필요할 때 사용)*/
+    /*마이페이지에서 사용자 정보 받아오는 함수*/
     public void myPageGetUserInfo(){
         String authorization="";
         String accept="application/json";
@@ -203,26 +194,27 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onResponse(Call<UserMyInfo> call, Response<UserMyInfo> response) {
                     if(response.code()==200) { //정상적으로 로그인이 되었을 때
-                        UserMyInfo userMyInfo=response.body();
-                       go_to_mypage_connecting(userMyInfo);
+                        UserMyInfo userMyInfo=response.body(); // 사용자 정보를 받아온 후에
+                       go_to_mypage_connecting(userMyInfo); // MyPageConnectingFragment에 사용자 정보를 뿌려줌.
                     }
                     else{ //토큰 만료기한이 끝나, 재로그인이 필요할 때
-                        backgroundThreadShortToast(getApplicationContext(), "세션이 만료되어 재로그인이 필요합니다.");
-                        go_to_mypage_noconnecting();
+                        backgroundThreadShortToast(getApplicationContext(), "세션이 만료되어 재로그인이 필요합니다."); // 토스트 메시지 ( 메인 쓰레드에서 실행되어야하므로 사용 )
+                        go_to_mypage_noconnecting(); // MyPageFragment로 이동.
                     }
                 }
                 @Override
                 public void onFailure(Call<UserMyInfo> call, Throwable t) {
-                    go_to_mypage_noconnecting();
+                    go_to_mypage_noconnecting(); // MyPageFragment로 이동.
                 }
             });
         }else {//비회원 사용자일 때
-            go_to_mypage_noconnecting();
+            go_to_mypage_noconnecting(); // MyPageFragment로 이동.
         }
     }
 
     /*드로워에서 User의 정보를 얻는 함수*/
     public void DrawerGetUserInfo(){
+        /* GET 할 때 header에 달리는 요소 */
         String authorization="";
         String accept="application/json";
 

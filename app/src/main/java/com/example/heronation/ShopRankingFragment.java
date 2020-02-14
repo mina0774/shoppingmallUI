@@ -18,6 +18,8 @@ import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,15 +29,15 @@ import retrofit2.http.Query;
 
 
 public class ShopRankingFragment extends Fragment {
-    private RecyclerView shop_recyclerView;
+    @BindView(R.id.recycler_view_shop_ranking) RecyclerView shop_recyclerView;
     private ShopRecyclerViewAdapter shopRecyclerViewAdapter;
     private ArrayList<ShopContent> shop_list=new ArrayList<>();
-    private ImageButton filter_button;
-    private Button search_button;
+    @BindView(R.id.shop_ranking_filter) ImageButton filter_button;
+    @BindView(R.id.shop_ranking_search) Button search_button;
 
     /* 배너 슬라이딩을 위한 변수 */
     private ImageAdapter imageAdapter;
-    private ViewPager viewPager;
+    @BindView(R.id.image_view_shop_ranking) ViewPager viewPager;
 
     /* 데이터의 총 페이지수와 현재 가리키고 있는 페이지 번호*/
     private Integer current_page;
@@ -45,7 +47,7 @@ public class ShopRankingFragment extends Fragment {
 
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_shop_ranking, container,false);
-        shop_recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view_shop_ranking);
+        ButterKnife.bind(this,rootView);
         /* 레이아웃 매니저 수평으로 지정 */
         shop_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
@@ -57,7 +59,6 @@ public class ShopRankingFragment extends Fragment {
         /* 필터 버튼
          *  필터 버튼을 눌렀을 때, 팝업창을 띄어줌
          */
-        filter_button=(ImageButton)rootView.findViewById(R.id.shop_ranking_filter);
         filter_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,7 +68,6 @@ public class ShopRankingFragment extends Fragment {
 
         /* 검색 버튼
          *  검색 버튼을 눌렀을 때 Shop 검색 Activity로 이동*/
-        search_button=(Button)rootView.findViewById(R.id.shop_ranking_search);
         search_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +77,6 @@ public class ShopRankingFragment extends Fragment {
         });
 
         /* 이미지 슬라이딩을 위해 뷰페이저를 이용했고, 이를 설정해주는 이미지 어댑터를 설정하여 슬라이딩 구현 */
-        viewPager=(ViewPager)rootView.findViewById(R.id.image_view_shop_ranking);
         imageAdapter=new ImageAdapter(getActivity());
         viewPager.setAdapter(imageAdapter);
 

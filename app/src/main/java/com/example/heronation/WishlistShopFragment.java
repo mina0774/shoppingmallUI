@@ -12,22 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class WishlistShopFragment extends Fragment {
-
     /* 찜한 마켓이 없을 시에 ShopRankingFragment로 이동하기 위해 필요한 버튼 */
-    private Button wishlist_best_market;
-
+    @BindView(R.id.wishlist_shop_togo_shop_ranking) Button wishlist_best_market;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_wishlist_shop, container,false);
-
+        ButterKnife.bind(this,rootView);
           /* 찜한 마켓이 없을 시에 ShopRankingFragment로 이동*/
-        wishlist_best_market=(Button)rootView.findViewById(R.id.wishlist_shop_togo_shop_ranking);
         wishlist_best_market.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

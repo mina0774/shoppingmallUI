@@ -36,39 +36,17 @@ import retrofit2.http.POST;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    @BindView(R.id.userModify_id_text)
-    EditText userModify_id_text;
-
-    @BindView(R.id.userModify_check_pw_et)
-    EditText userModify_check_pw_et;
-
-    @BindView(R.id.userModify_email_text)
-    EditText userModify_email_text;
-
-    @BindView(R.id.userModify_name_text)
-    EditText userModify_name_text;
-
-    @BindView(R.id.userModify_present_pw_et)
-    EditText userModify_present_pw_et;
-
-    @BindView(R.id.userModify_push_check)
-    CheckBox userModify_push_check;
-
-    @BindView(R.id.userModify_male)
-    CheckBox userModify_male;
-
-    @BindView(R.id.userModify_female)
-    CheckBox userModify_female;
-
-    @BindView(R.id.userModify_info_check)
-    CheckBox userModify_info_check;
-
-    @BindView(R.id.textView_register_datepicker)
-    TextView register_datepicker;
-
-    @BindView(R.id.register_next_btn)
-    Button register_next_button;
-
+    @BindView(R.id.userModify_id_text) EditText userModify_id_text;
+    @BindView(R.id.userModify_check_pw_et) EditText userModify_check_pw_et;
+    @BindView(R.id.userModify_email_text) EditText userModify_email_text;
+    @BindView(R.id.userModify_name_text) EditText userModify_name_text;
+    @BindView(R.id.userModify_present_pw_et) EditText userModify_present_pw_et;
+    @BindView(R.id.userModify_push_check) CheckBox userModify_push_check;
+    @BindView(R.id.userModify_male) CheckBox userModify_male;
+    @BindView(R.id.userModify_female) CheckBox userModify_female;
+    @BindView(R.id.userModify_info_check) CheckBox userModify_info_check;
+    @BindView(R.id.textView_register_datepicker) TextView register_datepicker;
+    @BindView(R.id.register_next_btn) Button register_next_button;
 
     //사용자 푸시 알림 체킹 여부
     private String push_check;
@@ -78,13 +56,10 @@ public class RegisterActivity extends AppCompatActivity {
     private static String user_year;
     private static String user_month;
     private static String user_day;
-
     //회원가입이 정상적으로 이루어졌는지 확인하는 부분
     private int response_code;
-
     // 비밀번호 정규식
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,15}$");
-
     // 아이디 정규식
     private static final Pattern ID_PATTERN = Pattern.compile("^[a-zA-Z0-9]{4,15}$");
 

@@ -7,26 +7,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import butterknife.BindInt;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class WishlistClosetItemEditActivity extends AppCompatActivity {
-    public TextView category;
-    public TextView item_name;
-    public TextView date;
-    public TextView shop_name;
-    public TextView measurement_type;
+    @BindView(R.id.wishlist_closet_item_category) TextView category;
+    @BindView(R.id.wishlist_closet_item_name) TextView item_name;
+    @BindView(R.id.wishlist_closet_item_date) TextView date;
+    @BindView(R.id.wishlist_closet_item_shop_name) TextView shop_name;
+    @BindView(R.id.wishlist_closet_item_measurement_type) TextView measurement_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wishlist_closet_item_edit);
+        ButterKnife.bind(this);
 
         //옷장에서 선택한 리사이클러뷰의 아이템 정보를 받아오기 위한 인텐트
         Intent intent=getIntent();
-
-        category=(TextView)findViewById(R.id.wishlist_closet_item_category);
-        item_name=(TextView)findViewById(R.id.wishlist_closet_item_name);
-        date=(TextView)findViewById(R.id.wishlist_closet_item_date);
-        shop_name=(TextView)findViewById(R.id.wishlist_closet_item_shop_name);
-        measurement_type=(TextView)findViewById(R.id.wishlist_closet_item_measurement_type);
 
         category.setText(intent.getStringExtra("category"));
         item_name.setText(intent.getStringExtra("item_name"));

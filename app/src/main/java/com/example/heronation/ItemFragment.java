@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -13,13 +14,15 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class ItemFragment extends Fragment {
-    private TabLayout item_tabLayout;
+    @BindView(R.id.item_tab_layout) TabLayout item_tabLayout;
 
     /* 프래그먼트 나타낼때, 프래그먼트를 담는 뷰페이저, 뷰페이저를 도와주는 어댑터 */
-    private ViewPager viewPager;
+    @BindView(R.id.item_fragment_container) ViewPager viewPager;
     private ItemViewPagerAdapter itemViewPagerAdapter;
 
     @Override
@@ -27,9 +30,7 @@ public class ItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item,container,false);
-
-        /* Item의 상단탭*/
-        item_tabLayout=(TabLayout)rootView.findViewById(R.id.item_tab_layout);
+        ButterKnife.bind(this,rootView);
 
         /* 뷰페이져 어댑터 객체를 생성하고,
          * 생성자를 통해서 프래그먼트 관리를 도와주는 FragmentManager와
@@ -37,7 +38,6 @@ public class ItemFragment extends Fragment {
          * 뷰페이저에 어댑터를 설정한다.
          * 그 후, tabLayout과 viewPager 연결
          */
-        viewPager=(ViewPager)rootView.findViewById(R.id.item_fragment_container);
         itemViewPagerAdapter=new ItemViewPagerAdapter(getChildFragmentManager(),item_tabLayout.getTabCount());
         viewPager.setAdapter(itemViewPagerAdapter);
 
@@ -48,7 +48,6 @@ public class ItemFragment extends Fragment {
 
         /* ViewPager의 페이지가 변경될 때 알려주는 리스너*/
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(item_tabLayout));
-
 
         return rootView;
     }

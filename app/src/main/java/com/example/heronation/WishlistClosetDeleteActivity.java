@@ -9,19 +9,21 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class WishlistClosetDeleteActivity extends AppCompatActivity {
 
     /* 리사이클러뷰*/
-    private RecyclerView closet_recyclerView;
+    @BindView(R.id.recycler_view_delete_closet_item) RecyclerView closet_recyclerView;
     private ArrayList<ClosetItem> item_list=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wishlist_closet_delete);
+        ButterKnife.bind(this);
         item_list=(ArrayList<ClosetItem>)getIntent().getSerializableExtra("closet item");
-
-        closet_recyclerView=(RecyclerView)findViewById(R.id.recycler_view_delete_closet_item);
         /* 리사이클러뷰 객체 생성 */
         WishlistClosetDeleteAdapter wishlistClosetAdapter=new WishlistClosetDeleteAdapter(this,item_list);
         /* 레이아웃 매니저 수평으로 지정 */

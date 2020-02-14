@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.core.widget.NestedScrollView;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,21 +31,23 @@ import retrofit2.http.Query;
 
 
 public class ItemHomeFragment extends Fragment {
-    private NestedScrollView nested_item_home;
-    private RecyclerView item_recyclerView;
+    @BindView(R.id.item_home_recyclerViewVertical1) RecyclerView item_recyclerView;
+    @BindView(R.id.nested_item_home) NestedScrollView nested_item_home;
+
     //아이템들의 묶음
     private ArrayList<ShopItemPackage> item_list;
 
     private ItemVerticalAdapter verticalAdapter;
 
-    private ImageButton filter_button;
+    /* 필터 버튼 */
+    @BindView(R.id.item_home_filter) ImageButton filter_button;
 
     /* 배너 슬라이딩을 위한 변수 */
     private ImageAdapter imageAdapter;
-    private ViewPager viewPager;
+    @BindView(R.id.image_view_home) ViewPager viewPager;
 
     /* 검색창 */
-    private EditText search_item;
+    @BindView(R.id.item_home_search_edittext) EditText search_item;
 
     /* 상품 리스트 묶음 번호 */
     private Integer package_num;
@@ -56,6 +61,7 @@ public class ItemHomeFragment extends Fragment {
 
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_home,container,false);
+        ButterKnife.bind(this,rootView);
 
         // 리사이클러뷰에 들어있는 아이템을 초기화
         item_list=new ArrayList<>();
@@ -64,9 +70,6 @@ public class ItemHomeFragment extends Fragment {
          *       수평 리사이클러뷰
          *       수평 리사이클러뷰
          * */
-        item_recyclerView=(RecyclerView)rootView.findViewById(R.id.item_home_recyclerViewVertical1);
-        nested_item_home=(NestedScrollView)rootView.findViewById(R.id.nested_item_home);
-
         verticalAdapter=new ItemVerticalAdapter(item_list,getActivity());
         item_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
         item_recyclerView.setAdapter(verticalAdapter);
@@ -78,7 +81,6 @@ public class ItemHomeFragment extends Fragment {
         loadItems(nested_item_home,getActivity());
 
         /*  검색창 클릭했을 때, 아이템 검색 액티비티로 이동 */
-        search_item=(EditText)rootView.findViewById(R.id.item_home_search_edittext);
         search_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,14 +90,12 @@ public class ItemHomeFragment extends Fragment {
         });
 
         /* 이미지 슬라이딩을 위해 뷰페이저를 이용했고, 이를 설정해주는 이미지 어댑터를 설정하여 슬라이딩 구현 */
-        viewPager=(ViewPager)rootView.findViewById(R.id.image_view_home);
         imageAdapter=new ImageAdapter(getActivity());
         viewPager.setAdapter(imageAdapter);
 
         /* 필터 버튼
          *  필터 버튼을 눌렀을 때, 팝업창을 띄어줌
          */
-        filter_button=(ImageButton)rootView.findViewById(R.id.item_home_filter);
         filter_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

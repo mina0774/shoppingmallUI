@@ -17,13 +17,16 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ItemBestFragment extends Fragment {
-    private RecyclerView category_recyclerView;
-    private RecyclerView item_recyclerView;
+    @BindView(R.id.nested_item_best) NestedScrollView nested_item_best;
+    @BindView(R.id.item_best_item_category) RecyclerView category_recyclerView;
+    @BindView(R.id.item_best_items) RecyclerView item_recyclerView;
     private ItemBestCategoryAdapter itemBestCategoryAdapter;
     private ItemVerticalAdapter verticalAdapter;
     private ArrayList<ItemBestCategory> list;
@@ -31,9 +34,7 @@ public class ItemBestFragment extends Fragment {
 
     /* 배너 슬라이딩을 위한 변수 */
     private ImageAdapter imageAdapter;
-    private ViewPager viewPager;
-
-    private NestedScrollView nested_item_best;
+    @BindView(R.id.image_view_best) ViewPager viewPager;
     /* 상품 리스트 묶음 번호 */
     private Integer package_num;
     /* 상품 리스트 묶음 이름의 리스트 */
@@ -42,6 +43,9 @@ public class ItemBestFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_best,container,false);
+        ButterKnife.bind(this,rootView);
 
         //아이템 목록, 아이템 리스트 목록 초기화
         list=new ArrayList<>();
@@ -50,12 +54,6 @@ public class ItemBestFragment extends Fragment {
         /* 카테고리 리스트에 아이템 추가
          *  여기서 카테고리 이름이나, 이미지 변경하면 됨*/
         this.make_category();
-
-
-        // Inflate the layout for this fragment
-        ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_best,container,false);
-        category_recyclerView=(RecyclerView)rootView.findViewById(R.id.item_best_item_category);
-        nested_item_best=(NestedScrollView)rootView.findViewById(R.id.nested_item_best);
 
         /* 리사이클러뷰 객체 생성 */
         itemBestCategoryAdapter=new ItemBestCategoryAdapter(getActivity(),list);
@@ -70,8 +68,6 @@ public class ItemBestFragment extends Fragment {
          *       수평 리사이클러뷰
          *  3개의 수평 리사이클러뷰가 보여서 수직 리사이클러뷰가 됨
          * */
-        item_recyclerView=(RecyclerView)rootView.findViewById(R.id.item_best_items);
-
         /* 아이템 수직 리사이클러뷰 객체 생성 */
         verticalAdapter=new ItemVerticalAdapter(item_list,getActivity());
         /* 레이아웃 매니저 수직으로 지정 */
@@ -85,7 +81,6 @@ public class ItemBestFragment extends Fragment {
         loadItems(nested_item_best,getActivity());
 
         /* 이미지 슬라이딩을 위해 뷰페이저를 이용했고, 이를 설정해주는 이미지 어댑터를 설정하여 슬라이딩 구현 */
-        viewPager=(ViewPager)rootView.findViewById(R.id.image_view_best);
         imageAdapter=new ImageAdapter(getActivity());
         viewPager.setAdapter(imageAdapter);
 

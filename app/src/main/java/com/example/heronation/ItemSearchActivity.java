@@ -35,7 +35,6 @@ public class ItemSearchActivity extends AppCompatActivity
     public void item_search_filter_button(View view){
         /* 필터 PopUp창 띄우기 */
         dialogWindowFilterFragment=new DialogWindowFilterFragment();
-
         dialogWindowFilterFragment.show(getSupportFragmentManager(), "");
     }
 

@@ -13,13 +13,16 @@ import android.view.ViewGroup;
 
 import com.google.android.material.tabs.TabLayout;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class ShopFragment extends Fragment {
 
-    private TabLayout shop_tabLayout;
+    @BindView(R.id.shop_tab_layout) TabLayout shop_tabLayout;
 
     /* 프래그먼트 나타낼때, 프래그먼트를 담는 뷰페이저, 뷰페이저를 도와주는 어댑터 */
-    private ViewPager viewPager;
+    @BindView(R.id.shop_fragment_container) ViewPager viewPager;
     private ShopViewPagerAdapter shopViewPagerAdapter;
 
     @Override
@@ -27,18 +30,13 @@ public class ShopFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_shop,container,false);
-
-
-        /* Shop의 상단탭*/
-        shop_tabLayout=(TabLayout)rootView.findViewById(R.id.shop_tab_layout);
-
+        ButterKnife.bind(this,rootView);
         /* 뷰페이져 어댑터 객체를 생성하고,
          * 생성자를 통해서 프래그먼트 관리를 도와주는 FragmentManager와
          * 페이지의 개수를 탭의 개수와 맞춰주기 위해 Page Count를 받아온다.
          * 뷰페이저에 어댑터를 설정한다.
          * 그 후, tabLayout과 viewPager 연결
          */
-        viewPager=(ViewPager)rootView.findViewById(R.id.shop_fragment_container);
         shopViewPagerAdapter=new ShopViewPagerAdapter(getChildFragmentManager(),shop_tabLayout.getTabCount());
         viewPager.setAdapter(shopViewPagerAdapter);
 

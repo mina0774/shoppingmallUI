@@ -18,7 +18,6 @@ public class ItemSearchFilterPagerAdapter extends FragmentPagerAdapter{
         this.mPageCount=behavior;
     }
 
-
     @NonNull
     @Override
     public Fragment getItem(int position) {

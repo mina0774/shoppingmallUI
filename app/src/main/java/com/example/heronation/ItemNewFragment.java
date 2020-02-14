@@ -17,15 +17,17 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
 public class ItemNewFragment extends Fragment {
-
-    private RecyclerView item_recyclerView1;
-    private RecyclerView item_recyclerView_grid;
+    @BindView(R.id.item_new_recyclerView1) RecyclerView item_recyclerView1;
+    @BindView(R.id.item_new_recyclerView_grid) RecyclerView item_recyclerView_grid;
+    @BindView(R.id.nested_item_new)  NestedScrollView nested_item_new;
 
     private ItemVerticalAdapter newAdapter1;
     private ArrayList<ShopItemPackage> item_list1;
@@ -35,14 +37,12 @@ public class ItemNewFragment extends Fragment {
 
 
     /* 배너 슬라이딩을 위한 변수 */
+    @BindView(R.id.image_view_new) ViewPager viewPager;
     private ImageAdapter imageAdapter;
-    private ViewPager viewPager;
 
     /* 스피너 */
-    private Spinner spinner_category;
-    private Spinner spinner_order;
-
-    private NestedScrollView nested_item_new;
+    @BindView(R.id.item_new_spinner1) Spinner spinner_category;
+    @BindView(R.id.item_new_spinner2) Spinner spinner_order;
     /* 상품 리스트 묶음 번호 */
     private Integer package_num;
     /* 상품 리스트 묶음 이름의 리스트 */
@@ -51,10 +51,9 @@ public class ItemNewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_item_new,container,false);
+        ButterKnife.bind(this,rootView);
         nested_item_new=(NestedScrollView)rootView.findViewById(R.id.nested_item_new);
 
         item_list1=new ArrayList<>();
@@ -69,7 +68,6 @@ public class ItemNewFragment extends Fragment {
          *       수평 리사이클러뷰
          * */
         /* 첫번째 리사이클러뷰*/
-        item_recyclerView1=(RecyclerView)rootView.findViewById(R.id.item_new_recyclerView1);
         /* 아이템 수직 리사이클러뷰 객체 생성 */
         newAdapter1=new ItemVerticalAdapter(item_list1,getActivity()); //New Adapter 안에 horizontal adapter를 선언하여 이에 대한 레이아웃을 horizontal로 지정
         /* 레이아웃 매니저 수직으로 지정 */
@@ -77,7 +75,6 @@ public class ItemNewFragment extends Fragment {
         item_recyclerView1.setAdapter(newAdapter1);
 
         /* 두번째 리사이클러뷰*/
-        item_recyclerView_grid=(RecyclerView)rootView.findViewById(R.id.item_new_recyclerView_grid);
         /* 아이템 수직 리사이클러뷰 객체 생성 */
         newAdapter2=new ItemNewAdapter(item_list2,getActivity()); //New Adapter 안에 horizontal adapter를 선언하여 이에 대한 레이아웃을 Grid로 지정
         /* 레이아웃 매니저 수직으로 지정 */
@@ -85,10 +82,6 @@ public class ItemNewFragment extends Fragment {
         item_recyclerView_grid.setAdapter(newAdapter2);
 
         loadItems(nested_item_new,getActivity());
-
-        /*스피너 */
-        spinner_category=(Spinner)rootView.findViewById(R.id.item_new_spinner1);
-        spinner_order=(Spinner)rootView.findViewById(R.id.item_new_spinner2);
 
         //spinnerArray.xml에서 생성한 item을 String 배열로 가져오기
         String[] str_category=getResources().getStringArray(R.array.spinnerArray_category);
@@ -103,7 +96,6 @@ public class ItemNewFragment extends Fragment {
         spinner_order.setAdapter(adapter_order);
 
         /* 이미지 슬라이딩을 위해 뷰페이저를 이용했고, 이를 설정해주는 이미지 어댑터를 설정하여 슬라이딩 구현 */
-        viewPager=(ViewPager)rootView.findViewById(R.id.image_view_new);
         imageAdapter=new ImageAdapter(getActivity());
         viewPager.setAdapter(imageAdapter);
 

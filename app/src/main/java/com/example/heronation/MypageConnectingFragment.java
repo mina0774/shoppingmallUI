@@ -25,18 +25,13 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 
 public class MypageConnectingFragment extends Fragment {
-    @BindView(R.id.mypage_userModify_btn)
-    ImageButton mypage_userModify_btn;
+    @BindView(R.id.mypage_userModify_btn) ImageButton mypage_userModify_btn;
 
-    @BindView(R.id.mypage_ninkname_text)
-    TextView mypage_ninkname_text;
+    @BindView(R.id.mypage_ninkname_text) TextView mypage_ninkname_text;
 
-    @BindView(R.id.mypage_gender_f)
-    TextView mypage_gender_f;
+    @BindView(R.id.mypage_gender_f) TextView mypage_gender_f;
 
-    @BindView(R.id.mypage_gender_m)
-    TextView mypage_gender_m;
-
+    @BindView(R.id.mypage_gender_m) TextView mypage_gender_m;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -13,21 +13,22 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class ShopFavoritesFragment extends Fragment {
-    private RecyclerView shop_recyclerView;
+    @BindView(R.id.recycler_view_shop_favorites) RecyclerView shop_recyclerView;
     private ArrayList<ShopContent> shop_list=new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        /* Shop 목록을 생성함 */
-        this.make_shop_list();
-
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_shop_favorites, container,false);
-        shop_recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view_shop_favorites);
-
+        ButterKnife.bind(this,rootView);
+        /* Shop 목록을 생성함 */
+        this.make_shop_list();
 
         /* 리사이클러뷰 객체 생성 */
         ShopRecyclerViewAdapter shopRecyclerViewAdapter=new ShopRecyclerViewAdapter(getActivity(),shop_list);
@@ -46,13 +47,7 @@ public class ShopFavoritesFragment extends Fragment {
                 "https://image.brandi.me/cproduct/2019/10/12/11088968_1570884084_image1_M.jpg",
                 "https://image.brandi.me/cproduct/2020/01/10/13113748_1578653315_image1_M.jpg",
                 "https://image.brandi.me/cproduct/2019/12/11/12537914_1576060273_image1_M.jpg"));
-        shop_list.add(new Shop("2","기프티박스","#10대 #20대 #심플베이직 #페미닌",
-                "https://image.brandi.me/cproduct/2019/12/22/12767136_1577026535_image1_M.jpg",
-                "https://image.brandi.me/cproduct/2019/10/29/11520797_1572357010_image1_M.jpg",
-                "https://image.brandi.me/cproduct/2019/11/15/11911973_1573813700_image1_M.jpg"));
-
 */
-
     }
 
 

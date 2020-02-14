@@ -12,21 +12,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class WishlistShopHaveFragment extends Fragment {
-    private RecyclerView shop_recyclerView;
+    @BindView(R.id.recycler_view_wishilist_shop) RecyclerView shop_recyclerView;
     private ArrayList<ShopContent> shop_list=new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        /* Shop 목록을 생성함
-        this.make_shop_list(); */
-
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_wishlist_shop, container,false);
-        shop_recyclerView=(RecyclerView)rootView.findViewById(R.id.recycler_view_wishilist_shop);
-
+        ButterKnife.bind(this,rootView);
         /* 리사이클러뷰 객체 생성 */
         ShopRecyclerViewAdapter shopRecyclerViewAdapter=new ShopRecyclerViewAdapter(getActivity(),shop_list);
         /* 레이아웃 매니저 수평으로 지정 */

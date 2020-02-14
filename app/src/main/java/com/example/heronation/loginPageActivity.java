@@ -20,15 +20,9 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public class  loginPageActivity extends AppCompatActivity {
-
-    @BindView(R.id.login_id_et)
-    EditText login_id_et;
-
-    @BindView(R.id.login_password_et)
-    EditText login_password_et;
-
-    @BindView(R.id.login_button)
-    Button login_button;
+    @BindView(R.id.login_id_et) EditText login_id_et;
+    @BindView(R.id.login_password_et) EditText login_password_et;
+    @BindView(R.id.login_button) Button login_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

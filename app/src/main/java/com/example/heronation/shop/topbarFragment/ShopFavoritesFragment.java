@@ -31,8 +31,6 @@ public class ShopFavoritesFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_shop_favorites, container,false);
         ButterKnife.bind(this,rootView);
-        /* Shop 목록을 생성함 */
-        this.make_shop_list();
 
         /* 리사이클러뷰 객체 생성 */
         ShopRecyclerViewAdapter shopRecyclerViewAdapter=new ShopRecyclerViewAdapter(getActivity(),shop_list);

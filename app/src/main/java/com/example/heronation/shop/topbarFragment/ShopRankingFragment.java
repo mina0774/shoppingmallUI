@@ -34,6 +34,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 
@@ -161,6 +163,8 @@ public class ShopRankingFragment extends Fragment {
     }
 
 
+
+
     /* Acitivity와 Fragment가 통신할 때, OnFragmentInteractionListener를 사용함.
      * 프래그먼트에서 액티비티로 통신(데이터 주고 받는 것)이 있을 수도 있기 때문에
      * MainActivity 에서 이를 implement한 후 오버라이딩 시켜줄 것이다. (임시로)
@@ -184,5 +188,14 @@ public class ShopRankingFragment extends Fragment {
                                               @Header("authorization") String authorization,
                                               @Header("Accept") String accept);
     }
+
+    public interface ShopRegisterService {
+        @POST("api/consumers/shopmalls/{shop_id}/interest")
+        retrofit2.Call<String> ShopRegister(@Path("shop_id") Integer shop_id,
+                                    @Header("authorization") String authorization,
+                                    @Header("Accept") String accept,
+                                    @Header("Content-Type") String content_type);
+    }
+
 
 }

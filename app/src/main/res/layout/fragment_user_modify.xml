@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".userModifyFragment">
+    tools:context=".mypage.UserModifyFragment">
 
     <!-- 차례대로
                  1. 아이디 - Textview

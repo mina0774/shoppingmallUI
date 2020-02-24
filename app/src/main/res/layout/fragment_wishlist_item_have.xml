@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WishlistItemHaveFragment">
+    tools:context=".wishlist.topbarFragment.WishlistItemHaveFragment">
 
     <!--찜한 상품이 있을 때-->
     <LinearLayout

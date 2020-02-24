@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WishlistFragment">
+    tools:context=".wishlist.WishlistFragment">
 
     <!--상단 탭바 Wishlist일때만 보여야함-->
     <com.google.android.material.tabs.TabLayout

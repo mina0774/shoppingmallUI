@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical"
-    tools:context=".ItemSearchActivity">
+    tools:context=".home.ItemSearchActivity">
 
     <LinearLayout
         android:layout_marginTop="16dp"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context=".WishlistShopFragment">
+    tools:context=".wishlist.topbarFragment.WishlistShopFragment">
 
     <!--찜한 샵이 없을 때-->
     <RelativeLayout

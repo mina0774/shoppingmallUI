@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".filter_size">
+    tools:context=".filter.FilterSizeFragment">
     <LinearLayout
         android:layout_marginTop="8dp"
         android:layout_width="match_parent"

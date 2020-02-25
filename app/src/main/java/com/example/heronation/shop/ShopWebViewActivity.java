@@ -18,7 +18,6 @@ public class ShopWebViewActivity extends AppCompatActivity {
 
     @BindView(R.id.shop_web_view) WebView shop_web_view;
 
-    // TODO: 2020-02-11 뒤로가기 버튼 눌렀을 때, 아이템 홈 화면 뜨는 것 처리하기 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +45,6 @@ public class ShopWebViewActivity extends AppCompatActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    @Override //뒤로가기 버튼을 눌렀을 때
-    public void onBackPressed(){
-
     }
 
     private class WebViewClientClass extends WebViewClient {//페이지 이동

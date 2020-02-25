@@ -1,5 +1,6 @@
 package com.example.heronation.shop.topbarFragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,11 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.heronation.main.MainActivity;
 import com.example.heronation.R;
@@ -163,9 +167,6 @@ public class ShopRankingFragment extends Fragment {
         });
     }
 
-
-
-
     /* Acitivity와 Fragment가 통신할 때, OnFragmentInteractionListener를 사용함.
      * 프래그먼트에서 액티비티로 통신(데이터 주고 받는 것)이 있을 수도 있기 때문에
      * MainActivity 에서 이를 implement한 후 오버라이딩 시켜줄 것이다. (임시로)
@@ -199,10 +200,14 @@ public class ShopRankingFragment extends Fragment {
                                     @Header("Content-Type") String content_type);
     }
 
-    /* 쇼핑몰 찜 삭제
-    public interface ShopDeleterService{
+    /* 쇼핑몰 찜 삭제*/
+    public interface ShopDeleteService {
         @DELETE("api/consumers/shopmalls/{shop_id}/interest")
-    }*/
+        retrofit2.Call<String> ShopDelete(@Path("shop_id") Integer shop_id,
+                                          @Header("authorization") String authorization,
+                                          @Header("Accept") String accept,
+                                          @Header("Content-Type") String content_type);
+    }
 
 
 }

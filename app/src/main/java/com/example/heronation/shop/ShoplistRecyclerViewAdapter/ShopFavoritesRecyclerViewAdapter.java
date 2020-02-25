@@ -15,11 +15,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.heronation.R;
+import com.example.heronation.main.MainActivity;
 import com.example.heronation.shop.ShopWebViewActivity;
 import com.example.heronation.shop.ShoplistRecyclerViewAdapter.dataClass.ShopFavoritesContent;
+import com.example.heronation.shop.topbarFragment.ShopRankingFragment;
+import com.example.heronation.zeyoAPI.ServiceGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ShopFavoritesRecyclerViewAdapter extends RecyclerView.Adapter<ShopFavoritesRecyclerViewAdapter.Holder> {
 
@@ -62,13 +69,85 @@ public class ShopFavoritesRecyclerViewAdapter extends RecyclerView.Adapter<ShopF
             public void onClick(View view) {
                 if (holder.favorite_button.isSelected() == false) { //별이 선택되었을 경우, 찜목록 추가
                     holder.favorite_button.setSelected(true);
-
+                    RegisterShop(shopContent.get(holder.getAdapterPosition()).getId());
                 } else {
                     holder.favorite_button.setSelected(false); //별이 선택되지 않았을 경우, 찜목록 삭제
+                    DeleteShop(shopContent.get(holder.getAdapterPosition()).getId());
                 }
             }
         });
 
+    }
+
+    //쇼핑몰 찜 등록하는 기능, Zeyo API 연동
+    public void RegisterShop(Integer shop_id) {
+        String authorization = "Bearer "+MainActivity.access_token;
+        String accept = "application/json";
+        String content_type = "application/json";
+
+        ShopRankingFragment.ShopRegisterService shopRegisterService = ServiceGenerator.createService(ShopRankingFragment.ShopRegisterService.class);
+        retrofit2.Call<String>  request = shopRegisterService.ShopRegister(shop_id,authorization,accept,content_type);
+        request.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String>  call, Response<String>  response) {
+                System.out.println("Response" + response.code());
+                if(response.code()==204){
+                    //등록 완료
+                    backgroundThreadShortToast(context,"쇼핑몰 찜 등록이 완료되었습니다.");
+                }else if(response.code()==401){
+                    //로그인이 필요한 서비스입니다.
+                    backgroundThreadShortToast(context,"로그인이 필요한 서비스입니다.");
+                }else if(response.code()==500){
+                    //이미 찜목록에 등록되어있습니다.
+                    backgroundThreadShortToast(context,"이미 찜 목록에 등록된 쇼핑몰입니다.");
+                }
+
+            }
+            @Override
+            public void onFailure(Call<String>  call, Throwable t) {
+                System.out.println("error + Connect Server Error is " + t.toString());
+            }
+        });
+    }
+
+    //쇼핑몰 찜 목록에서 삭제하는 기능
+    public void DeleteShop(Integer shop_id){
+        String authorization = "Bearer "+ MainActivity.access_token;
+        String accept = "application/json";
+        String content_type = "application/json";
+
+        ShopRankingFragment.ShopDeleteService shopRegisterService = ServiceGenerator.createService(ShopRankingFragment.ShopDeleteService.class);
+        retrofit2.Call<String>  request = shopRegisterService.ShopDelete(shop_id,authorization,accept,content_type);
+        request.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String>  call, Response<String> response) {
+                System.out.println("Response" + response.code());
+                if(response.code()==204){
+                    //등록 완료
+                    backgroundThreadShortToast(context,"쇼핑몰 찜 목록에서 삭제되었습니다.");
+                }else if(response.code()==401){
+                    //로그인이 필요한 서비스입니다.
+                    backgroundThreadShortToast(context,"로그인이 필요한 서비스입니다.");
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("error + Connect Server Error is " + t.toString());
+            }
+        });
+
+    }
+
+    //Toast는 비동기 태스크 내에서 처리할 수 없으므로, 메인 쓰레드 핸들러를 생성하여 toast가 메인쓰레드에서 생성될 수 있도록 처리해준다.
+    public static void backgroundThreadShortToast(final Context context, final String msg) {
+        if (context != null && msg != null) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
 

@@ -88,6 +88,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
                     RegisterShop(shopContent.get(holder.getAdapterPosition()).getId());
                 } else{
                     holder.favorite_button.setSelected(false); //별이 선택되지 않았을 경우
+                    DeleteShop(shopContent.get(holder.getAdapterPosition()).getId());
                 }
             }
         });
@@ -123,6 +124,34 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
                 System.out.println("error + Connect Server Error is " + t.toString());
             }
         });
+    }
+
+    //쇼핑몰 찜 목록에서 삭제하는 기능
+    public void DeleteShop(Integer shop_id){
+        String authorization = "Bearer "+MainActivity.access_token;
+        String accept = "application/json";
+        String content_type = "application/json";
+
+        ShopRankingFragment.ShopDeleteService shopRegisterService = ServiceGenerator.createService(ShopRankingFragment.ShopDeleteService.class);
+        retrofit2.Call<String>  request = shopRegisterService.ShopDelete(shop_id,authorization,accept,content_type);
+        request.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String>  call, Response<String>  response) {
+                System.out.println("Response" + response.code());
+                if(response.code()==204){
+                    //등록 완료
+                    backgroundThreadShortToast(context,"쇼핑몰 찜 목록에서 삭제되었습니다.");
+                }else if(response.code()==401){
+                    //로그인이 필요한 서비스입니다.
+                    backgroundThreadShortToast(context,"로그인이 필요한 서비스입니다.");
+                }
+            }
+            @Override
+            public void onFailure(Call<String>  call, Throwable t) {
+                System.out.println("error + Connect Server Error is " + t.toString());
+            }
+        });
+
     }
 
     //Toast는 비동기 태스크 내에서 처리할 수 없으므로, 메인 쓰레드 핸들러를 생성하여 toast가 메인쓰레드에서 생성될 수 있도록 처리해준다.

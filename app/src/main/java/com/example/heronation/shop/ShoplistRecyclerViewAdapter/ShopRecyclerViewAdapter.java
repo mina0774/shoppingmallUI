@@ -126,7 +126,7 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
         });
     }
 
-    //쇼핑몰 찜 목록에서 삭제하는 기능
+    //쇼핑몰 찜 목록 삭제하는 기능
     public void DeleteShop(Integer shop_id){
         String authorization = "Bearer "+MainActivity.access_token;
         String accept = "application/json";

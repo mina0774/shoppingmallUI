@@ -2,11 +2,14 @@ package com.example.heronation.home.itemRecyclerViewAdapter;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,8 +18,16 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.example.heronation.home.itemRecyclerViewAdapter.dataClass.ItemContent;
 import com.example.heronation.R;
+import com.example.heronation.home.topbarFragment.ItemHomeFragment;
+import com.example.heronation.main.MainActivity;
+import com.example.heronation.shop.topbarFragment.ShopRankingFragment;
+import com.example.heronation.zeyoAPI.ServiceGenerator;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /* 수평 리사이클러뷰를 위한 어댑터 */
 public class ItemHorizontalAdapter extends RecyclerView.Adapter<ItemHorizontalAdapter.HorizontalViewHolder> {
@@ -70,6 +81,7 @@ public class ItemHorizontalAdapter extends RecyclerView.Adapter<ItemHorizontalAd
                     });
                     animator.start();
                     holder.isSongLikedClicked = true;
+                    RegisterItem(itemList.get(holder.getAdapterPosition()).getId());
                 }
                 else {
                     // 애니메이션을 한번 실행시킨다.
@@ -84,10 +96,82 @@ public class ItemHorizontalAdapter extends RecyclerView.Adapter<ItemHorizontalAd
                     });
                     animator.start();
                     holder.isSongLikedClicked = false;
+                    DeleteItem(itemList.get(holder.getAdapterPosition()).getId());
                 }
 
             }
         });
+    }
+
+    //아이템 찜 등록하는 기능, Zeyo API 연동
+    public void RegisterItem(Integer item_id) {
+        String authorization = "Bearer "+MainActivity.access_token;
+        String accept = "application/json";
+        String content_type = "application/json";
+
+        ItemHomeFragment.ItemRegisterService itemRegisterService = ServiceGenerator.createService(ItemHomeFragment.ItemRegisterService.class);
+        retrofit2.Call<String> request = itemRegisterService.ItemRegister(item_id,authorization,accept,content_type);
+        request.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String>  call, Response<String>  response) {
+                System.out.println("Response" + response.code());
+                if(response.code()==204){
+                    //등록 완료
+                    backgroundThreadShortToast(context,"아이템 찜 등록이 완료되었습니다.");
+                }else if(response.code()==401){
+                    //로그인이 필요한 서비스입니다.
+                    backgroundThreadShortToast(context,"로그인이 필요한 서비스입니다.");
+                }else if(response.code()==500){
+                    //이미 찜목록에 등록되어있습니다.
+                    backgroundThreadShortToast(context,"이미 찜 목록에 등록된 아이템입니다.");
+                }
+
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("error + Connect Server Error is " + t.toString());
+            }
+        });
+    }
+
+    //아이템 찜 목록에서 삭제하는 기능
+    public void DeleteItem(Integer item_id){
+        String authorization = "Bearer "+ MainActivity.access_token;
+        String accept = "application/json";
+        String content_type = "application/json";
+
+        ItemHomeFragment.ItemDeleteService shopRegisterService = ServiceGenerator.createService(ItemHomeFragment.ItemDeleteService.class);
+        retrofit2.Call<String>  request = shopRegisterService.ItemDelete(item_id,authorization,accept,content_type);
+        request.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String>  call, Response<String> response) {
+                System.out.println("Response" + response.code());
+                if(response.code()==204){
+                    //등록 완료
+                    backgroundThreadShortToast(context,"아이템 찜 목록에서 삭제되었습니다.");
+                }else if(response.code()==401){
+                    //로그인이 필요한 서비스입니다.
+                    backgroundThreadShortToast(context,"로그인이 필요한 서비스입니다.");
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                System.out.println("error + Connect Server Error is " + t.toString());
+            }
+        });
+
+    }
+
+    //Toast는 비동기 태스크 내에서 처리할 수 없으므로, 메인 쓰레드 핸들러를 생성하여 toast가 메인쓰레드에서 생성될 수 있도록 처리해준다.
+    public static void backgroundThreadShortToast(final Context context, final String msg) {
+        if (context != null && msg != null) {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     /* 전체 아이템 개수를 return */

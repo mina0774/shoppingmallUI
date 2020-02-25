@@ -33,8 +33,11 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 
@@ -183,5 +186,23 @@ public class ItemHomeFragment extends Fragment {
                                               @Query("storeType") String storeType,
                                               @Header("authorization") String authorization,
                                               @Header("Accept") String accept);
+    }
+
+    /* 아이템 찜 추가 */
+    public interface ItemRegisterService {
+        @POST("api/consumers/items/{shop_id}/interest")
+        retrofit2.Call<String> ItemRegister(@Path("shop_id") Integer shop_id,
+                                            @Header("authorization") String authorization,
+                                            @Header("Accept") String accept,
+                                            @Header("Content-Type") String content_type);
+    }
+
+    /* 아이템 찜 삭제*/
+    public interface ItemDeleteService {
+        @DELETE("api/consumers/items/{shop_id}/interest")
+        retrofit2.Call<String> ItemDelete(@Path("shop_id") Integer shop_id,
+                                          @Header("authorization") String authorization,
+                                          @Header("Accept") String accept,
+                                          @Header("Content-Type") String content_type);
     }
 }

@@ -194,7 +194,7 @@ public class ShopRankingFragment extends Fragment {
     /* 쇼핑몰 찜 추가 */
     public interface ShopRegisterService {
         @POST("api/consumers/shopmalls/{shop_id}/interest")
-        retrofit2.Call<String> ShopRegister(@Path("shop_id") Integer shop_id,
+        retrofit2.Call<String> ShopRegister(@Path("item_id") Integer item_id,
                                     @Header("authorization") String authorization,
                                     @Header("Accept") String accept,
                                     @Header("Content-Type") String content_type);
@@ -203,7 +203,7 @@ public class ShopRankingFragment extends Fragment {
     /* 쇼핑몰 찜 삭제*/
     public interface ShopDeleteService {
         @DELETE("api/consumers/shopmalls/{shop_id}/interest")
-        retrofit2.Call<String> ShopDelete(@Path("shop_id") Integer shop_id,
+        retrofit2.Call<String> ShopDelete(@Path("item_id") Integer item_id,
                                           @Header("authorization") String authorization,
                                           @Header("Accept") String accept,
                                           @Header("Content-Type") String content_type);

@@ -33,6 +33,49 @@
     </RelativeLayout>
 
 
+    <!--찜한 상품이 있을 때-->
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/have_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:id="@+id/wishlist_item_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_centerVertical="true"
+                android:text="찜한 상품 2개"/>
+
+            <ImageButton
+                android:id="@+id/favorite_folder"
+                android:paddingRight="16dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:scaleType="centerInside"
+                android:background="#ffffff"
+                android:src="@drawable/ic_favorite_folder"
+                />
+
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_item_favorites"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="14" />
+    </LinearLayout>
+
+
 
 
 

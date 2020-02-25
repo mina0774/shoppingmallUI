@@ -39,10 +39,10 @@ public class ItemNewAdapter extends RecyclerView.Adapter<ItemNewAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ItemNewAdapter.ViewHolder holder, int position) {
 
-            ItemHorizontalAdapter adapter = new ItemHorizontalAdapter(itemList_List.get(position).getShopItems(), context);
-            holder.recyclerView.setLayoutManager(new GridLayoutManager(context,2, GridLayoutManager.VERTICAL,false));
-            holder.recyclerView.setAdapter(adapter);
-            holder.packageName.setText(itemList_List.get(position).getPackageName());
+        ItemHorizontalAdapter adapter = new ItemHorizontalAdapter(itemList_List.get(position).getShopItems(), context);
+        holder.recyclerView.setLayoutManager(new GridLayoutManager(context,2, GridLayoutManager.VERTICAL,false));
+        holder.recyclerView.setAdapter(adapter);
+        holder.packageName.setText(itemList_List.get(position).getPackageName());
 
     }
 

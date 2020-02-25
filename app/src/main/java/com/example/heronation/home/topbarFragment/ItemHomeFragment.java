@@ -190,8 +190,8 @@ public class ItemHomeFragment extends Fragment {
 
     /* 아이템 찜 추가 */
     public interface ItemRegisterService {
-        @POST("api/consumers/items/{shop_id}/interest")
-        retrofit2.Call<String> ItemRegister(@Path("shop_id") Integer shop_id,
+        @POST("api/consumers/items/{item_id}/interest")
+        retrofit2.Call<String> ItemRegister(@Path("item_id") Integer item_id,
                                             @Header("authorization") String authorization,
                                             @Header("Accept") String accept,
                                             @Header("Content-Type") String content_type);
@@ -199,8 +199,8 @@ public class ItemHomeFragment extends Fragment {
 
     /* 아이템 찜 삭제*/
     public interface ItemDeleteService {
-        @DELETE("api/consumers/items/{shop_id}/interest")
-        retrofit2.Call<String> ItemDelete(@Path("shop_id") Integer shop_id,
+        @DELETE("api/consumers/items/{item_id}/interest")
+        retrofit2.Call<String> ItemDelete(@Path("item_id") Integer item_id,
                                           @Header("authorization") String authorization,
                                           @Header("Accept") String accept,
                                           @Header("Content-Type") String content_type);

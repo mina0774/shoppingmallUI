@@ -117,7 +117,7 @@ public class ShopFavoritesRecyclerViewAdapter extends RecyclerView.Adapter<ShopF
         String content_type = "application/json";
 
         ShopRankingFragment.ShopDeleteService shopRegisterService = ServiceGenerator.createService(ShopRankingFragment.ShopDeleteService.class);
-        retrofit2.Call<String>  request = shopRegisterService.ShopDelete(shop_id,authorization,accept,content_type);
+        retrofit2.Call<String> request = shopRegisterService.ShopDelete(shop_id,authorization,accept,content_type);
         request.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String>  call, Response<String> response) {

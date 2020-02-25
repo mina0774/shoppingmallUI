@@ -7,8 +7,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.heronation.main.MainActivity;
 import com.example.heronation.shop.topbarFragment.ShopFavoritesFragment;
+import com.example.heronation.shop.topbarFragment.ShopFavoritesNotLoginFragment;
 import com.example.heronation.shop.topbarFragment.ShopRankingFragment;
+import com.example.heronation.wishlist.topbarFragment.WishlistClosetFragment;
+import com.example.heronation.wishlist.topbarFragment.WishlistClosetNotLoginFragment;
 
 public class ShopViewPagerAdapter extends FragmentPagerAdapter {
     private int mPageCount;
@@ -30,8 +34,12 @@ public class ShopViewPagerAdapter extends FragmentPagerAdapter {
                 ShopRankingFragment shopRankingFragment=new ShopRankingFragment();
                 return shopRankingFragment;
             case 1:
-                ShopFavoritesFragment shopFavoritesFragment=new ShopFavoritesFragment();
-                return shopFavoritesFragment;
+                if(MainActivity.access_token.matches("null")) {
+                    ShopFavoritesNotLoginFragment shopFavoritesNotLoginFragment = new ShopFavoritesNotLoginFragment();
+                    return shopFavoritesNotLoginFragment;
+                }else{
+                    ShopFavoritesFragment shopFavoritesFragment=new ShopFavoritesFragment();
+                    return shopFavoritesFragment; }
         }
         return null;
     }

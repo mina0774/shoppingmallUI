@@ -32,6 +32,7 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -189,6 +190,7 @@ public class ShopRankingFragment extends Fragment {
                                               @Header("Accept") String accept);
     }
 
+    /* 쇼핑몰 찜 추가 */
     public interface ShopRegisterService {
         @POST("api/consumers/shopmalls/{shop_id}/interest")
         retrofit2.Call<String> ShopRegister(@Path("shop_id") Integer shop_id,
@@ -196,6 +198,11 @@ public class ShopRankingFragment extends Fragment {
                                     @Header("Accept") String accept,
                                     @Header("Content-Type") String content_type);
     }
+
+    /* 쇼핑몰 찜 삭제
+    public interface ShopDeleterService{
+        @DELETE("api/consumers/shopmalls/{shop_id}/interest")
+    }*/
 
 
 }

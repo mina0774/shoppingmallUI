@@ -10,20 +10,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.heronation.R;
-import com.example.heronation.shop.ShoplistRecyclerViewAdapter.ShopRecyclerViewAdapter;
-import com.example.heronation.shop.ShoplistRecyclerViewAdapter.dataClass.ShopContent;
+import com.example.heronation.main.MainActivity;
+import com.example.heronation.shop.ShoplistRecyclerViewAdapter.ShopFavoritesRecyclerViewAdapter;
+import com.example.heronation.shop.ShoplistRecyclerViewAdapter.dataClass.ShopFavoritesContent;
+import com.example.heronation.zeyoAPI.ServiceGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 
 
 public class ShopFavoritesFragment extends Fragment {
     @BindView(R.id.recycler_view_shop_favorites) RecyclerView shop_recyclerView;
-    private ArrayList<ShopContent> shop_list=new ArrayList<>();
+    @BindView(R.id.favorites_shop_num) TextView favorites_shop_num;
+    private ArrayList<ShopFavoritesContent> shop_list=new ArrayList<>();
+    private ShopFavoritesRecyclerViewAdapter shopRecyclerViewAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,27 +42,56 @@ public class ShopFavoritesFragment extends Fragment {
         // Inflate the layout for this fragment
         ViewGroup rootView=(ViewGroup)inflater.inflate(R.layout.fragment_shop_favorites, container,false);
         ButterKnife.bind(this,rootView);
-
-        /* 리사이클러뷰 객체 생성 */
-        ShopRecyclerViewAdapter shopRecyclerViewAdapter=new ShopRecyclerViewAdapter(getActivity(),shop_list);
         /* 레이아웃 매니저 수평으로 지정 */
         shop_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
+
+        GetShopInfo();
+        /* 리사이클러뷰 객체 생성 */
+        shopRecyclerViewAdapter=new ShopFavoritesRecyclerViewAdapter(getActivity(),shop_list);
         /* 리사이클러뷰에 어댑터 지정 */
         shop_recyclerView.setAdapter(shopRecyclerViewAdapter);
 
         return rootView;
     }
 
-    public void make_shop_list(){
-        /* Shop 목록을 생성함 */
-/*
-        shop_list.add(new Shop("1", "크림치즈마켓", "#20대 #심플베이직 #러블리",
-                "https://image.brandi.me/cproduct/2019/10/12/11088968_1570884084_image1_M.jpg",
-                "https://image.brandi.me/cproduct/2020/01/10/13113748_1578653315_image1_M.jpg",
-                "https://image.brandi.me/cproduct/2019/12/11/12537914_1576060273_image1_M.jpg"));
-*/
+    //쇼핑몰 찜 목록 받아오는 기능
+    public void GetShopInfo() {
+        String authorization = "Bearer " + MainActivity.access_token;
+        String accept = "application/json";
+
+        ShopFavoritesInfoService shopFavoritesInfoService = ServiceGenerator.createService(ShopFavoritesInfoService.class);
+        retrofit2.Call<List<ShopFavoritesContent>> request = shopFavoritesInfoService.ShopInfo(authorization, accept);
+        request.enqueue(new Callback<List<ShopFavoritesContent>>() {
+            @Override
+            public void onResponse(Call<List<ShopFavoritesContent>> call, Response<List<ShopFavoritesContent>> response) {
+                System.out.println("Response" + response.code());
+                List<ShopFavoritesContent> shopFavoritesListInfo=response.body();
+                /*shop 목록을 생성*/
+                make_shop_list(shopFavoritesListInfo);
+                favorites_shop_num.setText("즐겨찾기 "+shopFavoritesListInfo.size()+"개");
+                shopRecyclerViewAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<ShopFavoritesContent>> call, Throwable t) {
+                System.out.println("error + Connect Server Error is " + t.toString());
+            }
+        });
     }
 
+    public void make_shop_list(List<ShopFavoritesContent> shopListInfo){
+        /* Shop 목록을 생성함 */
+        for(int i = 0; i<shopListInfo.size(); i++){
+            shop_list.add(shopListInfo.get(i));
+        }
+    }
+
+
+    public interface ShopFavoritesInfoService {
+        @GET("api/consumers/shopmalls/interest")
+        retrofit2.Call<List<ShopFavoritesContent>> ShopInfo(@Header("authorization") String authorization,
+                                                   @Header("Accept") String accept);
+    }
 
 
     /**

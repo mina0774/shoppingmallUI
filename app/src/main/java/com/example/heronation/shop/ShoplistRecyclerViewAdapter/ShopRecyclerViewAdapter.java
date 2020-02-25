@@ -71,8 +71,6 @@ public class ShopRecyclerViewAdapter extends RecyclerView.Adapter<ShopRecyclerVi
         /* Glide를 통해 URL로 받아온 이미지를 로드해서 뷰홀더에 있는 이미지뷰에 뿌려줌
         int item_position=position;
         Glide.with(context).load(shop_list.get(item_position).getShop_image1()).error(R.drawable.shop_img1).crossFade().into(holder.shop_img1);
-        Glide.with(context).load(shop_list.get(item_position).getShop_image2()).error(R.drawable.shop_img2).crossFade().into(holder.shop_img2);
-        Glide.with(context).load(shop_list.get(item_position).getShop_image3()).error(R.drawable.shop_img3).crossFade().into(holder.shop_img3);
          */
 
         /* 즐겨찾기 버튼 별 모양을 클릭했을 때,

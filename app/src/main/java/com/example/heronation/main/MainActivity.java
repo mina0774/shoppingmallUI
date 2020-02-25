@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.heronation.R;
+import com.example.heronation.shop.topbarFragment.ShopFavoritesNotLoginFragment;
 import com.example.heronation.zeyoAPI.ServiceGenerator;
 import com.example.heronation.home.topbarFragment.ItemAiFragment;
 import com.example.heronation.home.topbarFragment.ItemBestFragment;
@@ -82,7 +83,8 @@ public class MainActivity extends AppCompatActivity
         WishlistShopFragment.OnFragmentInteractionListener,
         WishlistRecentlyViewedItemFragment.OnFragmentInteractionListener,
         WishlistClosetFragment.OnFragmentInteractionListener,
-        WishlistClosetNotLoginFragment.OnFragmentInteractionListener
+        WishlistClosetNotLoginFragment.OnFragmentInteractionListener,
+        ShopFavoritesNotLoginFragment.OnFragmentInteractionListener
 {
     /*
     * Fragment Manager 선언 -- Acitivity 내에서 Fragment를 관리해주기 위해서는 FragmentManager를 사용해야함

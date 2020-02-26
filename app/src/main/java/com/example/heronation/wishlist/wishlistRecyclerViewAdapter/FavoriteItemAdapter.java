@@ -29,6 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/* Wishlist Closet Item의 Recyclerview의 어댑터 */
 public class FavoriteItemAdapter extends RecyclerView.Adapter<FavoriteItemAdapter.ViewHolder> {
     private List<FavoriteItem> itemList=new ArrayList<>();
     /* glide를 통해 URL을 통해서 이미지를 받아올 때,

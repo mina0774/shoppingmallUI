@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -133,10 +134,10 @@ public class ItemBestFragment extends Fragment {
     public void loadItems(NestedScrollView nestedScrollView, final Context context) {
         package_num=4;
         GetItemInfo(package_num,package_name_list.get(package_num-4));
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+        item_recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if(!item_recyclerView.canScrollVertically(1)){
                     if(package_num<6) {
                         package_num+=1;
                         GetItemInfo(package_num, package_name_list.get(package_num-4));
@@ -144,6 +145,7 @@ public class ItemBestFragment extends Fragment {
                 }
             }
         });
+
     }
 
 
